@@ -1,0 +1,50 @@
+<div *ngIf="signupSuccessfull">
+	Account successfully created! You can now <a routerLink='/login'>login here.</a>
+</div>
+
+<form *ngIf="!signupSuccessfull">
+	<div class="login-container">
+		<div class="login-content">
+			<mat-toolbar class="login-toolbar" color="primary">Credentials</mat-toolbar>
+			<mat-card>
+				<form [formGroup]="signupForm" #formDirective="ngForm" (ngSubmit)="onSubmit(signupForm, formDirective)">
+					{{errorMessage}}
+					<mat-form-field>
+						<mat-icon matPrefix>person_outline</mat-icon>
+						<input autofocus type="text" matInput placeholder="First name" formControlName="firstName">
+					</mat-form-field>
+
+					<mat-form-field>
+						<mat-icon matPrefix>person_outline</mat-icon>
+						<input autofocus type="text" matInput placeholder="Last name" formControlName="lastName">
+					</mat-form-field>
+
+					<mat-form-field>
+						<mat-icon matPrefix>email</mat-icon>
+						<input autofocus type="text" matInput placeholder="Email" formControlName="email">
+					</mat-form-field>
+
+					<mat-form-field>
+						<mat-icon matPrefix>phone</mat-icon>
+						<input autofocus type="text" matInput placeholder="Phone" formControlName="phone">
+					</mat-form-field>
+
+					<mat-form-field>
+						<mat-icon matPrefix>lock_outline</mat-icon>
+						<input type="password" autocomplete="false" matInput placeholder="Password"
+							formControlName="password">
+					</mat-form-field>
+
+					<mat-form-field>
+						<mat-icon matPrefix>lock_outline</mat-icon>
+						<input type="password" autocomplete="false" matInput placeholder="Confirm password"
+							formControlName="confirmPassword">
+					</mat-form-field>
+
+					<br>
+					<button type="submit" mat-raised-button color="primary">SIGN UP</button>
+				</form>
+				<br>
+			</mat-card>
+		</div>
+	</div>

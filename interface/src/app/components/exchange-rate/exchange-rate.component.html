@@ -1,0 +1,39 @@
+<form>
+  <div class="login-container">
+    <div class="login-content">
+      <mat-toolbar class="login-toolbar" color="primary">Complete transaction</mat-toolbar>
+      <mat-card>
+        <form [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onSubmit(loginForm, formDirective)">
+          <div>
+            <div>1 {{loginForm.value.fromCurrency}} = {{rate}} {{loginForm.value.toCurrency}}</div>
+          </div>
+
+          <mat-form-field>
+            <input autofocus type="text" matInput placeholder="Amount" formControlName="amount">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>From currency</mat-label>
+            <mat-select [(ngModel)]="loginForm.value.fromCurrency" formControlName="fromCurrency"
+              (selectionChange)="onFromCurrencyChange($event)">
+              <mat-option value="USD">US Dollars</mat-option>
+              <mat-option value="CAD">Canadian Dollars</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+            ==> {{loginForm.value.amount * rate}}
+          </div>
+
+          <mat-form-field>
+            <mat-label>To currency</mat-label>
+            <mat-select formControlName="toCurrency">
+              <mat-option value="BIF">Burundian Francs</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <button type="submit" mat-raised-button color="primary">Next</button>
+        </form>
+      </mat-card>
+    </div>
+  </div>

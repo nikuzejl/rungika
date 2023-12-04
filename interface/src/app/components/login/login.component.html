@@ -1,0 +1,28 @@
+<div *ngIf="isLoggedIn">
+	Logged in!  
+</div>
+
+<div *ngIf="!isLoggedIn" class="login-container">
+	<div class="login-content">
+		<mat-toolbar class="login-toolbar" color="primary">Credentials</mat-toolbar>
+		{{errorMessage}}
+		<mat-card>
+			<form [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onSubmit(loginForm, formDirective)">
+				<mat-form-field>
+					<mat-icon matPrefix>email</mat-icon>
+					<input autofocus type="text" matInput placeholder="Email" formControlName="email">
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-icon matPrefix>lock_outline</mat-icon>
+					<input type="password" autocomplete="false" matInput placeholder="Password"
+						formControlName="password">
+				</mat-form-field>
+				<br>
+				<button type="submit" mat-raised-button color="primary">LOGIN</button>
+			</form>
+			<br>
+			<span> If you don't have a account with us yet, please <a routerLink='/signup'>sign up here</a></span>
+		</mat-card>
+	</div>
+</div>

@@ -1,0 +1,30 @@
+server.port: 10000
+
+stripe:
+  public.key: something
+  secret.key: something
+
+emailSenderAddress: something
+
+spring:
+  data.mongodb:
+    uri: something
+    database: something
+
+  mail:
+    host: something
+    port: 587
+    username: something
+    password: something
+    properties.mail.smtp:
+      auth: true
+      enable: true
+
+email:
+  notification:
+    enabled: false
+
+jwt:
+  cookieName: igikoniCookie
+  secret: something
+  expirationMs: 86400000

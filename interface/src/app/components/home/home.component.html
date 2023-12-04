@@ -1,0 +1,14 @@
+<header>
+  <div class="logo" (click)="routeTo('')">
+  </div>
+  <div (click)="routeTo('home')">Home</div>
+  <div *ngIf="!credentials.loggedIn">
+    <div (click)="routeTo('login')">Log in</div>
+    <div (click)="routeTo('signup')">Sign up</div>
+  </div>
+  <div *ngIf="credentials.loggedIn">
+    <a routerLink='/account-details'>My account</a>
+  </div>
+</header>
+<hr>
+<router-outlet></router-outlet>

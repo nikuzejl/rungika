@@ -1,0 +1,31 @@
+<form>
+  <div class="login-container">
+    <div class="login-content">
+      <mat-toolbar class="login-toolbar" color="primary">Receiver details</mat-toolbar>
+      <mat-card>
+        <form [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onSubmit(loginForm, formDirective)">
+          <mat-form-field>
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <input autofocus type="text" matInput placeholder="First name" formControlName="firstName">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <input autofocus type="text" matInput placeholder="Last name" formControlName="lastName">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-icon matPrefix>email</mat-icon>
+            <input autofocus type="text" matInput placeholder="Email" formControlName="email">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-icon matPrefix>phone</mat-icon>
+            <input autofocus type="text" matInput placeholder="Phone" formControlName="phone">
+          </mat-form-field>
+          <br>
+          <button type="submit" mat-raised-button color="primary">SEND</button>
+        </form>
+      </mat-card>
+    </div>
+  </div>
