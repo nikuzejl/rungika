@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, FormGroupDirective } from '@angular/forms';
-import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { HttpService } from '../../services/http.service';
+import { Component } from '@angular/core'
+import { FormGroup, FormControl, FormGroupDirective } from '@angular/forms'
+import { environment } from 'src/environments/environment'
+import { HttpService } from '../../services/http.service'
+import { CurrencyService } from 'src/app/currency.service'
 
 @Component({
   selector: 'app-exchange-rate',
@@ -13,34 +13,26 @@ export class ExchangeRateComponent {
   loginForm!: FormGroup
   fromCurrency = "USD"
   toCurrency = "BIF"
-  cadToBifRate = 0.0
-  usdToBifRate = 0.0
   rate = 0.0
   constructor(
-    private router: Router,
+    private currencyService: CurrencyService,
     private httpService: HttpService
   ) { }
   ngOnInit() {
-    this.createForm()
-
-    this.httpService.getRequest(environment.serverUrl + '/api/v1/rate/latest?fromCurrency=' + 'USD' +
-      '&toCurrency=' + 'BIF').subscribe(data => {
-        this.usdToBifRate = data
-        this.rate = this.usdToBifRate
-
-        this.httpService.getRequest(environment.serverUrl + '/api/v1/rate/latest?fromCurrency=' + 'CAD' +
-          '&toCurrency=' + 'BIF').subscribe(data => {
-            this.cadToBifRate = data
-          })
+    this.currencyService.initializeRates()
+      .then(() => {
+        console.log('Initialization finished.')
+        this.createForm()
+        this.currencyService.initializeRates()
+        this.rate = this.currencyService.getRate("USD", "BIF") || 0.0
+      })
+      .catch(error => {
+        console.error('Failed to initialize currencies', error)
       })
   }
 
-  onFromCurrencyChange(currency: any) {
-    if (currency.value === "USD")
-      this.rate = this.usdToBifRate
-
-    else if (currency.value === "CAD")
-      this.rate = this.cadToBifRate
+  onCurrencyChange(currency: any) {
+    this.rate = this.currencyService.getRate(this.fromCurrency, this.toCurrency) || this.rate
   }
 
   createForm() {
@@ -48,11 +40,23 @@ export class ExchangeRateComponent {
       'fromCurrency': new FormControl(null),
       'toCurrency': new FormControl(null),
       'amount': new FormControl(0.00),
+      'convertedAmount': new FormControl(0.00),
       'firstName': new FormControl(null),
       'lastName': new FormControl(null),
       'email': new FormControl(null),
       'phone': new FormControl(null)
     })
+
+    this.loginForm.get('amount')!.valueChanges.subscribe((amount) => {
+      const newValue = amount * this.rate
+      this.loginForm.get('convertedAmount')!.setValue(newValue)
+    })
+
+    this.loginForm.get('convertedAmount')!.valueChanges.subscribe((amount) => {
+      const newValue = amount / this.rate
+      this.loginForm.get('amount')!.setValue(newValue)
+    })
+
   }
   onSubmit(formData: FormGroup, loginDirective: FormGroupDirective) {
     const email = formData.value.email

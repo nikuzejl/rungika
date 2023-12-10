@@ -2,9 +2,11 @@
   <div class="logo" (click)="routeTo('')">
   </div>
   <div (click)="routeTo('home')">Home</div>
+  <div (click)="routeTo('/')">How it works</div>
+  <div (click)="routeTo('/')">Who we are</div>
   <div *ngIf="!credentials.loggedIn">
-    <div (click)="routeTo('login')">Log in</div>
-    <div (click)="routeTo('signup')">Sign up</div>
+    <span (click)="routeTo('login')">Log in</span>&#160; &#160;
+    <span (click)="routeTo('signup')">Sign up</span>
   </div>
   <div *ngIf="credentials.loggedIn">
     <a routerLink='/account-details'>My account</a>

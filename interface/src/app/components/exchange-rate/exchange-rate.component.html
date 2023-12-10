@@ -1,39 +1,64 @@
-<form>
-  <div class="login-container">
-    <div class="login-content">
-      <mat-toolbar class="login-toolbar" color="primary">Complete transaction</mat-toolbar>
-      <mat-card>
-        <form [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onSubmit(loginForm, formDirective)">
-          <div>
-            <div>1 {{loginForm.value.fromCurrency}} = {{rate}} {{loginForm.value.toCurrency}}</div>
-          </div>
+<div class="flex-container">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Exchange rate</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onSubmit(loginForm, formDirective)">
+        <div>
+          <div>1 {{loginForm.value.fromCurrency}} = {{rate}} {{loginForm.value.toCurrency}}</div>
+        </div>
+        <mat-form-field>
+          <input autofocus type="number" matInput formControlName="amount">
+        </mat-form-field>
 
-          <mat-form-field>
-            <input autofocus type="text" matInput placeholder="Amount" formControlName="amount">
-          </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-select [(ngModel)]="fromCurrency" formControlName="fromCurrency"
+            (selectionChange)="onCurrencyChange($event)">
+            <mat-select-trigger>
+              <span *ngIf="loginForm.value.fromCurrency === 'USD'">
+                <img alt="United States" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg" /> USD
+              </span>
+              <span *ngIf="loginForm.value.fromCurrency === 'CAD'">
+                <img alt="Canada" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/CA.svg" /> CAD
+              </span>
+            </mat-select-trigger>
 
-          <mat-form-field>
-            <mat-label>From currency</mat-label>
-            <mat-select [(ngModel)]="loginForm.value.fromCurrency" formControlName="fromCurrency"
-              (selectionChange)="onFromCurrencyChange($event)">
-              <mat-option value="USD">US Dollars</mat-option>
-              <mat-option value="CAD">Canadian Dollars</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-option value="USD">
+              <img alt="United States" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg" /> USD
+            </mat-option>
+            <mat-option value="CAD">
+              <img alt="Canada" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/CA.svg" /> CAD
+            </mat-option>
+          </mat-select>
+        </mat-form-field> 
 
-          <div>
-            ==> {{loginForm.value.amount * rate}}
-          </div>
+        <mat-form-field>
+          <input autofocus type="number" matInput formControlName="convertedAmount">
+        </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>To currency</mat-label>
-            <mat-select formControlName="toCurrency">
-              <mat-option value="BIF">Burundian Francs</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br>
-          <button type="submit" mat-raised-button color="primary">Next</button>
-        </form>
-      </mat-card>
-    </div>
-  </div>
+        <mat-form-field appearance="fill">
+          <mat-select [(ngModel)]="toCurrency" formControlName="toCurrency"
+            (selectionChange)="onCurrencyChange($event)">
+            <mat-select-trigger>
+              <span *ngIf="loginForm.value.toCurrency === 'BIF'">
+                <img alt="Burundi" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/BI.svg" /> BIF
+              </span>
+              <span *ngIf="loginForm.value.toCurrency === 'RWF'">
+                <img alt="Rwanda" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/RW.svg" /> RWF
+              </span>
+            </mat-select-trigger>
+
+            <mat-option value="BIF">
+              <img alt="Burundi" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/BI.svg" /> BIF
+            </mat-option>
+            <mat-option value="RWF">
+              <img alt="Rwanda" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/RW.svg" /> RWF
+            </mat-option>
+          </mat-select>
+        </mat-form-field><br>
+        <button type="submit" mat-raised-button color="primary">Next</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,48 @@
+/* Reset some default styles */
+body, h1, h2, h3, p, div, ul, li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 50px;
+    height: 50px;
+    background-color: #fff; /* Set your logo background color */
+    cursor: pointer;
+  }
+  
+  nav {
+    display: flex;
+    align-items: center;
+  }
+  
+  nav div, nav a {
+    margin-right: 20px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  hr {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+  }
+  
+  /* Add a bit of padding around the router outlet */
+  router-outlet {
+    padding: 20px;
+  }
+  

@@ -10,9 +10,6 @@ https://www.angularjswiki.com/angular/angular-material-icons-list-mat-icon-list/
 * At https://app.netlify.com/sites/rungika/deploys, deploy manually the built folder ./dist/rungika-ui
 * App becomes at https://rungika.netlify.app
 
-# Adding new restaurants and meals
-Go to `/management` and fill out the forms
-
 # Other links
 https://www.youtube.com/watch?v=KxqlJblhzfI&t=10s
 https://www.youtube.com/watch?v=o8DEk4XGcZw

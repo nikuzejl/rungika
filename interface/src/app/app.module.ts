@@ -18,7 +18,6 @@ import { SucessComponent } from './components/sucess/sucess.component'
 import { SpinnerComponent } from './components/spinner/spinner.component'
 import { FooterComponent } from './components/footer/footer.component'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
-import { MatFormFieldModule } from '@angular/material/form-field'
 import { SignupComponent } from './components/signup/signup.component'
 import { ProfileComponent } from './components/profile/profile.component'
 import { MatDialogModule } from '@angular/material/dialog'
@@ -31,6 +30,7 @@ import { LoginComponent } from './components/login/login.component'
 import { NgIf } from '@angular/common'
 import { ExchangeRateComponent } from './components/exchange-rate/exchange-rate.component';
 import { AccountDetailsComponent } from './account-details/account-details.component'
+import { CurrencyService } from './currency.service'
 
 @NgModule({
 	declarations: [
@@ -45,11 +45,10 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
 		TransferComponent,
 		LoginComponent,
 		ExchangeRateComponent,
-  AccountDetailsComponent
+        AccountDetailsComponent
 	],
 	imports: [
 		BrowserModule,
-		MatFormFieldModule,
 		AppRoutingModule,
 		HttpClientModule,
 		MatSlideToggleModule,
@@ -71,7 +70,7 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
 		AppMaterialModule,
 		NgxStripeModule.forRoot(environment.STRIPE_PUBLIC_KEY)
 	],
-	providers: [],
+	providers: [CurrencyService],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
