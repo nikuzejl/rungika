@@ -6,7 +6,7 @@ import { Component, HostListener } from '@angular/core'
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
-  showBottomDiv = false
+  showBottomDiv = true
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event) {

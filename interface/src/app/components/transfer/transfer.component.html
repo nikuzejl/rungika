@@ -3,7 +3,7 @@
     <div class="login-content">
       <mat-toolbar class="login-toolbar" color="primary">Receiver details</mat-toolbar>
       <mat-card>
-        <form [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onSubmit(loginForm, formDirective)">
+        <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit(form)">
           <mat-form-field>
             <mat-icon matPrefix>person_outline</mat-icon>
             <input autofocus type="text" matInput placeholder="First name" formControlName="firstName">

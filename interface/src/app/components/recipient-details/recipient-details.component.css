@@ -1,0 +1,65 @@
+.signup-success {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.whole-page{
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .whole-page {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sender-form, .receiver-form {
+    margin: auto;
+  }
+}
+
+.login-container {
+  text-align: center;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-toolbar {
+  display: flex;
+  justify-content: center;
+}
+
+.center-text {
+  text-align: center;
+  width: 100%;
+}
+
+.message {
+  margin-top: 20px;
+}
+
+mat-form-field {
+  width: 80%;
+  margin-top: 10px;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+}
+
+.center-button {
+  font-size: large;
+  font-weight: bold;
+  background-color: rgb(0, 174, 255);
+  width: 180px;
+  border-radius: 20px;
+  border-color: rgb(0, 174, 255);
+}
+
+mat-card {
+  background-color: #cee3ec;
+}

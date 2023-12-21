@@ -1,0 +1,106 @@
+<div *ngIf="!clickedContinue" class="whole-page">
+	<form *ngIf='!loggedIn && currentStep=="sender"' class="sender-form">
+		<div class="login-container">
+			<div class="login-content">
+				<h2>Sender details</h2>
+				<mat-card>
+					<form [formGroup]="senderForm" #formDirective="ngForm">
+						{{errorMessage}}
+
+						<mat-form-field>
+							<mat-icon matPrefix>person_outline</mat-icon>
+							<input autofocus type="text" matInput placeholder="Your first name"
+								formControlName="firstName">
+						</mat-form-field>
+
+						<mat-form-field>
+							<mat-icon matPrefix>person_outline</mat-icon>
+							<input autofocus type="text" matInput placeholder="Your last name"
+								formControlName="lastName">
+						</mat-form-field>
+
+						<mat-form-field>
+							<mat-icon matPrefix>email</mat-icon>
+							<input autofocus type="text" matInput placeholder="Your email" formControlName="email">
+							<mat-error *ngIf="senderForm.get('email')!.hasError('required')">
+								Email is required
+							</mat-error>
+							<mat-error *ngIf="senderForm.get('email')!.hasError('email')">
+								Invalid email format
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field>
+							<mat-icon matPrefix>phone</mat-icon>
+							<input autofocus type="text" matInput placeholder="You phone number"
+								formControlName="phone">
+							<mat-error *ngIf="senderForm.get('phone')!.hasError('required')">
+								Phone number is required
+							</mat-error>
+							<mat-error *ngIf="senderForm.get('phone')!.hasError('phone')">
+								Phone number is formed by digits only
+							</mat-error>
+						</mat-form-field>
+					</form>
+				</mat-card>
+			</div>
+		</div>
+	</form>
+	<form *ngIf='currentStep=="receiver"' class="receiver-form">
+		<div class="login-container">
+			<div class="login-content">
+				<h2>Receiver details</h2>
+				<mat-card>
+					<form [formGroup]="receiverForm" #formDirective="ngForm">
+						{{errorMessage}}
+
+						<mat-form-field>
+							<mat-icon matPrefix>person_outline</mat-icon>
+							<input autofocus type="text" matInput placeholder="Receiver first name"
+								formControlName="firstName">
+						</mat-form-field>
+
+						<mat-form-field>
+							<mat-icon matPrefix>person_outline</mat-icon>
+							<input autofocus type="text" matInput placeholder="Receiver last name"
+								formControlName="lastName">
+						</mat-form-field>
+
+						<mat-form-field>
+							<mat-icon matPrefix>email</mat-icon>
+							<input autofocus type="text" matInput placeholder="Receiver email" formControlName="email">
+							<mat-error *ngIf="receiverForm.get('email')!.hasError('required')">
+								Email is required
+							</mat-error>
+							<mat-error *ngIf="receiverForm.get('email')!.hasError('email')">
+								Invalid email format
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field>
+							<mat-icon matPrefix>phone</mat-icon>
+							<input autofocus type="text" matInput placeholder="Receiver phone number"
+								formControlName="phone">
+							<mat-error *ngIf="receiverForm.get('phone')!.hasError('required')">
+								Phone number is required
+							</mat-error>
+							<mat-error *ngIf="senderForm.get('phone')!.hasError('phone')">
+								Phone number is formed by digits only
+							</mat-error>
+						</mat-form-field>
+					</form>
+				</mat-card>
+			</div>
+		</div>
+	</form>
+</div>
+
+<br>
+<div *ngIf="!clickedContinue">
+	<div class="center-container">
+		<button class="center-button" (click)="continue()">Continue</button>
+	</div>
+</div>
+
+<app-transaction-summary *ngIf="clickedContinue" [senderDetails]="senderForm" [receiverDetails]="receiverForm"
+	[transactionDetails]="transactionDetails"></app-transaction-summary>

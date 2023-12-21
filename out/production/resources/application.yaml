@@ -32,3 +32,8 @@ jwt:
   cookieName: rungikaCookie
   secret: something
   expirationMs: 86400000
+
+orderTrackingBaseUrl: http://localhost:4200
+
+cancelUrl: 'http://localhost:4200/cancel'
+successUrl: 'http://localhost:4200/success'

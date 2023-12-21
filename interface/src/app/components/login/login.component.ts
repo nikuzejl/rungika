@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
   errorMessage = ''
   isLoggedIn = false
-  loginForm!: FormGroup
+  form!: FormGroup
 
   constructor(private authService: AuthService) { }
 
@@ -20,13 +20,13 @@ export class LoginComponent implements OnInit {
   }
 
   createForm() {
-    this.loginForm = new FormGroup({
+    this.form = new FormGroup({
       'email': new FormControl(null),
       'password': new FormControl(null)
     })
   }
 
-  onSubmit(formData: FormGroup, loginDirective: FormGroupDirective) {
+  onSubmit(formData: FormGroup) {
     const email = formData.value.email;
     const password = formData.value.password;
 
@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
           this.authService.updateCredentials(
             data.firstName,
             data.lastName,
-            data.email
+            data.email,
+            data.phone
           )
         },
         error: err => {

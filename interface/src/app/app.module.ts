@@ -23,14 +23,18 @@ import { ProfileComponent } from './components/profile/profile.component'
 import { MatDialogModule } from '@angular/material/dialog'
 import { environment } from 'src/environments/environment'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
-import { CredentialsComponent } from './components/credentials/credentials.component'
 import { TransferComponent } from './components/transfer/transfer.component'
 import { AppMaterialModule } from './app.meterial.module'
 import { LoginComponent } from './components/login/login.component'
 import { NgIf } from '@angular/common'
 import { ExchangeRateComponent } from './components/exchange-rate/exchange-rate.component';
-import { AccountDetailsComponent } from './account-details/account-details.component'
-import { CurrencyService } from './currency.service'
+import { AccountDetailsComponent } from './components/account-details/account-details.component'
+import { CurrencyService } from './services/currency.service';
+import { WhoWeAreComponent } from './components/who-we-are/who-we-are.component';
+import { HowItWorksComponent } from './components/how-it-works/how-it-works.component';
+import { CancelComponent } from './components/cancel/cancel.component';
+import { RecipientDetailsComponent } from './components/recipient-details/recipient-details.component';
+import { TransactionSummaryComponent } from './components/transaction-summary/transaction-summary.component'
 
 @NgModule({
 	declarations: [
@@ -41,11 +45,15 @@ import { CurrencyService } from './currency.service'
 		FooterComponent,
 		SignupComponent,
 		ProfileComponent,
-		CredentialsComponent,
 		TransferComponent,
 		LoginComponent,
 		ExchangeRateComponent,
-        AccountDetailsComponent
+        AccountDetailsComponent,
+        WhoWeAreComponent,
+        HowItWorksComponent,
+        CancelComponent,
+        RecipientDetailsComponent,
+        TransactionSummaryComponent
 	],
 	imports: [
 		BrowserModule,

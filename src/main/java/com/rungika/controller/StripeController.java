@@ -20,8 +20,32 @@ public class StripeController {
     @Value("${stripe.secret.key}")
     String apiKey;
 
+    @Value("${cancelUrl}")
+    String cancelUrl;
+
+    @Value("${successUrl}")
+    String successUrl;
+
+    @PostMapping("/submit-details")
+    public String submitPaymentDetails(@RequestBody CheckoutDetails checkoutDetails) throws StripeException {
+        HashMap<String, Object> map = (HashMap<String, Object>) checkoutDetails.getTransferDetails();
+        CheckoutPayment payment = new CheckoutPayment();
+        payment.setAmount(Integer.toUnsignedLong((Integer) map.get("amount")) * 100);
+        payment.setCurrency((String) map.get("fromCurrency"));
+        payment.setCancelUrl(cancelUrl);
+        payment.setSuccessUrl(successUrl);
+        payment.setQuantity(1);
+        payment.setName(map.get("amount") + (String) map.get("fromCurrency"));
+
+        return handleRequest(payment);
+    }
+
     @PostMapping("/submit")
     public String paymentWithCheckoutPage(@RequestBody CheckoutPayment payment) throws StripeException {
+        return handleRequest(payment);
+    }
+
+    public String handleRequest(CheckoutPayment payment) throws StripeException {
         init(apiKey);
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth.service'
 
@@ -29,11 +29,12 @@ export class SignupComponent {
       'confirmPassword': new FormControl(null)
     })
   }
-  onSubmit(formData: FormGroup, loginDirective: FormGroupDirective) {
+  onSubmit(formData: FormGroup) {
     this.authService.signup(
       formData.value.firstName, 
       formData.value.lastName,
       formData.value.email,
+      formData.value.phone,
       formData.value.password)
       .subscribe({
       next: data => {

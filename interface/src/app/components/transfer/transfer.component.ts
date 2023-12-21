@@ -1,7 +1,5 @@
 import { Component } from '@angular/core'
-import { Router } from '@angular/router'
-import { AuthService } from '../../services/auth.service'
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms'
+import { FormControl, FormGroup } from '@angular/forms'
 import { HttpService } from 'src/app/services/http.service'
 import { environment } from 'src/environments/environment'
 
@@ -11,7 +9,7 @@ import { environment } from 'src/environments/environment'
   styleUrls: ['./transfer.component.css']
 })
 export class TransferComponent {
-  loginForm!: FormGroup
+  form!: FormGroup
   fromCurrency = "USD"
   toCurrency = "BIF"
   cadToBifRate = 0.0
@@ -44,7 +42,7 @@ export class TransferComponent {
   }
 
   createForm() {
-    this.loginForm = new FormGroup({
+    this.form = new FormGroup({
       'fromCurrency': new FormControl(null),
       'toCurrency': new FormControl(null),
       'amount': new FormControl(0.00),
@@ -54,7 +52,7 @@ export class TransferComponent {
       'phone': new FormControl(null)
     })
   }
-  onSubmit(formData: FormGroup, loginDirective: FormGroupDirective) {
+  onSubmit(formData: FormGroup) {
     const email = formData.value.email
     const password = formData.value.password
     //this.authService.signinUser(email, password)

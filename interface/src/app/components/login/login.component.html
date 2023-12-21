@@ -1,28 +1,29 @@
-<div *ngIf="isLoggedIn">
-	Logged in!  
-</div>
+<div class="full-page">
+	<div *ngIf="isLoggedIn" class="message">
+		Logged in! <a routerLink='/home'>Start new transfer</a>
+	</div>
 
-<div *ngIf="!isLoggedIn" class="login-container">
-	<div class="login-content">
-		<mat-toolbar class="login-toolbar" color="primary">Credentials</mat-toolbar>
+	<div *ngIf="!isLoggedIn" class="login-container">
+		<h2>Please enter you credentials</h2>
 		{{errorMessage}}
-		<mat-card>
-			<form [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onSubmit(loginForm, formDirective)">
+		<mat-card class="login">
+			<form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit(form)">
 				<mat-form-field>
 					<mat-icon matPrefix>email</mat-icon>
 					<input autofocus type="text" matInput placeholder="Email" formControlName="email">
 				</mat-form-field>
-
+				<br>
 				<mat-form-field>
 					<mat-icon matPrefix>lock_outline</mat-icon>
 					<input type="password" autocomplete="false" matInput placeholder="Password"
 						formControlName="password">
 				</mat-form-field>
 				<br>
-				<button type="submit" mat-raised-button color="primary">LOGIN</button>
+				<button type="submit" mat-raised-button>LOG IN</button>
 			</form>
 			<br>
-			<span> If you don't have a account with us yet, please <a routerLink='/signup'>sign up here</a></span>
 		</mat-card>
+		<span class="message"> If you don't have a account with us yet, please <a routerLink='/signup'>sign up
+				here</a></span>
 	</div>
 </div>

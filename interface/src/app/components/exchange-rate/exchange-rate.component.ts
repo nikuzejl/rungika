@@ -1,8 +1,8 @@
 import { Component } from '@angular/core'
-import { FormGroup, FormControl, FormGroupDirective } from '@angular/forms'
-import { environment } from 'src/environments/environment'
-import { HttpService } from '../../services/http.service'
-import { CurrencyService } from 'src/app/currency.service'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { CurrencyService } from 'src/app/services/currency.service'
+import { Router } from '@angular/router'
+import { TransactionService } from 'src/app/services/transaction.service'
 
 @Component({
   selector: 'app-exchange-rate',
@@ -10,57 +10,89 @@ import { CurrencyService } from 'src/app/currency.service'
   styleUrls: ['./exchange-rate.component.css']
 })
 export class ExchangeRateComponent {
-  loginForm!: FormGroup
+  maxSendAmount = 10000.00
+  form!: FormGroup
   fromCurrency = "USD"
   toCurrency = "BIF"
+  receiveMethod = ""
   rate = 0.0
+  programmaticUpdate = false
+  orderId = ""
+  exchangeRateError: any[] = []
+
   constructor(
+    private router: Router,
     private currencyService: CurrencyService,
-    private httpService: HttpService
-  ) { }
+    private transactionService: TransactionService) { }
+
   ngOnInit() {
+    this.exchangeRateError[0] = false
     this.currencyService.initializeRates()
       .then(() => {
-        console.log('Initialization finished.')
         this.createForm()
         this.currencyService.initializeRates()
         this.rate = this.currencyService.getRate("USD", "BIF") || 0.0
       })
       .catch(error => {
+        this.exchangeRateError[0] = true
         console.error('Failed to initialize currencies', error)
       })
   }
 
-  onCurrencyChange(currency: any) {
-    this.rate = this.currencyService.getRate(this.fromCurrency, this.toCurrency) || this.rate
+  onCurrencyChange() {
+    try {
+      this.rate = this.currencyService.getRate(this.fromCurrency, this.toCurrency) || this.rate
+      this.updateForm('amount', 0.0)
+      this.updateForm('convertedAmount', 0.0)
+    } catch (error) {
+      this.exchangeRateError[0] = true
+      console.error('Error fetching exchange rate:', error)
+    }
   }
 
   createForm() {
-    this.loginForm = new FormGroup({
+    this.form = new FormGroup({
       'fromCurrency': new FormControl(null),
       'toCurrency': new FormControl(null),
-      'amount': new FormControl(0.00),
-      'convertedAmount': new FormControl(0.00),
-      'firstName': new FormControl(null),
-      'lastName': new FormControl(null),
-      'email': new FormControl(null),
-      'phone': new FormControl(null)
+      'amount': new FormControl('', [
+        Validators.pattern(/^\d+(\.\d{1,2})?$/),
+        Validators.max(this.maxSendAmount),
+        Validators.min(10.00)
+      ]),
+      'convertedAmount': new FormControl('', [
+        Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
+      'receiveMethod': new FormControl(null, [Validators.required])
     })
 
-    this.loginForm.get('amount')!.valueChanges.subscribe((amount) => {
-      const newValue = amount * this.rate
-      this.loginForm.get('convertedAmount')!.setValue(newValue)
-    })
-
-    this.loginForm.get('convertedAmount')!.valueChanges.subscribe((amount) => {
-      const newValue = amount / this.rate
-      this.loginForm.get('amount')!.setValue(newValue)
-    })
-
+    this.updateFormAmounts('amount')
+    this.updateFormAmounts('convertedAmount')
   }
-  onSubmit(formData: FormGroup, loginDirective: FormGroupDirective) {
-    const email = formData.value.email
-    const password = formData.value.password
-    //this.authService.signinUser(email, password)
+
+  updateFormAmounts(changedField: string) {
+    this.form.get(changedField)!.valueChanges.subscribe(updatedValue => {
+      if (!this.programmaticUpdate) {
+        this.programmaticUpdate = true
+        if (changedField == 'amount') {
+          this.updateForm('convertedAmount', (updatedValue * this.rate).toFixed(2))
+        }
+        else if (changedField == 'convertedAmount') {
+          this.updateForm('amount', (updatedValue / this.rate).toFixed(2))
+        }
+        this.programmaticUpdate = false
+      }
+    })
+  }
+
+  updateForm(fieldName: string, value: any) {
+    this.form.get(fieldName)!.setValue(value)
+  }
+
+  goToRecipientDetails() {
+    if (this.form.valid) {
+      this.transactionService.setTransactionDetails(this.form)
+      this.router.navigate(['/recipient-details'])
+    } else {
+      console.log('Invalid form')
+    }
   }
 }

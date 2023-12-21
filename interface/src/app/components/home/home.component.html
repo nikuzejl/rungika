@@ -1,16 +1,19 @@
 <header>
   <div class="logo" (click)="routeTo('')">
+    <img alt="logo" src="./../../../assets/logo.jpeg" />
   </div>
-  <div (click)="routeTo('home')">Home</div>
-  <div (click)="routeTo('/')">How it works</div>
-  <div (click)="routeTo('/')">Who we are</div>
+  <div class="header-item" [class.selected]="isSelected('/home')" (click)="routeTo('home')">Home</div>
+  <div class="header-item" [class.selected]="isSelected('/how-it-works')" (click)="routeTo('/how-it-works')">How it
+    works</div>
+  <div class="header-item" [class.selected]="isSelected('/who-we-are')" (click)="routeTo('/who-we-are')">Who we are
+  </div>
   <div *ngIf="!credentials.loggedIn">
-    <span (click)="routeTo('login')">Log in</span>&#160; &#160;
-    <span (click)="routeTo('signup')">Sign up</span>
+    <span class="header-item" [class.selected]="isSelected('/login')" (click)="routeTo('login')">Log in</span>&#160;
+    &#160;
+    <span class="header-item" [class.selected]="isSelected('/signup')" (click)="routeTo('signup')">Sign up</span>
   </div>
   <div *ngIf="credentials.loggedIn">
-    <a routerLink='/account-details'>My account</a>
+    <a id="account-link" routerLink='/account-details'>My account</a>
   </div>
 </header>
-<hr>
 <router-outlet></router-outlet>

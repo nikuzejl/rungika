@@ -16,7 +16,8 @@ export class AuthService {
     loggedIn: false,
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    phone: ''
   }
 
   constructor(private http: HttpClient) { }
@@ -32,21 +33,23 @@ export class AuthService {
     )
   }
 
-  updateCredentials(firstName:string, lastName:string, email:string){
+  updateCredentials(firstName:string, lastName:string, email:string, phone:string){
     this.credentials.loggedIn= true
     this.credentials.firstName= firstName
     this.credentials.lastName= lastName
     this.credentials.email= email
+    this.credentials.phone = phone
   }
 
-  signup(firstName: string, lastName: string, email: string, password: string): Observable<any> {
+  signup(firstName: string, lastName: string, email: string, phone:string, password: string): Observable<any> {
     return this.http.post(
       AUTH_API + 'signup',
       {
         firstName,
         lastName,
         email,
-        password,
+        phone,
+        password
       },
       httpOptions
     )

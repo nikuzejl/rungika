@@ -1,0 +1,18 @@
+<div class="full-page">
+    <mat-card *ngIf="signedIn">
+        <div class="signed-in-container">
+            <div (click)="logout()" class="action-item">
+                Logout
+            </div> <br>
+            <div (click)="modifyAccount()" class="account-info">
+                <h2>Account Information</h2>
+                <div><strong>First Name:</strong> {{user.firstName}}</div>
+                <div><strong>Last Name:</strong> {{user.lastName}}</div>
+                <div><strong>Email:</strong> {{user.email}}</div>
+            </div>
+        </div>
+    </mat-card>
+    <div *ngIf="!signedIn" class="logged-out-container">
+        Logged out. <a routerLink='/login'>Log in here</a>
+    </div>
+</div>

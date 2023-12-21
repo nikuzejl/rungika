@@ -1,0 +1,23 @@
+.full-page{
+    display: flex;
+    justify-content: center;
+}
+
+.action-item{
+    font-size: 1.3em;
+    font-weight: bold;
+    color: blue;
+    border-radius: 20px;
+}
+
+.signed-in-container{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+mat-card{
+    width: 60%;
+    background-color: #cee3ec;
+}

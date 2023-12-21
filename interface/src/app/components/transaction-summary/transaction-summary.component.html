@@ -1,0 +1,35 @@
+<div *ngIf="!showSpinner">
+  <h1>Confirm transaction details</h1>
+
+  <div class="card-container">
+    <div class="card">
+      <h2>Sender</h2>
+      <div class="detail">First name: {{senderDetails.value.firstName}}</div>
+      <div class="detail">Last name: {{senderDetails.value.lastName}}</div>
+      <div class="detail">Phone: {{senderDetails.value.phone}}</div>
+      <div class="detail">Email: {{senderDetails.value.email}}</div>
+    </div>
+    <div class="card">
+      <h2>Receiver</h2>
+      <div class="detail">First name: {{receiverDetails.value.firstName}}</div>
+      <div class="detail">Last name: {{receiverDetails.value.lastName}}</div>
+      <div class="detail">Phone: {{receiverDetails.value.phone}}</div>
+      <div class="detail">Email: {{receiverDetails.value.email}}</div>
+    </div>
+    <div class="card">
+      <h2>Summary</h2>
+      <div>You send: {{transactionDetails.value.amount}} {{transactionDetails.value.fromCurrency}}</div>
+      <div>They receive: {{transactionDetails.value.convertedAmount}}
+        {{transactionDetails.value.toCurrency}}
+      </div>
+      <div>Receive method: {{transactionDetails.value.receiveMethod}}</div>
+    </div>
+  </div>
+  <br><br>
+
+  <div class="continue-or-edit" style="text-align: center;">
+    <button class="continue-button" (click)="pay()">Continue</button> &#160; &#160;
+    <button class="edit-button" (click)="edit()">Edit</button>
+    <br><br>
+  </div>
+</div>

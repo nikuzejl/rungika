@@ -1,20 +1,29 @@
+
 .flex-container {
-  background-color: aquamarine;
-  background: url('/../../assets/transfer_money.jpeg') center/cover no-repeat;
+  background: url('/../../assets/send-dollars.jpeg') center/cover no-repeat;
   display: flex;
   height: 100vh;
+  position: relative;
 }
 
-.example-card {
-    position: relative;
-    top: 10px;
-    right: 10px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+.rate-card {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  background-color: #1a94d1;
+  color: white;
+  border-radius: 5px;
+}
+
+.success-button{
+  color: white;
+  background-color: green;
+}
+
+.error-button{
+  color: black;
+  background-color: darkgrey;
 }
 
 @media (max-width: 600px) {
@@ -22,7 +31,7 @@
     flex-direction: column;
   }
 
-  .example-card {
+  .rate-card {
     width: 100%;
     margin-left: 0;
     align-self: auto;
@@ -34,6 +43,29 @@ img{
   height: 20px;
 }
 
-/* .currency{
-  background-color: aqua;
-} */
+.mat-select-box{
+  width: 110px;
+}
+
+.rate{
+  text-align: center;
+}
+
+.receive-method{
+  font-size: large;
+}
+
+mat-error{
+  background-color: wheat;
+  color:rgb(216, 95, 70);
+}
+
+.error{
+  color: rgb(210, 102, 80);
+  font-size: large;
+}
+
+button{
+  height: 2em;
+  border-radius: 10px;
+}
