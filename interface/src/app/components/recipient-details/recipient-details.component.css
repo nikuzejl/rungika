@@ -54,6 +54,7 @@ mat-form-field {
 .center-button {
   font-size: large;
   font-weight: bold;
+  color: white;
   background-color: rgb(0, 174, 255);
   width: 180px;
   border-radius: 20px;

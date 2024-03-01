@@ -72,8 +72,8 @@
           <mat-form-field appearance="outline">
             <mat-label>Select receive method</mat-label>
             <mat-select [(ngModel)]="receiveMethod" formControlName="receiveMethod">
-              <mat-option value="Mobile money">Mobile money</mat-option>
-              <mat-option value="Bank account">Bank account</mat-option>
+              <mat-option value="Mobile wallet">Mobile wallet</mat-option>
+              <!-- <mat-option value="Bank account">Bank account</mat-option> -->
             </mat-select>
           </mat-form-field>
           <br>
@@ -84,8 +84,4 @@
     </div>
   </mat-card>
 </div>
-<!-- <button [ngClass]="{'success-button': form.valid, 'error-button': !form.valid}" type="submit">
- {{form.valid}} hhhhhhhhhhhhhhhh
-  0000000000
-</button> -->
 <app-footer></app-footer>

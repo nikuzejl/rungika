@@ -4,6 +4,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { AuthService } from 'src/app/services/auth.service'
 import { TransactionService } from 'src/app/services/transaction.service'
 import { environment } from 'src/environments/environment'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-recipient-details',
@@ -23,7 +24,8 @@ export class RecipientDetailsComponent {
 
   constructor(
     private transactionService: TransactionService,
-    private authService: AuthService) { 
+    private authService: AuthService,
+    private router: Router) { 
       this.transactionDetails = this.transactionService.getTransactionDetails()
     }
 
@@ -36,6 +38,10 @@ export class RecipientDetailsComponent {
       this.senderForm.get("firstName")!.setValue(this.authService.credentials.firstName)
       this.senderForm.get("email")!.setValue(this.authService.credentials.email)
       this.currentStep ="receiver"
+    }
+
+    if(this.transactionService.getTransactionDetails()==null){
+      this.router.navigate(['/home'])
     }
   }
 

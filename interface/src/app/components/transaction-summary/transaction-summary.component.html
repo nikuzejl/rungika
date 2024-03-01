@@ -4,25 +4,48 @@
   <div class="card-container">
     <div class="card">
       <h2>Sender</h2>
-      <div class="detail">First name: {{senderDetails.value.firstName}}</div>
-      <div class="detail">Last name: {{senderDetails.value.lastName}}</div>
-      <div class="detail">Phone: {{senderDetails.value.phone}}</div>
-      <div class="detail">Email: {{senderDetails.value.email}}</div>
+      <div class="detail">
+        <span class="detail-label">First name: </span>{{senderDetails.value.firstName}}
+      </div>
+      <div class="detail">
+        <span class="detail-label">Last name: </span>{{senderDetails.value.lastName}}
+      </div>
+      <div class="detail">
+        <span class="detail-label">Phone: </span>{{senderDetails.value.phone}}
+      </div>
+      <div class="detail">
+        <span class="detail-label">Email: </span>{{senderDetails.value.email}}
+      </div>
     </div>
     <div class="card">
       <h2>Receiver</h2>
-      <div class="detail">First name: {{receiverDetails.value.firstName}}</div>
-      <div class="detail">Last name: {{receiverDetails.value.lastName}}</div>
-      <div class="detail">Phone: {{receiverDetails.value.phone}}</div>
-      <div class="detail">Email: {{receiverDetails.value.email}}</div>
+      <div class="detail">
+        <span class="detail-label">Email: </span>{{receiverDetails.value.firstName}}
+      </div>
+      <div class="detail">
+        <span class="detail-label">Last name: </span>{{receiverDetails.value.lastName}}
+      </div>
+      <div class="detail">
+        <span class="detail-label">Phone: </span>{{receiverDetails.value.phone}}
+      </div>
+      <div class="detail">
+        <span class="detail-label">Email: </span>{{receiverDetails.value.email}}
+      </div>
     </div>
+
     <div class="card">
-      <h2>Summary</h2>
-      <div>You send: {{transactionDetails.value.amount}} {{transactionDetails.value.fromCurrency}}</div>
-      <div>They receive: {{transactionDetails.value.convertedAmount}}
+      <h2>Transfer details</h2>
+      <div>
+        <span class="detail-label">You send: </span>{{transactionDetails.value.amount}}
+        {{transactionDetails.value.fromCurrency}}
+      </div>
+      <div>
+        <span class="detail-label">They receive: </span>{{transactionDetails.value.convertedAmount}}
         {{transactionDetails.value.toCurrency}}
       </div>
-      <div>Receive method: {{transactionDetails.value.receiveMethod}}</div>
+      <div>
+        <span class="detail-label">Receive method: </span>{{transactionDetails.value.receiveMethod}}
+      </div>
     </div>
   </div>
   <br><br>

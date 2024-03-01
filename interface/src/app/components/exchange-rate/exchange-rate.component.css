@@ -19,11 +19,13 @@
 .success-button{
   color: white;
   background-color: green;
+  border-color: green;
 }
 
 .error-button{
   color: black;
   background-color: darkgrey;
+  border-color: darkgrey;
 }
 
 @media (max-width: 600px) {
