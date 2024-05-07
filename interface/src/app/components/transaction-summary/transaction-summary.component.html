@@ -51,8 +51,10 @@
   <br><br>
 
   <div class="continue-or-edit" style="text-align: center;">
-    <button class="continue-button" (click)="pay()">Continue</button> &#160; &#160;
+    <button class="continue-button" (click)="pay()">Proceed to payment</button> &#160; &#160;
     <button class="edit-button" (click)="edit()">Edit</button>
     <br><br>
   </div>
 </div>
+
+<app-spinner *ngIf="showSpinner"></app-spinner>

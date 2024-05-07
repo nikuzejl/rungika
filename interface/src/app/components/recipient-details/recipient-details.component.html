@@ -1,4 +1,4 @@
-<div *ngIf="!clickedContinue" class="whole-page">
+<div class="whole-page" *ngIf="!senderAndReceiverFormsCompleted">
 	<form *ngIf='!loggedIn && currentStep=="sender"' class="sender-form">
 		<div class="login-container">
 			<div class="login-content">
@@ -11,12 +11,19 @@
 							<mat-icon matPrefix>person_outline</mat-icon>
 							<input autofocus type="text" matInput placeholder="Your first name"
 								formControlName="firstName">
+								<mat-error *ngIf="senderForm.get('firstName')!.hasError('required')">
+									First name is required
+								</mat-error>
+							
 						</mat-form-field>
 
 						<mat-form-field>
 							<mat-icon matPrefix>person_outline</mat-icon>
 							<input autofocus type="text" matInput placeholder="Your last name"
 								formControlName="lastName">
+								<mat-error *ngIf="senderForm.get('lastName')!.hasError('required')">
+									Last name is required
+								</mat-error>
 						</mat-form-field>
 
 						<mat-form-field>
@@ -58,12 +65,18 @@
 							<mat-icon matPrefix>person_outline</mat-icon>
 							<input autofocus type="text" matInput placeholder="Receiver first name"
 								formControlName="firstName">
+								<mat-error *ngIf="receiverForm.get('firstName')!.hasError('required')">
+									First name is required
+								</mat-error>
 						</mat-form-field>
 
 						<mat-form-field>
 							<mat-icon matPrefix>person_outline</mat-icon>
 							<input autofocus type="text" matInput placeholder="Receiver last name"
 								formControlName="lastName">
+								<mat-error *ngIf="receiverForm.get('lastName')!.hasError('required')">
+									Last name is required
+								</mat-error>
 						</mat-form-field>
 
 						<mat-form-field>
@@ -96,11 +109,15 @@
 </div>
 
 <br>
-<div *ngIf="!clickedContinue">
-	<div class="center-container">
-		<button class="center-button" (click)="continue()">Continue</button>
-	</div>
+
+<div *ngIf='!senderAndReceiverFormsCompleted'>
+    <div class="center-container">
+        <button class="center-button" 
+                [class.valid]="formValid()" 
+                [class.invalid]="!formValid()" 
+                (click)="continue()">Continue</button>
+    </div>
 </div>
 
-<app-transaction-summary *ngIf="clickedContinue" [senderDetails]="senderForm" [receiverDetails]="receiverForm"
+<app-transaction-summary *ngIf="senderAndReceiverFormsCompleted" [senderDetails]="senderForm" [receiverDetails]="receiverForm"
 	[transactionDetails]="transactionDetails"></app-transaction-summary>

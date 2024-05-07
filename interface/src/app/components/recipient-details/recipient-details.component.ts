@@ -12,10 +12,10 @@ import { Router } from '@angular/router'
   styleUrls: ['./recipient-details.component.css']
 })
 export class RecipientDetailsComponent {
+  sendFormValid = false
   currentStep="sender"
-  clickedContinue = false
+  senderAndReceiverFormsCompleted = false
   loggedIn = false
-  showSpinner = false
   senderForm!: FormGroup
   receiverForm!: FormGroup
   errorMessage = ''
@@ -61,16 +61,23 @@ export class RecipientDetailsComponent {
     });
   }
 
-  next(){
-    this.currentStep="receiver"
+  continue() {
+      if(this.currentStep=="sender" && this.senderForm.valid){
+        this.currentStep="receiver"
+      }
+      else if (this.currentStep=="receiver" && this.receiverForm.valid){
+        this.senderAndReceiverFormsCompleted = true
+      }
   }
 
-  continue() {
-    if(this.currentStep=="receiver"){
-      this.clickedContinue = true
-    }
-    else{
-      this.currentStep="receiver"
-    }
+  formValid(){
+    if(this.currentStep=="sender")
+       return this.senderForm.valid
+
+    else if (this.currentStep="receiver") 
+       return this.receiverForm.valid
+
+    return false;
   }
 }
+

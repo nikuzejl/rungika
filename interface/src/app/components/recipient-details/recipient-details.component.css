@@ -51,7 +51,7 @@ mat-form-field {
   justify-content: center;
 }
 
-.center-button {
+/* .center-button {
   font-size: large;
   font-weight: bold;
   color: white;
@@ -59,8 +59,28 @@ mat-form-field {
   width: 180px;
   border-radius: 20px;
   border-color: rgb(0, 174, 255);
-}
+} */
 
 mat-card {
   background-color: #cee3ec;
+}
+
+.center-button.valid {
+  font-size: large;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(18, 159, 219);
+  width: 180px;
+  border-radius: 20px;
+  border-color: rgb(18, 159, 219);
+}
+
+.center-button.invalid {
+  font-size: large;
+  font-weight: bold;
+  color: black;
+  background-color: rgb(171, 185, 191);
+  width: 180px;
+  border-radius: 20px;
+  border-color: rgb(171, 185, 191);
 }
