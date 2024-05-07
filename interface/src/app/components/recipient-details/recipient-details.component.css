@@ -32,11 +32,6 @@
   justify-content: center;
 }
 
-.center-text {
-  text-align: center;
-  width: 100%;
-}
-
 .message {
   margin-top: 20px;
 }
@@ -50,16 +45,6 @@ mat-form-field {
   display: flex;
   justify-content: center;
 }
-
-/* .center-button {
-  font-size: large;
-  font-weight: bold;
-  color: white;
-  background-color: rgb(0, 174, 255);
-  width: 180px;
-  border-radius: 20px;
-  border-color: rgb(0, 174, 255);
-} */
 
 mat-card {
   background-color: #cee3ec;

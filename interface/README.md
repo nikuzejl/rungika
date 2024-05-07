@@ -7,8 +7,9 @@ https://www.angularjswiki.com/angular/angular-material-icons-list-mat-icon-list/
 
 # App deployed to Netlify
 `ng build --configuration=production`
+`npm run build`
 * At https://app.netlify.com/sites/rungika/deploys, deploy manually the built folder ./dist/rungika-ui
-* App becomes at https://rungika.netlify.app
+* App goes live at https://rungika.netlify.app
 
 # Other links
 https://www.youtube.com/watch?v=KxqlJblhzfI&t=10s

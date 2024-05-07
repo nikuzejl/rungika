@@ -1,47 +1,64 @@
-.signup-success {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.signup-form {
+.whole-page {
   display: flex;
-  justify-content: center;
-  height: 100vh;
+  flex-direction: column;
+  align-items: center;
 }
 
-.login-container {
+.whole-page {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+mat-card {
+  width: 100%;
+  background-color: #cee3ec; 
+}
+
+h2{
   text-align: center;
 }
 
-.login-content {
-  width: 100%;
-  max-width: 400px;
-}
-
-.login-toolbar {
+.mat-card-content {
   display: flex;
-  justify-content: center;
-}
-
-.center-text {
-  text-align: center;
-  width: 100%;
-}
-
-.message {
-  margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
 }
 
 mat-form-field {
-  width: 80%;
-  margin-top: 10px;
+  width: 100%;
 }
 
-button {
-  color: #085b6c;
-  width: 30%;
+.center-container {
+  margin-top: 20px;
 }
 
-mat-card{
-  background-color: #cee3ec;
+.center-container {
+  display: flex;
+  justify-content: center;
+}
+
+.center-button.valid {
+  font-size: large;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(18, 159, 219);
+  width: 180px;
+  border-radius: 20px;
+  border-color: rgb(18, 159, 219);
+}
+
+.center-button.invalid {
+  font-size: large;
+  font-weight: bold;
+  color: black;
+  background-color: rgb(171, 185, 191);
+  width: 180px;
+  border-radius: 20px;
+  border-color: rgb(171, 185, 191);
+}
+
+.successful-creation{
+  text-align: center;
+  font-size: 1.5em;
+  color: green;
 }

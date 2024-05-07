@@ -10,10 +10,14 @@ import { TransactionService } from 'src/app/services/transaction.service'
   styleUrls: ['./exchange-rate.component.css']
 })
 export class ExchangeRateComponent {
+  receiveMethodOptions: Map<string, string[]> = new Map([
+    ['BIF', ['Ecocash', 'Lumicash']],
+    ['RWF', ['MTM MoMo', 'Airtel']]
+  ])
   maxSendAmount = 10000.00
   form!: FormGroup
-  fromCurrency = "USD"
-  toCurrency = "BIF"
+  fromCurrency:string = "USD"
+  toCurrency:string = "BIF"
   receiveMethod = ""
   rate = 0.0
   programmaticUpdate = false
@@ -55,11 +59,13 @@ export class ExchangeRateComponent {
       'fromCurrency': new FormControl(null),
       'toCurrency': new FormControl(null),
       'amount': new FormControl('', [
+        Validators.required,
         Validators.pattern(/^\d+(\.\d{1,2})?$/),
         Validators.max(this.maxSendAmount),
         Validators.min(10.00)
       ]),
       'convertedAmount': new FormControl('', [
+        Validators.required,
         Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
       'receiveMethod': new FormControl(null, [Validators.required])
     })

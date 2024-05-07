@@ -69,12 +69,13 @@
           </mat-form-field><br>
 
           <span class="receive-method">Receive method</span>&#160;
+          
           <mat-form-field appearance="outline">
             <mat-label>Select receive method</mat-label>
             <mat-select [(ngModel)]="receiveMethod" formControlName="receiveMethod">
-              <mat-option value="Mobile wallet">Mobile wallet</mat-option>
-              <!-- <mat-option value="Bank account">Bank account</mat-option> -->
-            </mat-select>
+              <mat-option *ngFor="let method of receiveMethodOptions.get(form.value.toCurrency)" [value]="method">{{ method }}</mat-option>
+            </mat-select>            
+            <mat-error *ngIf="form.get('receiveMethod')!.hasError('required')">Receive method is required</mat-error>
           </mat-form-field>
           <br>
           <button [ngClass]="{'success-button': this.form.valid, 'error-button': !this.form.valid}" type="submit">

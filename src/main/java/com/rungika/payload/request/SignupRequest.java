@@ -19,11 +19,14 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private Set<String> roles;
+    @Size(min = 1, max = 10)
+    private String phone;
 
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+
+    private Set<String> roles;
 
     public String getFirstName() {
         return firstName;
@@ -47,6 +50,14 @@ public class SignupRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String setPhone(String phone){
+        return this.phone = phone;
+    }
+
+    public String getPhone(){
+        return this.phone;
     }
 
     public String getPassword() {

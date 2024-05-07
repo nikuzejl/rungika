@@ -1,51 +1,84 @@
-<div *ngIf="signupSuccessfull" class="signup-success">
-	Account successfully created! You can now <a routerLink='/login'>login here.</a>
-  </div>
-  
-  <form *ngIf="!signupSuccessfull" class="signup-form">
-	<div class="login-container">
-	  <div class="login-content">
-		  <h2>Enter your credentials</h2>
+<div class="whole-page" *ngIf="!showSpinner && !signupSuccessfull">
+	<form>
+		<h2>Enter your details</h2>
 		<mat-card>
-		  <form [formGroup]="signupForm" #formDirective="ngForm" (ngSubmit)="onSubmit(signupForm)">
-			{{errorMessage}}
-  
-			<mat-form-field>
-			  <mat-icon matPrefix>person_outline</mat-icon>
-			  <input autofocus type="text" matInput placeholder="First name" formControlName="firstName">
-			</mat-form-field>
-  
-			<mat-form-field>
-			  <mat-icon matPrefix>person_outline</mat-icon>
-			  <input autofocus type="text" matInput placeholder="Last name" formControlName="lastName">
-			</mat-form-field>
-  
-			<mat-form-field>
-			  <mat-icon matPrefix>email</mat-icon>
-			  <input autofocus type="text" matInput placeholder="Email" formControlName="email">
-			</mat-form-field>
-  
-			<mat-form-field>
-			  <mat-icon matPrefix>phone</mat-icon>
-			  <input autofocus type="text" matInput placeholder="Phone" formControlName="phone">
-			</mat-form-field>
-  
-			<mat-form-field>
-			  <mat-icon matPrefix>lock_outline</mat-icon>
-			  <input type="password" autocomplete="false" matInput placeholder="Password" formControlName="password">
-			</mat-form-field>
-  
-			<mat-form-field>
-			  <mat-icon matPrefix>lock_outline</mat-icon>
-			  <input type="password" autocomplete="false" matInput placeholder="Confirm password" formControlName="confirmPassword">
-			</mat-form-field>
-  
+			<form [formGroup]="signupForm" #formDirective="ngForm">
+				{{errorMessage}}
+				<mat-form-field>
+					<mat-icon matPrefix>person_outline</mat-icon>
+					<input autofocus type="text" matInput placeholder="Your first name" formControlName="firstName">
+					<mat-error *ngIf="signupForm.get('firstName')!.hasError('required')">
+						First name is required
+					</mat-error>
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-icon matPrefix>person_outline</mat-icon>
+					<input autofocus type="text" matInput placeholder="Your last name" formControlName="lastName">
+					<mat-error *ngIf="signupForm.get('lastName')!.hasError('required')">
+						Last name is required
+					</mat-error>
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-icon matPrefix>email</mat-icon>
+					<input autofocus type="text" matInput placeholder="Your email" formControlName="email">
+					<mat-error *ngIf="signupForm.get('email')!.hasError('required')">
+						Email is required
+					</mat-error>
+					<mat-error *ngIf="signupForm.get('email')!.hasError('email')">
+						Invalid email format
+					</mat-error>
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-icon matPrefix>phone</mat-icon>
+					<input autofocus type="text" matInput placeholder="You phone number" formControlName="phone">
+					<mat-error *ngIf="signupForm.get('phone')!.hasError('required')">
+						Phone number is required
+					</mat-error>
+					<mat-error *ngIf="signupForm.get('phone')!.hasError('phone')">
+						Phone number is formed by digits only
+					</mat-error>
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-icon matPrefix>lock_outline</mat-icon>
+					<input type="password" autocomplete="false" matInput placeholder="Password"
+						formControlName="password">
+					<mat-error *ngIf="signupForm.get('password')!.hasError('required')">
+						Password is required
+					</mat-error>
+					<mat-error *ngIf="signupForm.get('password')!.hasError('minlength')">
+						Password must be at least 6 characters long
+					</mat-error>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-icon matPrefix>lock_outline</mat-icon>
+					<input type="password" autocomplete="false" matInput placeholder="Confirm password"
+						formControlName="confirmPassword">
+					<mat-error *ngIf="signupForm.get('confirmPassword')!.hasError('required')">
+						Confirm password is required
+					</mat-error>
+					<mat-error *ngIf="signupForm.get('confirmPassword')!.hasError('passwordMismatch')">
+						Passwords do not match
+					</mat-error>
+					<mat-error *ngIf="signupForm.get('confirmPassword')!.hasError('minlength')">
+						Password must be at least 6 characters long
+					</mat-error>
+				</mat-form-field>
+			</form>
 			<br>
-			<button type="submit" mat-raised-button>SIGN UP</button>
-			<br>
-		  </form>
 		</mat-card>
-	  </div>
+	</form>
+	<div class="center-container">
+		<button class="center-button" [class.valid]="formValid()" [class.invalid]="!formValid()"
+			(click)="continue()">Create account</button>
 	</div>
-  </form>
-  
+</div>
+
+<div class="successful-creation" *ngIf="signupSuccessfull">
+	Account successfully created! You can now <a routerLink='/login'>log in here</a>
+</div>
+
+<app-spinner *ngIf="showSpinner"></app-spinner>

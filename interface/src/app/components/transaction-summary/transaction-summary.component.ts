@@ -17,8 +17,7 @@ export class TransactionSummaryComponent {
   showSpinner = false
   stripePromise = loadStripe(environment.STRIPE_PUBLIC_KEY)
 
-  constructor(private http: HttpClient,
-    private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   async pay(): Promise<void> {
     this.showSpinner = true
@@ -26,9 +25,7 @@ export class TransactionSummaryComponent {
     const amount = this.transactionDetails.get('amount')
 
     if (convertedAmountControl && amount) {
-      const payment = {
-        transferDetails: this.transactionDetails.value
-      }
+      const payment = { transferDetails: this.transactionDetails.value}
       const stripe = await this.stripePromise
       if (stripe) {
         this.http

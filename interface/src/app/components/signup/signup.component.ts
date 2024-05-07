@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth.service'
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-signup',
@@ -12,6 +12,7 @@ export class SignupComponent {
   signupForm!: FormGroup;
   signupSuccessfull = false
   errorMessage = ''
+  showSpinner = false
 
   constructor(private router: Router, private authService: AuthService) { }
 
@@ -19,32 +20,72 @@ export class SignupComponent {
     this.createForm();
   }
 
-  createForm() {
-    this.signupForm = new FormGroup({
-      'email': new FormControl(null),
-      'firstName': new FormControl(null),
-      'lastName': new FormControl(null),
-      'phone': new FormControl(null),
-      'password': new FormControl(null),
-      'confirmPassword': new FormControl(null)
-    })
+  passwordMatchValidator(control: FormControl): { [s: string]: boolean } {
+    const password = control.root.get('password');
+    const confirmPassword = control.value;
+
+    if (password && confirmPassword
+      && password.value === confirmPassword
+      && password.value.length > 0
+      && confirmPassword.length > 0
+    ) {
+      return { 'passwordMismatch': false }
+    }
+
+    else {
+      return { 'passwordMismatch': true }
+    }
   }
-  onSubmit(formData: FormGroup) {
-    this.authService.signup(
-      formData.value.firstName, 
-      formData.value.lastName,
-      formData.value.email,
-      formData.value.phone,
-      formData.value.password)
-      .subscribe({
-      next: data => {
-        this.signupSuccessfull = true
-      },
-      error: err => {
-        this.errorMessage = err.error.error
-        this.signupSuccessfull = false
+
+  createForm() {
+    this.signupForm = new FormGroup(
+      {
+        firstName: new FormControl('', Validators.required),
+        lastName: new FormControl('', Validators.required),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        phone: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+        password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6),
+                                              this.validateAreEqual.bind(this)])
       }
-    })
+    )
+  }
+
+  validateAreEqual(control: AbstractControl): { [key: string]: any } | null {
+    const password = this.signupForm?.value.password;
+    const confirmPassword = control.value;
+
+    if (password !== confirmPassword) {
+      return { 'passwordMismatch': true };
+    }
+
+    return null;
+  }
+
+  formValid() {
+    return this.signupForm.valid
+  }
+
+  continue() {
+    this.showSpinner = true
+    if (this.signupForm.valid) {
+      this.authService.signup(
+        this.signupForm.value.firstName,
+        this.signupForm.value.lastName,
+        this.signupForm.value.email,
+        this.signupForm.value.phone,
+        this.signupForm.value.password)
+        .subscribe({
+          next: data => {
+            this.showSpinner = false
+            this.signupSuccessfull = true
+          },
+          error: err => {
+            this.errorMessage = err.error.error
+            this.signupSuccessfull = false
+          }
+        })
+    }
   }
 
   goToLogIn() {

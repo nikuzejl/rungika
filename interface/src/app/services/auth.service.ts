@@ -26,8 +26,8 @@ export class AuthService {
     return this.http.post(
       AUTH_API + 'signin',
       {
-        email,
-        password,
+        "email":email,
+        "password":password
       },
       httpOptions
     )
@@ -45,11 +45,12 @@ export class AuthService {
     return this.http.post(
       AUTH_API + 'signup',
       {
-        firstName,
-        lastName,
-        email,
-        phone,
-        password
+        "firstName":firstName,
+        "lastName":lastName,
+        "email":email,
+        "phone":phone,
+        "roles": ["ROLE_USER"],
+        "password":password
       },
       httpOptions
     )
