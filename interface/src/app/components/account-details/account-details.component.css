@@ -1,23 +1,48 @@
-.full-page{
-    display: flex;
-    justify-content: center;
+.account-card {
+  max-width: 520px;
 }
 
-.action-item{
-    font-size: 1.3em;
-    font-weight: bold;
-    color: blue;
-    border-radius: 20px;
+.account-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.signed-in-container{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 20%;
-    margin-right: 20%;
+.account-header h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
 }
 
-mat-card{
-    width: 60%;
-    background-color: #cee3ec;
+.logout-btn {
+  min-height: 40px;
+  padding: 0 1rem;
+  font-size: 0.85rem;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  cursor: pointer;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+}
+
+.info-row span {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.info-row strong {
+  color: var(--color-text);
+  font-weight: 600;
 }

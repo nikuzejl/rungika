@@ -1,28 +1,31 @@
-<div class="full-page">
-	<div *ngIf="isLoggedIn" class="message">
-		Logged in! <a routerLink='/home'>Start new transfer</a>
-	</div>
+<div class="page-center">
+  <div *ngIf="isLoggedIn" class="auth-page status-message success">
+  Logged in! <a routerLink="/home">Start new transfer</a>
+  </div>
 
-	<div *ngIf="!isLoggedIn" class="login-container">
-		<h2>Please enter you credentials</h2>
-		{{errorMessage}}
-		<mat-card class="login">
-			<form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit(form)">
-				<mat-form-field>
-					<mat-icon matPrefix>email</mat-icon>
-					<input autofocus type="text" matInput placeholder="Email" formControlName="email">
-				</mat-form-field>
-				<br>
-				<mat-form-field>
-					<mat-icon matPrefix>lock_outline</mat-icon>
-					<input type="password" autocomplete="false" matInput placeholder="Password"
-						formControlName="password">
-				</mat-form-field>
-				<br>
-				<button type="submit" mat-raised-button>LOG IN</button>
-			</form>
-			<br>
-		</mat-card>
-		<span class="message"> If you don't have a account with us yet, please <a routerLink='/signup'>sign up here</a></span>
-	</div>
+  <div *ngIf="!isLoggedIn" class="auth-page">
+    <h2>Welcome back</h2>
+    <p class="page-subtitle">Sign in to manage your transfers and account.</p>
+    <p class="helper-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <mat-card class="form-card">
+      <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit(form)">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <mat-icon matPrefix>email</mat-icon>
+          <input autofocus type="text" matInput formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <mat-icon matPrefix>lock_outline</mat-icon>
+          <input type="password" autocomplete="false" matInput formControlName="password">
+        </mat-form-field>
+
+        <button type="submit" class="btn-primary btn-block">Log in</button>
+      </form>
+    </mat-card>
+
+    <p class="helper-text">Don't have an account yet? <a routerLink="/signup">Sign up here</a></p>
+  </div>
 </div>

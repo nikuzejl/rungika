@@ -1,59 +1,57 @@
-<div *ngIf="!showSpinner">
-  <h1>Confirm transaction details</h1>
+<div *ngIf="!showSpinner" class="summary-page">
+  <h1 class="page-title">Confirm transaction details</h1>
+  <p class="page-subtitle">Review everything before proceeding to payment.</p>
 
-  <div class="card-container">
-    <div class="card">
+  <div class="summary-grid">
+    <div class="summary-card">
       <h2>Sender</h2>
       <div class="detail">
-        <span class="detail-label">First name: </span>{{senderDetails.value.firstName}}
+        <span class="detail-label">First name:</span> {{ senderDetails.value.firstName }}
       </div>
       <div class="detail">
-        <span class="detail-label">Last name: </span>{{senderDetails.value.lastName}}
+        <span class="detail-label">Last name:</span> {{ senderDetails.value.lastName }}
       </div>
       <div class="detail">
-        <span class="detail-label">Phone: </span>{{senderDetails.value.phone}}
+        <span class="detail-label">Phone:</span> {{ senderDetails.value.phone }}
       </div>
       <div class="detail">
-        <span class="detail-label">Email: </span>{{senderDetails.value.email}}
-      </div>
-    </div>
-    <div class="card">
-      <h2>Receiver</h2>
-      <div class="detail">
-        <span class="detail-label">Email: </span>{{receiverDetails.value.firstName}}
-      </div>
-      <div class="detail">
-        <span class="detail-label">Last name: </span>{{receiverDetails.value.lastName}}
-      </div>
-      <div class="detail">
-        <span class="detail-label">Phone: </span>{{receiverDetails.value.phone}}
-      </div>
-      <div class="detail">
-        <span class="detail-label">Email: </span>{{receiverDetails.value.email}}
+        <span class="detail-label">Email:</span> {{ senderDetails.value.email }}
       </div>
     </div>
 
-    <div class="card">
+    <div class="summary-card">
+      <h2>Receiver</h2>
+      <div class="detail">
+        <span class="detail-label">Email:</span> {{ receiverDetails.value.firstName }}
+      </div>
+      <div class="detail">
+        <span class="detail-label">Last name:</span> {{ receiverDetails.value.lastName }}
+      </div>
+      <div class="detail">
+        <span class="detail-label">Phone:</span> {{ receiverDetails.value.phone }}
+      </div>
+      <div class="detail">
+        <span class="detail-label">Email:</span> {{ receiverDetails.value.email }}
+      </div>
+    </div>
+
+    <div class="summary-card">
       <h2>Transfer details</h2>
-      <div>
-        <span class="detail-label">You send: </span>{{transactionDetails.value.amount}}
-        {{transactionDetails.value.fromCurrency}}
+      <div class="detail">
+        <span class="detail-label">You send:</span> {{ transactionDetails.value.amount }} {{ transactionDetails.value.fromCurrency }}
       </div>
-      <div>
-        <span class="detail-label">They receive: </span>{{transactionDetails.value.convertedAmount}}
-        {{transactionDetails.value.toCurrency}}
+      <div class="detail">
+        <span class="detail-label">They receive:</span> {{ transactionDetails.value.convertedAmount }} {{ transactionDetails.value.toCurrency }}
       </div>
-      <div>
-        <span class="detail-label">Receive method: </span>{{transactionDetails.value.receiveMethod}}
+      <div class="detail">
+        <span class="detail-label">Receive method:</span> {{ transactionDetails.value.receiveMethod }}
       </div>
     </div>
   </div>
-  <br><br>
 
-  <div class="continue-or-edit" style="text-align: center;">
-    <button class="continue-button" (click)="pay()">Proceed to payment</button> &#160; &#160;
-    <button class="edit-button" (click)="edit()">Edit</button>
-    <br><br>
+  <div class="actions-row">
+    <button class="btn-primary" (click)="pay()">Proceed to payment</button>
+    <button class="btn-secondary" (click)="edit()">Edit</button>
   </div>
 </div>
 

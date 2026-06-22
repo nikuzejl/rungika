@@ -1,49 +1,9 @@
-h1 {
-    text-align: center;
-    font-weight: bold;
+.summary-page {
+  padding: 2rem 0 3rem;
+  text-align: center;
 }
 
-.continue-button, .edit-button {
-    color: white;
-    font-size: large;
-    font-weight: bold;
-    background-color: rgb(0, 174, 255);
-    border-color: rgb(0, 174, 255);
-    border-radius: 20px;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-.card-container {
-    margin-left: 5%;
-    margin-right: 5%;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.card {
-    width: 30%;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    background-color: rgb(139, 212, 177);
-    padding: 10px;
-    margin: 10px;
-}
-
-.detail-label{
-    font-weight: bold;
-}
-
-.card-content {
-    max-width: 100%;
-}
-
-@media (max-width: 767px) {
-    .card {
-        width: 100%;
-    }
+.summary-page .page-title,
+.summary-page .page-subtitle {
+  padding: 0 1.5rem;
 }

@@ -1,19 +1,25 @@
-<header>
-  <div class="logo" (click)="routeTo('')">
-    <img alt="logo" src="./../../../assets/logo-circular.png" />
+<header class="app-header">
+  <div class="header-brand" (click)="routeTo('')">
+    <img alt="Rungika logo" src="./../../../assets/logo-circular.png" />
+    <span class="brand-name">Rungika</span>
   </div>
-  <div class="header-item" [class.selected]="isSelected('/home')" (click)="routeTo('home')">Home</div>
-  <div class="header-item" [class.selected]="isSelected('/how-it-works')" (click)="routeTo('/how-it-works')">How it
-    works</div>
-  <div class="header-item" [class.selected]="isSelected('/who-we-are')" (click)="routeTo('/who-we-are')">Who we are
+
+  <nav class="header-nav">
+    <button type="button" class="nav-link" [class.active]="isSelected('/home')" (click)="routeTo('home')">Home</button>
+    <button type="button" class="nav-link" [class.active]="isSelected('/how-it-works')" (click)="routeTo('/how-it-works')">How it works</button>
+    <button type="button" class="nav-link" [class.active]="isSelected('/who-we-are')" (click)="routeTo('/who-we-are')">Who we are</button>
+  </nav>
+
+  <div class="header-auth" *ngIf="!credentials.loggedIn">
+    <button type="button" class="nav-link" [class.active]="isSelected('/login')" (click)="routeTo('login')">Log in</button>
+    <button type="button" class="btn-signup" (click)="routeTo('signup')">Sign up</button>
   </div>
-  <div *ngIf="!credentials.loggedIn">
-    <span class="header-item" [class.selected]="isSelected('/login')" (click)="routeTo('login')">Log in</span>&#160;
-    &#160;
-    <span class="header-item" [class.selected]="isSelected('/signup')" (click)="routeTo('signup')">Sign up</span>
-  </div>
-  <div *ngIf="credentials.loggedIn">
-    <a id="account-link" routerLink='/account-details'>My account</a>
+
+  <div class="header-auth" *ngIf="credentials.loggedIn">
+    <a class="account-link" routerLink="/account-details">My account</a>
   </div>
 </header>
-<router-outlet></router-outlet>
+
+<main class="app-main">
+  <router-outlet></router-outlet>
+</main>

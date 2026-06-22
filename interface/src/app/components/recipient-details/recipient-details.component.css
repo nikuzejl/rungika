@@ -1,71 +1,19 @@
-.signup-success {
-  text-align: center;
-  margin-top: 20px;
+.recipient-page {
+  flex-direction: column;
+  align-items: center;
 }
 
-.whole-page{
+.recipient-grid {
+  display: flex;
   justify-content: center;
-}
-
-@media (min-width: 900px) {
-  .whole-page {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .sender-form, .receiver-form {
-    margin: auto;
-  }
-}
-
-.login-container {
-  text-align: center;
-}
-
-.login-content {
+  gap: 2rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 960px;
 }
 
-.login-toolbar {
-  display: flex;
-  justify-content: center;
-}
-
-.message {
-  margin-top: 20px;
-}
-
-mat-form-field {
-  width: 80%;
-  margin-top: 10px;
-}
-
-.center-container {
-  display: flex;
-  justify-content: center;
-}
-
-mat-card {
-  background-color: #cee3ec;
-}
-
-.center-button.valid {
-  font-size: large;
-  font-weight: bold;
-  color: white;
-  background-color: rgb(18, 159, 219);
-  width: 180px;
-  border-radius: 20px;
-  border-color: rgb(18, 159, 219);
-}
-
-.center-button.invalid {
-  font-size: large;
-  font-weight: bold;
-  color: black;
-  background-color: rgb(171, 185, 191);
-  width: 180px;
-  border-radius: 20px;
-  border-color: rgb(171, 185, 191);
+@media (max-width: 900px) {
+  .recipient-grid {
+    flex-direction: column;
+    align-items: center;
+  }
 }
