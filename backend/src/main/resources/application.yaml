@@ -1,0 +1,39 @@
+server.port: 10000
+
+stripe:
+  public.key: something
+  secret.key: something
+
+emailSenderAddress: something
+
+apiKey: something
+
+currencyApiUrl: https://open.er-api.com/v6/latest/
+
+spring:
+  data.mongodb:
+    uri: something
+    database: something
+
+  mail:
+    host: something
+    port: 587
+    username: something
+    password: something
+    properties.mail.smtp:
+      auth: true
+      enable: true
+
+email:
+  notification:
+    enabled: false
+
+jwt:
+  cookieName: rungikaCookie
+  secret: something
+  expirationMs: 86400000
+
+orderTrackingBaseUrl: http://localhost:4200
+
+cancelUrl: 'http://localhost:4200/cancel'
+successUrl: 'http://localhost:4200/success'

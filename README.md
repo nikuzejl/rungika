@@ -1,43 +1,30 @@
-# Rungika
+# Rungika - Remittance Application
 
-## API documentation
+## Description
 
-Swagger UI: http://localhost:8080/swagger-ui/index.html
+This project consists of a frontend and backend application for a remittance platform.
 
-## Run the Spring Boot backend
-
-```bash
-mvn clean spring-boot:run
-```
-
-## Update and deploy
-
-1. Run `gradle build`
-2. Push the `main` branch to the remote Git repository
-3. After a few minutes, changes are deployed to https://rungika.onrender.com (managed in the [Render dashboard](https://dashboard.render.com/))
-
-## Image upload and retrieval tutorial
-
-https://www.javainuse.com/fullstack/imageupload
-
-## Deploy Angular with Spring Boot in the same executable JAR
-
-https://marco.dev/angular-with-java
-
-## Docker
+## Running the Application
+### Frontend
 
 ```bash
-docker build -t nikuzejl/rungika-server:latest .
-docker run -p 10000:10000 nikuzejl/rungika-server:latest
+cd frontend
+ng serve
 ```
 
-## Troubleshooting 403 errors
+### Backend
 
-https://community.render.com/t/direct-link-403-issue/9374/3
+```bash
+cd backend
+mvn spring-boot:run
+```
 
-## Other links
+## Build and Deployment
+### Frontend
+- `cd frontend`  
+- `ng build --configuration production`  
+- Upload `fronted/dist` files to https://app.netlify.com/projects/rungika/overview
 
-- https://www.youtube.com/watch?v=KxqlJblhzfI&t=10s
-- https://www.youtube.com/watch?v=o8DEk4XGcZw
-- https://github.com/bezkoder/angular-16-jwt-auth
-- https://github.com/bezkoder/spring-boot-login-mongodb
+### Backend
+- Push the `main` branch to the remote Git repository  
+- The application will be automatically deployed a few minutes later. Check status on https://dashboard.render.com/

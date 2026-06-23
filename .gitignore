@@ -1,78 +1,23 @@
 HELP.md
-.gradle
+.run
+.gradle/
+.idea/
+.vscode/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+*.war
 
-### VS code ###
-.vscode
+**/node_modules/
+**/dist/
+**/out/
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+npm-debug.log
+yarn-error.log
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+**/.angular/
+**/libs/
+**/bin/
+**/build/
 
-# System files
 .DS_Store
-
-### FRONTEND ###
-# Compiled output
-interface/dist
-interface/tmp
-interface/out-tsc
-interface/bazel-out
-
-# Node
-interface/node_modules
-interface/npm-debug.log
-interface/yarn-error.log
-
-# IDEs and editors
-interface/.idea/
-interface/.project
-interface/.classpath
-interface/.c9/
-interface/*.launch
-interface/.settings/
-interface/*.sublime-workspace
-
-# Visual Studio Code
-interface/.vscode/*
-interface/!.vscode/settings.json
-interface/!.vscode/tasks.json
-interface/!.vscode/launch.json
-interface/!.vscode/extensions.json
-interface/.history/*
-
-# Miscellaneous
-interface/.angular/cache
-interface/.sass-cache/
-interface/connect.lock
-interface/coverage
-interface/libpeerconnection.log
-interface/testem.log
-interface/typings
-
-# System files
-interface/.DS_Store
-interface/Thumbs.db

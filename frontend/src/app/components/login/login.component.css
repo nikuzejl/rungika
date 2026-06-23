@@ -1,0 +1,13 @@
+.auth-page .form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.auth-page .mat-mdc-form-field {
+  width: 100%;
+}
+
+.auth-page .helper-text {
+  margin-top: 1.25rem;
+}
