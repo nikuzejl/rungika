@@ -4,9 +4,9 @@
   <div class="hero-layout">
     <div class="hero-copy">
       <p class="hero-eyebrow">Fast & transparent remittances</p>
-      <h1>Send money home with confidence</h1>
+      <h1>Send money with confidence</h1>
       <p class="hero-description">
-        Competitive rates, real-time conversion, and delivery to mobile wallets or bank accounts across East Africa.
+        Competitive rates, real-time conversion, and delivery to mobile wallets or bank accounts across Africa.
       </p>
     </div>
 
@@ -17,7 +17,7 @@
 
       <div *ngIf="!exchangeRateError[0]">
         <div class="rate-header">
-          <span class="rate-label">Live exchange rate</span>
+          <span class="rate-label">Exchange rate</span>
           <div class="rate-value">
             1 {{ form.value.fromCurrency }} = {{ rate | number : '1.2-2' }} {{ form.value.toCurrency }}
           </div>
@@ -110,4 +110,30 @@
   </div>
 </section>
 
-<app-footer></app-footer>
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-column">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Track a Transfer</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="copyright">
+        &copy; 2026 Rungika. All rights reserved.
+      </div>
+    </div>
+  </div>
+</footer>
