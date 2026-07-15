@@ -13,7 +13,7 @@ import { Router } from '@angular/router'
 })
 export class RecipientDetailsComponent {
   sendFormValid = false
-  currentStep="sender"
+  currentStep = 'sender'
   senderAndReceiverFormsCompleted = false
   loggedIn = false
   senderForm!: FormGroup
@@ -25,22 +25,22 @@ export class RecipientDetailsComponent {
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
-    private router: Router) { 
+    private router: Router) {
       this.transactionDetails = this.transactionService.getTransactionDetails()
     }
 
   ngOnInit() {
     this.loggedIn = this.authService.credentials.loggedIn
     this.createForms()
-    
-    if(this.loggedIn){
-      this.senderForm.get("lastName")!.setValue(this.authService.credentials.lastName)
-      this.senderForm.get("firstName")!.setValue(this.authService.credentials.firstName)
-      this.senderForm.get("email")!.setValue(this.authService.credentials.email)
-      this.currentStep ="receiver"
+
+    if (this.loggedIn) {
+      this.senderForm.get('lastName')!.setValue(this.authService.credentials.lastName)
+      this.senderForm.get('firstName')!.setValue(this.authService.credentials.firstName)
+      this.senderForm.get('email')!.setValue(this.authService.credentials.email)
+      this.senderForm.get('phone')!.setValue(this.authService.credentials.phone)
     }
 
-    if(this.transactionService.getTransactionDetails()==null){
+    if (this.transactionService.getTransactionDetails() == null) {
       this.router.navigate(['/home'])
     }
   }
@@ -50,34 +50,34 @@ export class RecipientDetailsComponent {
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
-    });
-    
+      phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+    })
+
     this.receiverForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
-    });
+      phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+    })
   }
 
   continue() {
-      if(this.currentStep=="sender" && this.senderForm.valid){
-        this.currentStep="receiver"
-      }
-      else if (this.currentStep=="receiver" && this.receiverForm.valid){
-        this.senderAndReceiverFormsCompleted = true
-      }
+    if (this.currentStep == 'sender' && this.senderForm.valid) {
+      this.currentStep = 'receiver'
+    } else if (this.currentStep == 'receiver' && this.receiverForm.valid) {
+      this.senderAndReceiverFormsCompleted = true
+    }
   }
 
-  formValid(){
-    if(this.currentStep=="sender")
-       return this.senderForm.valid
+  formValid() {
+    if (this.currentStep == 'sender') {
+      return this.senderForm.valid
+    }
 
-    else if (this.currentStep="receiver") 
-       return this.receiverForm.valid
+    if (this.currentStep == 'receiver') {
+      return this.receiverForm.valid
+    }
 
-    return false;
+    return false
   }
 }
-

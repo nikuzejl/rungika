@@ -63,10 +63,12 @@ public class AuthController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(new UserInfoResponse(userDetails.getId(),
+                .body(new UserInfoResponse(
+                        userDetails.getId(),
                         userDetails.getFirstName(),
                         userDetails.getLastName(),
                         userDetails.getEmail(),
+                        userDetails.getPhone(),
                         roles));
     }
 
@@ -78,9 +80,11 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        User user = new User(signUpRequest.getFirstName(),
+        User user = new User(
+                signUpRequest.getFirstName(),
                 signUpRequest.getLastName(),
                 signUpRequest.getEmail(),
+                signUpRequest.getPhone(),
                 encoder.encode(signUpRequest.getPassword()));
 
         Set<String> strRoles = signUpRequest.getRoles();

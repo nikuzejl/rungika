@@ -7,13 +7,15 @@ public class UserInfoResponse {
     private String firstName;
     private String lastName;
     private String email;
+    private String phone;
     private List<String> roles;
 
-    public UserInfoResponse(String id, String firstName, String lastName, String email, List<String> roles) {
+    public UserInfoResponse(String id, String firstName, String lastName, String email, String phone, List<String> roles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.phone = phone;
         this.roles = roles;
     }
 
@@ -37,19 +39,31 @@ public class UserInfoResponse {
         return firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public List<String> getRoles() {
         return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }

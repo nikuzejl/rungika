@@ -1,6 +1,4 @@
 <section class="hero-section">
-  <div class="hero-overlay"></div>
-
   <div class="hero-layout">
     <div class="hero-copy">
       <p class="hero-eyebrow">Fast & transparent remittances</p>
@@ -30,7 +28,7 @@
               <div class="currency-row">
                 <mat-form-field appearance="outline" class="amount-field">
                   <input type="number" matInput formControlName="amount" placeholder="0.00">
-                  <mat-error *ngIf="form.get('amount')?.hasError('max')">You cannot send more than {{ maxSendAmount }}</mat-error>
+                  <mat-error *ngIf="form.get('amount')?.hasError('max')">Enter a value less than {{ maxSendAmount }}</mat-error>
                   <mat-error *ngIf="form.get('amount')?.hasError('min')">You cannot send less than 10.00</mat-error>
                   <mat-error *ngIf="form.get('amount')?.hasError('pattern')">Only enter numerical values</mat-error>
                 </mat-form-field>

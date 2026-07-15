@@ -1,12 +1,7 @@
 <div class="page-center">
-  <div *ngIf="isLoggedIn" class="auth-page status-message success">
-  Logged in! <a routerLink="/home">Start new transfer</a>
-  </div>
-
-  <div *ngIf="!isLoggedIn" class="auth-page">
-    <h2>Welcome back</h2>
+  <div class="auth-page">
     <p class="page-subtitle">Sign in to manage your transfers and account.</p>
-    <p class="helper-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+    <p class="helper-text login-status" *ngIf="isLoggingIn">Logging in...</p>
 
     <mat-card class="form-card">
       <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit(form)">
@@ -22,7 +17,10 @@
           <input type="password" autocomplete="false" matInput formControlName="password">
         </mat-form-field>
 
-        <button type="submit" class="btn-primary btn-block">Log in</button>
+        <button type="submit" class="btn-primary btn-block" [disabled]="isLoggingIn">
+          {{ isLoggingIn ? 'Logging in...' : 'Log in' }}
+        </button>
+        <p class="login-error" *ngIf="errorMessage">{{ errorMessage }}</p>
       </form>
     </mat-card>
 

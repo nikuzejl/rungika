@@ -1,12 +1,20 @@
 <div class="page-center recipient-page" *ngIf="!senderAndReceiverFormsCompleted">
   <div class="recipient-grid">
-    <form *ngIf="!loggedIn && currentStep == 'sender'" class="sender-form auth-page">
+    <form *ngIf="currentStep == 'sender'" class="sender-form auth-page">
       <h2>Sender details</h2>
-      <p class="page-subtitle">Tell us who is sending the money.</p>
+      <p class="page-subtitle" *ngIf="loggedIn">Your sender details are from your account.</p>
+      <p class="page-subtitle" *ngIf="!loggedIn">Tell us who is sending the money.</p>
       <p class="helper-text" *ngIf="errorMessage">{{ errorMessage }}</p>
 
       <mat-card class="form-card">
-        <form [formGroup]="senderForm" #formDirective="ngForm">
+        <div class="account-info" *ngIf="loggedIn">
+          <div class="info-row"><span>First name</span><strong>{{ senderForm.value.firstName }}</strong></div>
+          <div class="info-row"><span>Last name</span><strong>{{ senderForm.value.lastName }}</strong></div>
+          <div class="info-row"><span>Email</span><strong>{{ senderForm.value.email }}</strong></div>
+          <div class="info-row"><span>Phone number</span><strong>{{ senderForm.value.phone }}</strong></div>
+        </div>
+
+        <form [formGroup]="senderForm" #formDirective="ngForm" *ngIf="!loggedIn">
           <mat-form-field appearance="outline">
             <mat-label>First name</mat-label>
             <mat-icon matPrefix>person_outline</mat-icon>
@@ -34,7 +42,7 @@
             <mat-icon matPrefix>phone</mat-icon>
             <input type="text" matInput formControlName="phone">
             <mat-error *ngIf="senderForm.get('phone')!.hasError('required')">Phone number is required</mat-error>
-            <mat-error *ngIf="senderForm.get('phone')!.hasError('phone')">Phone number is formed by digits only</mat-error>
+            <mat-error *ngIf="senderForm.get('phone')!.hasError('pattern')">Phone number is formed by digits only</mat-error>
           </mat-form-field>
         </form>
       </mat-card>
@@ -74,7 +82,7 @@
             <mat-icon matPrefix>phone</mat-icon>
             <input type="text" matInput formControlName="phone">
             <mat-error *ngIf="receiverForm.get('phone')!.hasError('required')">Phone number is required</mat-error>
-            <mat-error *ngIf="senderForm.get('phone')!.hasError('phone')">Phone number is formed by digits only</mat-error>
+            <mat-error *ngIf="receiverForm.get('phone')!.hasError('pattern')">Phone number is formed by digits only</mat-error>
           </mat-form-field>
         </form>
       </mat-card>

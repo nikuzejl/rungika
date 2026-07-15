@@ -21,7 +21,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User createUser(String firstName, String lastName, String email, String password) throws Exception {
+    public User createUser(String firstName, String lastName, String email, String phone, String password) throws Exception {
         if (userRepository.existsByEmail(email)) {
             throw new Exception("Email already taken");
         }
@@ -31,6 +31,7 @@ public class UserService {
         newUser.setFirstName(firstName);
         newUser.setLastName(lastName);
         newUser.setEmail(email);
+        newUser.setPhone(phone);
         newUser.setPassword(hashedPassword);
         return userRepository.save(newUser);
     }

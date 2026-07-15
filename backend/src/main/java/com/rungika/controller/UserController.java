@@ -20,7 +20,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         try {
-            userService.createUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
+            userService.createUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhone(), user.getPassword());
             return ResponseEntity.ok("User registered successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Email already taken. Login or use a different email");

@@ -11,14 +11,18 @@
   </nav>
 
   <div class="header-auth" *ngIf="!credentials.loggedIn">
-    <button type="button" class="nav-link" [class.active]="isSelected('/login')" (click)="routeTo('login')">Log in</button>
+    <button type="button" class="btn-login" [class.active]="isSelected('/login')" (click)="routeTo('login')">Log in</button>
     <button type="button" class="btn-signup" (click)="routeTo('signup')">Sign up</button>
   </div>
 
   <div class="header-auth" *ngIf="credentials.loggedIn">
-    <a class="account-link" routerLink="/account-details">My account</a>
+    <a class="account-link" routerLink="/account-details">{{ credentials.firstName }}</a>
   </div>
 </header>
+
+<div class="global-toast" *ngIf="showToast">
+  {{ toastMessage }}
+</div>
 
 <main class="app-main">
   <router-outlet></router-outlet>

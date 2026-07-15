@@ -4,12 +4,6 @@
   background: url('/assets/send-dollars.jpeg') center/cover no-repeat;
 }
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(8, 90, 135, 0.82), rgba(11, 122, 181, 0.55));
-}
-
 .hero-layout {
   position: relative;
   z-index: 1;
@@ -25,6 +19,10 @@
 
 .hero-copy {
   color: #fff;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: rgba(8, 26, 41, 0.5);
+  backdrop-filter: blur(2px);
 }
 
 .hero-eyebrow {

@@ -1,1 +1,8 @@
 /* Uses shared auth-page and form-card styles from global stylesheet */
+
+.actions-row .signup-error {
+  margin: 0.75rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-error);
+}

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormGroupDirective } from '@angular/forms'
+import { FormGroup, FormControl } from '@angular/forms'
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { TimeoutError, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +12,10 @@ import { AuthService } from 'src/app/services/auth.service';
 
 export class LoginComponent implements OnInit {
   errorMessage = ''
-  isLoggedIn = false
+  isLoggingIn = false
   form!: FormGroup
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.createForm();
@@ -27,23 +29,42 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(formData: FormGroup) {
+    if (this.isLoggingIn) {
+      return
+    }
+
     const email = formData.value.email;
     const password = formData.value.password;
+    this.errorMessage = ''
+    this.isLoggingIn = true
 
     this.authService.login(email, password)
+      .pipe(timeout(5000))
       .subscribe({
         next: data => {
-          this.isLoggedIn = true
+          this.isLoggingIn = false
+          console.log("##############")
+          console.log(data)
           this.authService.updateCredentials(
             data.firstName,
             data.lastName,
             data.email,
             data.phone
           )
+          this.router.navigate(['/home'], {
+            queryParams: {
+              toast: 'login',
+              name: data.firstName
+            }
+          })
         },
         error: err => {
-          this.errorMessage = err.error.error
-          this.isLoggedIn = false
+          this.isLoggingIn = false
+          if (err instanceof TimeoutError) {
+            this.errorMessage = 'Login failed... Please try again.'
+          } else {
+            this.errorMessage = err?.error?.error || 'Login failed. Please check your credentials and try again.'
+          }
         }
       })
   }
