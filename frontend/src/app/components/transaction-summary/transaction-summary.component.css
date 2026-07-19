@@ -1,6 +1,26 @@
 .summary-page {
   padding: 2rem 0 3rem;
+}
+
+.payment-error-row {
+  display: flex;
+  justify-content: center;
+  padding: 0 1.5rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.payment-error {
+  margin: 0;
+  max-width: 42rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 1px solid #f5c2c7;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
+  color: #b42318;
   text-align: center;
+  font-weight: 600;
+  box-shadow: 0 10px 28px rgba(180, 35, 24, 0.12);
 }
 
 .summary-page .page-title,

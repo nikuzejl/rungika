@@ -43,8 +43,6 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: data => {
           this.isLoggingIn = false
-          console.log("##############")
-          console.log(data)
           this.authService.updateCredentials(
             data.firstName,
             data.lastName,

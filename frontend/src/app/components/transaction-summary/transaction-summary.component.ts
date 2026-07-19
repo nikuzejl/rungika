@@ -15,12 +15,14 @@ export class TransactionSummaryComponent {
   @Input() receiverDetails: any
   @Input() transactionDetails: any
   showSpinner = false
+  paymentError: string | null = null
   stripePromise = loadStripe(environment.STRIPE_PUBLIC_KEY)
 
   constructor(private http: HttpClient, private router: Router) { }
 
   async pay(): Promise<void> {
     this.showSpinner = true
+    this.paymentError = null
     const convertedAmountControl = this.transactionDetails.get('convertedAmount')
     const amount = this.transactionDetails.get('amount')
 
@@ -28,19 +30,31 @@ export class TransactionSummaryComponent {
       const payment = { transferDetails: this.transactionDetails.value}
       const stripe = await this.stripePromise
       if (stripe) {
+        const timeout = setTimeout(() => {
+          this.showSpinner = false
+          this.paymentError = 'Payment submission timed out. Please try again.'
+        }, 5000)
+
         this.http
           .post(environment.serverUrl + '/api/v1/payment/submit-details', payment)
-          .subscribe((data: any) => {
-            this.showSpinner = false
-            stripe.redirectToCheckout({
-              sessionId: data.id,
-            })
+          .subscribe({
+            next: (data: any) => {
+              clearTimeout(timeout)
+              this.showSpinner = false
+              stripe.redirectToCheckout({ sessionId: data.id })
+            },
+            error: (err) => {
+              clearTimeout(timeout)
+              this.showSpinner = false
+              this.paymentError = 'Payment submission failed. Please try again.'
+              console.error('Payment error:', err)
+            }
           })
       } else {
+        this.showSpinner = false
+        this.paymentError = 'Payment service is unavailable. Please try again.'
         console.error('Stripe is not initialized.')
       }
-    } else {
-
     }
   }
 

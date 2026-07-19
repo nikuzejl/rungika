@@ -1,19 +1,23 @@
 server.port: 10000
 
 stripe:
-  public.key: something
-  secret.key: something
+  public.key: 'pk_test_51OmqgjFsWGFo4Y3nLgVis914BtL6DKrGic0W1b1jkApuK9nI7Sx6os8w5jODVEgU0zBPvZxqV9H3M4cF7Rofx3A900BsFIA5Z8'
+  secret.key: 'sk_test_51OmqgjFsWGFo4Y3nSGU5Wm3VM9YkqzpWSQjpZcleYEnl0plYAQXbLf0WEojz3jKIsvgtFY5Bluzs6GiYL8WVaFec00z3RZz68z'
 
-emailSenderAddress: something
-
-apiKey: something
-
-currencyApiUrl: https://open.er-api.com/v6/latest/
+exchange:
+  rate:
+    api:
+      url: https://open.er-api.com/v6/latest/
+      key: something
+      timeout: 5000
+    cache:
+        ttl:
+          minutes: 30
 
 spring:
   data.mongodb:
-    uri: something
-    database: something
+    uri: "mongodb+srv://nikuzejl:MweneMasabo123@masabo.ckotgan.mongodb.net/?appName=masabo"
+    database: 'rungika'
 
   mail:
     host: something
@@ -30,10 +34,10 @@ email:
 
 jwt:
   cookieName: rungikaCookie
-  secret: something
+  secret: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0NHVaYe26MbtOYhSKkoKYdFVomg4i8ZJd8RU8VNbftc4TSMb4bXP3l3YlNWACwyXPGffz5aXHc6lty1Y2t4SWRqGteragsVdZufDn5BlnJl9pdRkdVFUsra2rWKEofkZeIC4yWytE58sMIihvo9H1ScmmVwBcQP6XETqYd0aSHp1gOa9RdUPDvoXQ5oqygTqVtxaDr6wUFKrKItgBMzWIdNZ6y7O9E0DhEPTbE9rfBo6KTFsHAZnMg4k68CDp2woYIaXbmYTWcvbzIuHO737GT79XdIwkm95QJ7hYC9RiwrV7mesbY4PAahERJawntho0my942XheVLmGwLMBkQ'
   expirationMs: 86400000
 
-orderTrackingBaseUrl: http://localhost:4200
+orderTrackingBaseUrl: https://rungika.netlify.app/#/track/
 
 cancelUrl: 'http://localhost:4200/cancel'
 successUrl: 'http://localhost:4200/success'

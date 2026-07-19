@@ -30,7 +30,10 @@ mvn spring-boot:run
 - The application will be automatically deployed a few minutes later. Check status on https://dashboard.render.com/
 
 TO-DO:
+- remove hard-coded exchange rates
+- update render env variable names
 - make sure emails and phone used once
+- make stripe work
 - mange account: change name and phone
 - delete account
 - change email and reset password

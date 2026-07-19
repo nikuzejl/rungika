@@ -22,8 +22,6 @@ export class AccountDetailsComponent {
       this.signedIn = this.authService.credentials.loggedIn
       if (this.signedIn) {
         this.user = this.authService.credentials
-        console.log("=======================================")
-        console.log(this.user)
       }
     }
   

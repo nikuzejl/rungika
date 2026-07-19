@@ -98,7 +98,7 @@ export class ExchangeRateComponent {
       this.transactionService.setTransactionDetails(this.form)
       this.router.navigate(['/recipient-details'])
     } else {
-      console.log('Invalid form')
+      console.log('Invalid form' + this.form)
     }
   }
 }

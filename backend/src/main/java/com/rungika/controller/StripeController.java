@@ -18,7 +18,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/v1/payment/")
 public class StripeController {
     @Value("${stripe.secret.key}")
-    String apiKey;
+    String exchangeRateApiKey;
 
     @Value("${cancelUrl}")
     String cancelUrl;
@@ -46,7 +46,7 @@ public class StripeController {
     }
 
     public String handleRequest(CheckoutPayment payment) throws StripeException {
-        init(apiKey);
+        init(exchangeRateApiKey);
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT).setSuccessUrl(payment.getSuccessUrl())

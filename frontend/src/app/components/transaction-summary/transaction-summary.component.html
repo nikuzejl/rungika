@@ -49,6 +49,10 @@
     </div>
   </div>
 
+  <div *ngIf="paymentError" class="payment-error-row">
+    <p class="payment-error">{{ paymentError }}</p>
+  </div>
+
   <div class="actions-row">
     <button class="btn-primary" (click)="pay()">Proceed to payment</button>
     <button class="btn-secondary" (click)="edit()">Edit</button>
