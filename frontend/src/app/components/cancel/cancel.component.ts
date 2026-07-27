@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http'
 import { Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-cancel',
@@ -9,27 +7,22 @@ import { environment } from 'src/environments/environment'
   styleUrls: ['./cancel.component.css']
 })
 export class CancelComponent {
-  orderNumber: any
+  reason: string | null = null
+  statusMessage = 'Your payment was canceled or failed before completion.'
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.orderNumber = params.get('orderId')
+    this.route.queryParamMap.subscribe(params => {
+      this.reason = params.get('reason')
+
+      if (this.reason === 'verification_error') {
+        this.statusMessage = 'We could not verify your payment status. Please try again.'
+      } else if (this.reason === 'missing_session') {
+        this.statusMessage = 'Missing payment session. Please retry checkout from transaction summary.'
+      } else if (this.reason && this.reason !== 'null') {
+        this.statusMessage = `Payment was not completed (${this.reason}). Please try again.`
+      }
     })
-    this.sendCancelEmail(this.orderNumber)
-  }
-
-  async sendCancelEmail(orderNumber: number) {
-    const query = {
-      orderId: orderNumber
-    }
-    try {
-      const response = await this.http.post(environment.serverUrl + '/send-cancel-order-email', query).toPromise()
-      console.log('Response:', response)
-    } catch (error) {
-      console.error('Error:', error)
-    }
-
   }
 }

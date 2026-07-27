@@ -64,6 +64,18 @@ export class TransactionSummaryComponent {
           // the server. This is Stripe's current recommended approach and avoids
           // relying on the client-side redirectToCheckout(sessionId) API.
           if (data.url) {
+            // Store transfer details in sessionStorage for retrieval on success page
+            const transferData = {
+              senderName: this.senderDetails.value.firstName + ' ' + this.senderDetails.value.lastName,
+              senderEmail: this.senderDetails.value.email,
+              recipientName: this.receiverDetails.value.firstName + ' ' + this.receiverDetails.value.lastName,
+              recipientEmail: this.receiverDetails.value.email,
+              amount: this.transactionDetails.value.amount,
+              fromCurrency: this.transactionDetails.value.fromCurrency,
+              convertedAmount: this.transactionDetails.value.convertedAmount,
+              toCurrency: this.transactionDetails.value.toCurrency
+            }
+            sessionStorage.setItem('transferData', JSON.stringify(transferData))
             window.location.href = data.url
             return
           }

@@ -142,7 +142,7 @@ export class SignupComponent {
             if (err instanceof TimeoutError) {
               this.errorMessage = 'Sign up failed after 5 seconds. Please try again.'
             } else {
-              this.errorMessage = err?.error?.error || 'Sign up failed. Please try again.'
+              this.errorMessage = err?.error?.message || 'Sign up failed. Please try again.'
             }
           }
         })

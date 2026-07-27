@@ -39,5 +39,5 @@ jwt:
 
 orderTrackingBaseUrl: https://rungika.netlify.app/#/track/
 
-cancelUrl: 'http://localhost:4200/cancel'
-successUrl: 'http://localhost:4200/success'
+cancelUrl: 'http://localhost:4200/#/payment-failed'
+successUrl: 'http://localhost:4200/#/success'

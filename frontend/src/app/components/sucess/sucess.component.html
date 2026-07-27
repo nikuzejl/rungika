@@ -1,3 +1,18 @@
-<div class="page-center">
-  <p class="status-message success">Order {{ orderNumber }} is successfully submitted.</p>
+<div class="page-center" *ngIf="!showSpinner">
+  <div class="auth-page form-card status-card">
+    <h2 class="status-title success" *ngIf="paymentSuccess">Payment successful</h2>
+    <h2 class="status-title" *ngIf="!paymentSuccess">Payment status unknown</h2>
+    <p class="status-message" *ngIf="!orderId">{{ statusMessage }}</p>
+    <div *ngIf="paymentSuccess && orderId" class="order-success-details">
+      <p class="status-message">Transfer completed successfully!</p>
+      <p><strong>Order ID: #{{ orderId }}</strong></p>
+      <p class="confirmation-note">Confirmation emails have been sent to both the sender and recipient.</p>
+    </div>
+    <div *ngIf="!paymentSuccess" class="status-message">{{ statusMessage }}</div>
+    <div class="actions-row">
+      <button class="btn-primary" routerLink="/home">Back to Home</button>
+    </div>
+  </div>
 </div>
+
+<app-spinner *ngIf="showSpinner"></app-spinner>

@@ -67,10 +67,8 @@ public class WebSecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
                         .requestMatchers("/login", "/logout").permitAll()
-                        .requestMatchers("/api/v1/rate/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/v1/order/submit/**").permitAll()
-                        .requestMatchers("/api/v1/payment/submit/**").permitAll()
+                        .requestMatchers("/api/v1/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

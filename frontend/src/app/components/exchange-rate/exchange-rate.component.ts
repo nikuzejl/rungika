@@ -23,6 +23,7 @@ export class ExchangeRateComponent {
   programmaticUpdate = false
   orderId = ""
   exchangeRateError: any[] = []
+  isLoadingRates = true
 
   constructor(
     private router: Router,
@@ -31,14 +32,17 @@ export class ExchangeRateComponent {
 
   ngOnInit() {
     this.exchangeRateError[0] = false
+    this.isLoadingRates = true
     this.currencyService.initializeRates()
       .then(() => {
         this.createForm()
         this.currencyService.initializeRates()
         this.rate = this.currencyService.getRate("USD", "BIF") || 0.0
+        this.isLoadingRates = false
       })
       .catch(error => {
         this.exchangeRateError[0] = true
+        this.isLoadingRates = false
         console.error('Failed to initialize currencies', error)
       })
   }

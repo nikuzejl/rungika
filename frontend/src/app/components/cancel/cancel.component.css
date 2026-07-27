@@ -1,0 +1,16 @@
+.status-card {
+	text-align: center;
+}
+
+.status-title {
+	margin-bottom: 0.75rem;
+}
+
+.status-title.failure {
+	color: var(--color-error);
+}
+
+.status-message {
+	color: var(--color-text-muted);
+	margin-bottom: 1.25rem;
+}

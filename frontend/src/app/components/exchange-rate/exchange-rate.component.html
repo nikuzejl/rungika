@@ -9,11 +9,16 @@
     </div>
 
     <mat-card class="transfer-card">
-      <div *ngIf="exchangeRateError[0]" class="error-banner">
+      <div *ngIf="isLoadingRates" class="loading-spinner">
+        <app-spinner></app-spinner>
+        <p class="loading-text">Loading exchange rates...</p>
+      </div>
+
+      <div *ngIf="!isLoadingRates && exchangeRateError[0]" class="error-banner">
         We are not able to find the latest exchange rates. Please try again later.
       </div>
 
-      <div *ngIf="!exchangeRateError[0]">
+      <div *ngIf="!isLoadingRates && !exchangeRateError[0]">
         <div class="rate-header">
           <span class="rate-label">Exchange rate</span>
           <div class="rate-value">

@@ -16,7 +16,7 @@ ng serve
 
 ```bash
 cd backend
-mvn spring-boot:run
+mvn spring-boot:run or .\gradlew.bat bootRun
 ```
 
 ## Build and Deployment
@@ -30,15 +30,14 @@ mvn spring-boot:run
 - The application will be automatically deployed a few minutes later. Check status on https://dashboard.render.com/
 
 TO-DO:
+- makestripe work
+- mange account: change name and phone
+- delete account
 - remove hard-coded exchange rates
 - update render env variable names
 - make sure emails and phone used once
-- make stripe work
-- mange account: change name and phone
-- delete account
 - change email and reset password
 - Token timoeout-say logged in after page refresh
 - transaction history
 - transaction tracking
-
-
+- mode for hardcoded rates

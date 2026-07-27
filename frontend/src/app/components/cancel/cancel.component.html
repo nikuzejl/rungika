@@ -1,3 +1,10 @@
 <div class="page-center">
-  <p class="status-message">Order {{ orderNumber }} has been successfully cancelled.</p>
+  <div class="auth-page form-card status-card">
+    <h2 class="status-title failure">Payment not completed</h2>
+    <p class="status-message">{{ statusMessage }}</p>
+    <div class="actions-row">
+      <button class="btn-primary" routerLink="/home">Try Again</button>
+      <button class="btn-secondary" routerLink="/who-we-are">Need Help?</button>
+    </div>
+  </div>
 </div>

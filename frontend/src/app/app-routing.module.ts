@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: 'transfer', component: TransferComponent},
   { path: 'recipient-details', component: RecipientDetailsComponent},
   { path: 'cancel', component: CancelComponent},
+  { path: 'payment-failed', component: CancelComponent},
   { path: 'success', component: SucessComponent},
   { path: 'account-details', component: AccountDetailsComponent},
   { path: 'success/:orderId', component: SucessComponent },
