@@ -23,39 +23,71 @@ export class TransactionSummaryComponent {
   async pay(): Promise<void> {
     this.showSpinner = true
     this.paymentError = null
+
     const convertedAmountControl = this.transactionDetails.get('convertedAmount')
     const amount = this.transactionDetails.get('amount')
 
-    if (convertedAmountControl && amount) {
-      const payment = { transferDetails: this.transactionDetails.value}
-      const stripe = await this.stripePromise
-      if (stripe) {
-        const timeout = setTimeout(() => {
-          this.showSpinner = false
-          this.paymentError = 'Payment submission timed out. Please try again.'
-        }, 5000)
-
-        this.http
-          .post(environment.serverUrl + '/api/v1/payment/submit-details', payment)
-          .subscribe({
-            next: (data: any) => {
-              clearTimeout(timeout)
-              this.showSpinner = false
-              stripe.redirectToCheckout({ sessionId: data.id })
-            },
-            error: (err) => {
-              clearTimeout(timeout)
-              this.showSpinner = false
-              this.paymentError = 'Payment submission failed. Please try again.'
-              console.error('Payment error:', err)
-            }
-          })
-      } else {
-        this.showSpinner = false
-        this.paymentError = 'Payment service is unavailable. Please try again.'
-        console.error('Stripe is not initialized.')
-      }
+    if (!convertedAmountControl || !amount) {
+      this.showSpinner = false
+      this.paymentError = 'Missing transaction details.'
+      return
     }
+
+    const payment = { transferDetails: this.transactionDetails.value }
+    const stripe = await this.stripePromise
+    if (!stripe) {
+      this.showSpinner = false
+      this.paymentError = 'Payment service is unavailable. Please try again.'
+      console.error('Stripe is not initialized.')
+      return
+    }
+
+    // 5s maximum wait for submission/redirect
+    const timeout = setTimeout(() => {
+      this.showSpinner = false
+      this.paymentError = 'Payment submission timed out. Please try again.'
+    }, 5000)
+
+    this.http.post<{ id?: string, url?: string }>(environment.serverUrl + '/api/v1/payment/submit-details', payment)
+      .subscribe({
+        next: async (data) => {
+          clearTimeout(timeout)
+
+          if (!data || (!data.url && !data.id)) {
+            this.showSpinner = false
+            this.paymentError = 'Payment session could not be created. Please try again.'
+            console.error('Invalid checkout session response:', data)
+            return
+          }
+
+          // Preferred: redirect straight to the Checkout Session URL returned by
+          // the server. This is Stripe's current recommended approach and avoids
+          // relying on the client-side redirectToCheckout(sessionId) API.
+          if (data.url) {
+            window.location.href = data.url
+            return
+          }
+
+          // Fallback for older responses that only include a session id.
+          try {
+            const result = await stripe.redirectToCheckout({ sessionId: data.id as string })
+            if (result && result.error) {
+              this.showSpinner = false
+              this.paymentError = result.error.message || 'Stripe redirect failed.'
+            }
+          } catch (err) {
+            console.error('Stripe redirect error:', err)
+            this.showSpinner = false
+            this.paymentError = 'Stripe redirect failed. Please try again.'
+          }
+        },
+        error: (err) => {
+          clearTimeout(timeout)
+          this.showSpinner = false
+          this.paymentError = 'Payment submission failed. Please try again.'
+          console.error('Payment error:', err)
+        }
+      })
   }
 
   edit() {

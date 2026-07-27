@@ -54,7 +54,7 @@
   </div>
 
   <div class="actions-row">
-    <button class="btn-primary" (click)="pay()">Proceed to payment</button>
+    <button class="btn-primary" (click)="pay()" [disabled]="showSpinner" [attr.aria-busy]="showSpinner">Proceed to payment</button>
     <button class="btn-secondary" (click)="edit()">Edit</button>
   </div>
 </div>
