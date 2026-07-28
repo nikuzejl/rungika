@@ -13,17 +13,9 @@ export class HomeComponent {
   toastMessage = ''
   private toastTimer: ReturnType<typeof setTimeout> | null = null
 
-  credentials = {
-    loggedIn: false,
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: ''
-  }
+  credentials = this.authService.credentials
 
   constructor(private router: Router, private authService: AuthService) {
-    this.authService.credentials = this.credentials
-
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const parsedUrl = this.router.parseUrl(event.urlAfterRedirects)

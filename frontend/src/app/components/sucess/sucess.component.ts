@@ -83,13 +83,20 @@ export class SucessComponent {
       const confirmationPayload = {
         sessionId: sessionId,
         senderName: this.transferData.senderName,
+        senderFirstName: this.transferData.senderFirstName,
+        senderLastName: this.transferData.senderLastName,
         senderEmail: this.transferData.senderEmail,
+        senderPhone: this.transferData.senderPhone,
         recipientName: this.transferData.recipientName,
+        recipientFirstName: this.transferData.recipientFirstName,
+        recipientLastName: this.transferData.recipientLastName,
         recipientEmail: this.transferData.recipientEmail,
+        recipientPhone: this.transferData.recipientPhone,
         amount: this.transferData.amount,
         fromCurrency: this.transferData.fromCurrency,
         convertedAmount: this.transferData.convertedAmount,
-        toCurrency: this.transferData.toCurrency
+        toCurrency: this.transferData.toCurrency,
+        receiveMethod: this.transferData.receiveMethod
       }
 
       const response = await this.http

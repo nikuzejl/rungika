@@ -12,6 +12,32 @@
       <div class="info-row"><span>Phone number</span><strong>{{ user.phone }}</strong></div>
     </div>
 
+    <div class="orders-section">
+      <h3>Your orders</h3>
+
+      <p class="orders-message" *ngIf="ordersLoading">Loading orders...</p>
+      <p class="orders-message error" *ngIf="ordersErrorMessage">{{ ordersErrorMessage }}</p>
+      <p class="orders-message" *ngIf="!ordersLoading && !ordersErrorMessage && orders.length === 0">No orders yet.</p>
+
+      <div class="orders-list" *ngIf="!ordersLoading && !ordersErrorMessage && orders.length > 0">
+        <div class="order-row" *ngFor="let order of orders">
+          <div class="order-main">
+            <div class="order-headline">
+              <span class="order-label">Order #</span>
+              <strong>{{ order.orderId }}</strong>
+            </div>
+            <div class="order-detail"><span>Recipient:</span> {{ getRecipientDisplayName(order) }}</div>
+            <div class="order-detail"><span>Transfer:</span> {{ getTransferDisplay(order) }}</div>
+            <div class="order-detail"><span>Receive method:</span> {{ order.receiveMethod || 'N/A' }}</div>
+            <div class="order-detail" *ngIf="getTransactionTimeDisplay(order)">
+              <span>Time:</span> {{ order.transactionTime | date: 'medium' }}
+            </div>
+          </div>
+          <span class="order-status">{{ order.status }}</span>
+        </div>
+      </div>
+    </div>
+
     <div class="management-section">
       <h3>Account management</h3>
       

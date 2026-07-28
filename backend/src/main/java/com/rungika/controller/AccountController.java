@@ -1,10 +1,12 @@
 package com.rungika.controller;
 
 import com.rungika.config.security.services.UserDetailsImpl;
+import com.rungika.entity.Order;
 import com.rungika.entity.User;
 import com.rungika.payload.request.PasswordChangeRequest;
 import com.rungika.payload.response.MessageResponse;
 import com.rungika.repository.UserRepository;
+import com.rungika.service.OrderService;
 import com.rungika.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -28,6 +31,31 @@ public class AccountController {
 
     @Autowired
     private PasswordEncoder encoder;
+
+    @Autowired
+    private OrderService orderService;
+
+    @GetMapping("/orders")
+    public ResponseEntity<?> getOrders(@RequestParam String email) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                return ResponseEntity.status(401)
+                        .body(new MessageResponse("User not authenticated"));
+            }
+
+            if (email == null || email.trim().isEmpty()) {
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Email is required"));
+            }
+
+            List<Order> orders = orderService.getOrdersByEmail(email);
+            return ResponseEntity.ok(orders);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Error retrieving orders: " + e.getMessage()));
+        }
+    }
 
     /**
      * Delete user account and all associated data

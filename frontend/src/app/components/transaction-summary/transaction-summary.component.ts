@@ -67,13 +67,20 @@ export class TransactionSummaryComponent {
             // Store transfer details in sessionStorage for retrieval on success page
             const transferData = {
               senderName: this.senderDetails.value.firstName + ' ' + this.senderDetails.value.lastName,
+              senderFirstName: this.senderDetails.value.firstName,
+              senderLastName: this.senderDetails.value.lastName,
               senderEmail: this.senderDetails.value.email,
+              senderPhone: this.senderDetails.value.phone,
               recipientName: this.receiverDetails.value.firstName + ' ' + this.receiverDetails.value.lastName,
+              recipientFirstName: this.receiverDetails.value.firstName,
+              recipientLastName: this.receiverDetails.value.lastName,
               recipientEmail: this.receiverDetails.value.email,
+              recipientPhone: this.receiverDetails.value.phone,
               amount: this.transactionDetails.value.amount,
               fromCurrency: this.transactionDetails.value.fromCurrency,
               convertedAmount: this.transactionDetails.value.convertedAmount,
-              toCurrency: this.transactionDetails.value.toCurrency
+              toCurrency: this.transactionDetails.value.toCurrency,
+              receiveMethod: this.transactionDetails.value.receiveMethod
             }
             sessionStorage.setItem('transferData', JSON.stringify(transferData))
             window.location.href = data.url

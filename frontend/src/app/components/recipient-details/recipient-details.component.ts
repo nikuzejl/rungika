@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { loadStripe } from '@stripe/stripe-js'
 import { AuthService } from 'src/app/services/auth.service'
@@ -11,10 +11,9 @@ import { Router } from '@angular/router'
   templateUrl: './recipient-details.component.html',
   styleUrls: ['./recipient-details.component.css']
 })
-export class RecipientDetailsComponent {
-  sendFormValid = false
-  currentStep = 'sender'
-  senderAndReceiverFormsCompleted = false
+export class RecipientDetailsComponent implements OnInit {
+  currentStep: 'sender' | 'receiver' = 'sender'
+  isSummaryVisible = false
   loggedIn = false
   senderForm!: FormGroup
   receiverForm!: FormGroup
@@ -30,18 +29,20 @@ export class RecipientDetailsComponent {
     }
 
   ngOnInit() {
-    this.loggedIn = this.authService.credentials.loggedIn
+    if (this.transactionService.getTransactionDetails() == null) {
+      this.router.navigate(['/home'])
+      return
+    }
+
     this.createForms()
+    this.loggedIn = this.authService.credentials.loggedIn
 
     if (this.loggedIn) {
       this.senderForm.get('lastName')!.setValue(this.authService.credentials.lastName)
       this.senderForm.get('firstName')!.setValue(this.authService.credentials.firstName)
       this.senderForm.get('email')!.setValue(this.authService.credentials.email)
       this.senderForm.get('phone')!.setValue(this.authService.credentials.phone)
-    }
-
-    if (this.transactionService.getTransactionDetails() == null) {
-      this.router.navigate(['/home'])
+      this.currentStep = 'receiver'
     }
   }
 
@@ -62,19 +63,19 @@ export class RecipientDetailsComponent {
   }
 
   continue() {
-    if (this.currentStep == 'sender' && this.senderForm.valid) {
+    if (this.currentStep === 'sender' && this.senderForm.valid) {
       this.currentStep = 'receiver'
-    } else if (this.currentStep == 'receiver' && this.receiverForm.valid) {
-      this.senderAndReceiverFormsCompleted = true
+    } else if (this.currentStep === 'receiver' && this.receiverForm.valid) {
+      this.isSummaryVisible = true
     }
   }
 
   formValid() {
-    if (this.currentStep == 'sender') {
+    if (this.currentStep === 'sender') {
       return this.senderForm.valid
     }
 
-    if (this.currentStep == 'receiver') {
+    if (this.currentStep === 'receiver') {
       return this.receiverForm.valid
     }
 

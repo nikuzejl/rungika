@@ -69,6 +69,10 @@ a:hover {
   padding: 2rem 1rem 3rem;
 }
 
+.page-center.recipient-page {
+  padding-top: 0 !important;
+}
+
 .auth-page {
   width: 100%;
   max-width: 440px;

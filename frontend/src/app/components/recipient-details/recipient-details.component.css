@@ -1,7 +1,10 @@
 .recipient-page {
+  display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
-  padding-top: 0 !important;
+  min-height: calc(100vh - var(--header-height) - 48px);
+  padding: 0 1rem 3rem;
   margin-top: 0 !important;
 }
 
@@ -9,6 +12,14 @@
 .receiver-form {
   margin-top: 0 !important;
   padding-top: 0 !important;
+}
+
+.recipient-grid,
+.sender-form,
+.receiver-form,
+.sender-form .form-card,
+.receiver-form .form-card {
+  margin-top: 0 !important;
 }
 
 .sender-form h2,
@@ -23,6 +34,18 @@
   gap: 2rem;
   width: 100%;
   max-width: 960px;
+}
+
+.sender-form .form-card,
+.receiver-form .form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sender-form .mat-mdc-form-field,
+.receiver-form .mat-mdc-form-field {
+  width: 100%;
 }
 
 .account-info {

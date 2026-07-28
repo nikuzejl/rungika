@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,6 +122,24 @@ public class StripeController {
             order.setOrderId(orderId);
             order.setEmail(confirmation.getSenderEmail());
             order.setStatus("COMPLETED");
+            order.setSessionId(confirmation.getSessionId());
+            order.setTransactionTime(Instant.now());
+
+            order.setSenderEmail(confirmation.getSenderEmail());
+            order.setSenderFirstName(confirmation.getSenderFirstName());
+            order.setSenderLastName(confirmation.getSenderLastName());
+            order.setSenderPhone(confirmation.getSenderPhone());
+
+            order.setRecipientEmail(confirmation.getRecipientEmail());
+            order.setRecipientFirstName(confirmation.getRecipientFirstName());
+            order.setRecipientLastName(confirmation.getRecipientLastName());
+            order.setRecipientPhone(confirmation.getRecipientPhone());
+
+            order.setAmount(confirmation.getAmount());
+            order.setFromCurrency(confirmation.getFromCurrency());
+            order.setConvertedAmount(confirmation.getConvertedAmount());
+            order.setToCurrency(confirmation.getToCurrency());
+            order.setReceiveMethod(confirmation.getReceiveMethod());
             orderService.createOrder(order);
 
             // Send confirmation emails

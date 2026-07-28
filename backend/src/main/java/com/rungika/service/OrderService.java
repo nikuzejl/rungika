@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -17,11 +18,7 @@ public class OrderService {
     private MongoTemplate mongoTemplate;
 
     public Order createOrder(Order order) throws Exception {
-        Order newOrder = new Order();
-        newOrder.setMeals(order.getMeals());
-        newOrder.setOrderId(order.getOrderId());
-        newOrder.setEmail(order.getEmail());
-        return orderRepository.save(newOrder);
+        return orderRepository.save(order);
     }
 
     public void updateOrderStatus(Long orderId, String newStatus) {
@@ -34,5 +31,12 @@ public class OrderService {
 
     public List<Order> getOrdersByStatus(String status) {
         return orderRepository.findByStatus(status);
+    }
+
+    public List<Order> getOrdersByEmail(String email) {
+        return orderRepository.findByEmail(email)
+                .stream()
+                .sorted(Comparator.comparingLong(Order::getOrderId).reversed())
+                .toList();
     }
 }
