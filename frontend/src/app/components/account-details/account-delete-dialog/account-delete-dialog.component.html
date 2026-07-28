@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Delete Account</h2>
+
+<mat-dialog-content>
+  <p class="warning-text">
+    <strong>Warning:</strong> This action cannot be undone. All your data, including transaction history and personal information, will be permanently deleted.
+  </p>
+
+  <p>To confirm deletion, please type <strong>"delete my account"</strong> below:</p>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Confirmation text</mat-label>
+    <input 
+      matInput 
+      [(ngModel)]="confirmationText" 
+      (input)="onTextChange()"
+      placeholder="Type exactly: delete my account">
+  </mat-form-field>
+
+  <p *ngIf="!isConfirmed && confirmationText" class="error-hint">
+    Text doesn't match. Please type exactly: "delete my account"
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button 
+    mat-raised-button 
+    color="warn" 
+    (click)="onConfirmDelete()"
+    [disabled]="!isConfirmed">
+    Delete Account Permanently
+  </button>
+</mat-dialog-actions>

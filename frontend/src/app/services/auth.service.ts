@@ -4,6 +4,7 @@ import { Observable, last } from 'rxjs'
 import { environment } from 'src/environments/environment'
 
 const AUTH_API = environment.serverUrl + '/api/auth/'
+const ACCOUNT_API = environment.serverUrl + '/api/account/'
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 }
@@ -58,5 +59,24 @@ export class AuthService {
 
   logout(): Observable<any> {
     return this.http.post(AUTH_API + 'signout', {}, httpOptions)
+  }
+
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    return this.http.post(
+      ACCOUNT_API + 'change-password',
+      {
+        "email": this.credentials.email,
+        "currentPassword": currentPassword,
+        "newPassword": newPassword
+      },
+      httpOptions
+    )
+  }
+
+  deleteAccount(): Observable<any> {
+    return this.http.delete(
+      ACCOUNT_API + `delete?email=${encodeURIComponent(this.credentials.email)}`,
+      httpOptions
+    )
   }
 }

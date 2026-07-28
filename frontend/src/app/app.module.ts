@@ -35,6 +35,8 @@ import { HowItWorksComponent } from './components/how-it-works/how-it-works.comp
 import { CancelComponent } from './components/cancel/cancel.component';
 import { RecipientDetailsComponent } from './components/recipient-details/recipient-details.component';
 import { TransactionSummaryComponent } from './components/transaction-summary/transaction-summary.component'
+import { AccountDeleteDialogComponent } from './components/account-details/account-delete-dialog/account-delete-dialog.component'
+import { ChangePasswordDialogComponent } from './components/account-details/change-password-dialog/change-password-dialog.component'
 
 @NgModule({
 	declarations: [
@@ -53,7 +55,9 @@ import { TransactionSummaryComponent } from './components/transaction-summary/tr
         HowItWorksComponent,
         CancelComponent,
         RecipientDetailsComponent,
-        TransactionSummaryComponent
+        TransactionSummaryComponent,
+		AccountDeleteDialogComponent,
+		ChangePasswordDialogComponent
 	],
 	imports: [
 		BrowserModule,

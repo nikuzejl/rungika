@@ -1,5 +1,16 @@
 /* Uses shared auth-page and form-card styles from global stylesheet */
 
+.status-message.success {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+.status-message.success a {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 .actions-row .signup-error {
   margin: 0.75rem 0 0;
   font-size: 0.95rem;

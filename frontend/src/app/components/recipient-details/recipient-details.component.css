@@ -1,6 +1,20 @@
 .recipient-page {
   flex-direction: column;
   align-items: center;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.sender-form,
+.receiver-form {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.sender-form h2,
+.receiver-form h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
 }
 
 .recipient-grid {

@@ -3,6 +3,11 @@
     <p class="page-subtitle">Sign in to manage your transfers and account.</p>
     <p class="helper-text login-status" *ngIf="isLoggingIn">Logging in...</p>
 
+    <div *ngIf="errorMessage" class="error-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+
     <mat-card class="form-card">
       <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit(form)">
         <mat-form-field appearance="outline">
@@ -20,7 +25,6 @@
         <button type="submit" class="btn-primary btn-block" [disabled]="isLoggingIn">
           {{ isLoggingIn ? 'Logging in...' : 'Log in' }}
         </button>
-        <p class="login-error" *ngIf="errorMessage">{{ errorMessage }}</p>
       </form>
     </mat-card>
 

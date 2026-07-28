@@ -41,3 +41,4 @@ TO-DO:
 - transaction history
 - transaction tracking
 - mode for hardcoded rates
+- restrict unnecessary "permitAll()" endpoints

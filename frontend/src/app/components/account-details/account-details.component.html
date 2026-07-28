@@ -5,11 +5,40 @@
       <button type="button" class="btn-secondary logout-btn" (click)="logout()">Logout</button>
     </div>
 
-    <div class="account-info" (click)="modifyAccount()">
+    <div class="account-info">
       <div class="info-row"><span>First name</span><strong>{{ user.firstName }}</strong></div>
       <div class="info-row"><span>Last name</span><strong>{{ user.lastName }}</strong></div>
       <div class="info-row"><span>Email</span><strong>{{ user.email }}</strong></div>
       <div class="info-row"><span>Phone number</span><strong>{{ user.phone }}</strong></div>
+    </div>
+
+    <div class="management-section">
+      <h3>Account management</h3>
+      
+      <div class="management-actions">
+        <button 
+          type="button" 
+          class="btn-secondary logout-btn" 
+          (click)="openChangePasswordDialog()">
+          Change Password
+        </button>
+
+        <button 
+          type="button" 
+          class="btn-danger" 
+          (click)="openDeleteAccountDialog()"
+          [disabled]="isDeleting">
+          {{ isDeleting ? 'Deleting...' : 'Delete Account' }}
+        </button>
+      </div>
+
+      <div *ngIf="deleteErrorMessage" class="error-message">
+        {{ deleteErrorMessage }}
+      </div>
+
+      <div *ngIf="deleteSuccessMessage" class="success-message">
+        {{ deleteSuccessMessage }}
+      </div>
     </div>
   </mat-card>
 </div>

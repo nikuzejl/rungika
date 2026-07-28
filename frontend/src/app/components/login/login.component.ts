@@ -58,10 +58,29 @@ export class LoginComponent implements OnInit {
         },
         error: err => {
           this.isLoggingIn = false
+          
           if (err instanceof TimeoutError) {
-            this.errorMessage = 'Login failed... Please try again.'
+            this.errorMessage = 'Login failed... The server is taking too long to respond. Please try again.'
+          } else if (err.status === 0) {
+            // Network error or CORS issue
+            this.errorMessage = 'Unable to connect to the server. Please check your internet connection and try again.'
+          } else if (err.status === 401) {
+            // Unauthorized - invalid credentials
+            this.errorMessage = 'Invalid email or password. Please check and try again.'
+          } else if (err.status === 403) {
+            // Forbidden
+            const errorMsg = err?.error?.message || 'Your account has been disabled. Please contact support.'
+            this.errorMessage = errorMsg
+          } else if (err.status >= 500) {
+            // Server error
+            this.errorMessage = 'Server error. Please try again later.'
+          } else if (err.status >= 400) {
+            // Other client errors
+            const errorMsg = err?.error?.message || err?.error?.error || 'Login failed. Please try again.'
+            this.errorMessage = errorMsg
           } else {
-            this.errorMessage = err?.error?.error || 'Login failed. Please check your credentials and try again.'
+            // Fallback for any other error
+            this.errorMessage = 'Login failed. Please try again.'
           }
         }
       })
