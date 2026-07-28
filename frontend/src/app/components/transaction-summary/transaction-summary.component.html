@@ -33,6 +33,12 @@
       <div class="detail">
         <span class="detail-label">Email:</span> {{ receiverDetails.value.email }}
       </div>
+      <div class="detail" *ngIf="transactionDetails.value.receiveMethod === 'Bank Transfer'">
+        <span class="detail-label">Bank name:</span> {{ receiverDetails.value.recipientBankName }}
+      </div>
+      <div class="detail" *ngIf="transactionDetails.value.receiveMethod === 'Bank Transfer'">
+        <span class="detail-label">Account number:</span> {{ receiverDetails.value.recipientAccountNumber }}
+      </div>
     </div>
 
     <div class="summary-card">

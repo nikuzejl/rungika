@@ -80,7 +80,10 @@ export class TransactionSummaryComponent {
               fromCurrency: this.transactionDetails.value.fromCurrency,
               convertedAmount: this.transactionDetails.value.convertedAmount,
               toCurrency: this.transactionDetails.value.toCurrency,
-              receiveMethod: this.transactionDetails.value.receiveMethod
+              receiveMethod: this.transactionDetails.value.receiveMethod,
+              recipientBankName: this.receiverDetails.value.recipientBankName,
+              recipientAccountNumber: this.receiverDetails.value.recipientAccountNumber,
+              deliveryChannel: this.transactionDetails.value.receiveMethod === 'Bank Transfer' ? 'BANK_TRANSFER' : 'MOBILE_MONEY'
             }
             sessionStorage.setItem('transferData', JSON.stringify(transferData))
             window.location.href = data.url

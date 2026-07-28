@@ -11,8 +11,8 @@ import { TransactionService } from 'src/app/services/transaction.service'
 })
 export class ExchangeRateComponent {
   receiveMethodOptions: Map<string, string[]> = new Map([
-    ['BIF', ['Ecocash', 'Lumicash']],
-    ['RWF', ['MTM MoMo', 'Airtel']]
+    ['BIF', ['Ecocash', 'Lumicash', 'Bank Transfer']],
+    ['RWF', ['MTM MoMo', 'Airtel', 'Bank Transfer']]
   ])
   maxSendAmount = 10000.00
   form!: FormGroup
@@ -52,6 +52,7 @@ export class ExchangeRateComponent {
       this.rate = this.currencyService.getRate(this.fromCurrency, this.toCurrency) || this.rate
       this.updateForm('amount', 0.0)
       this.updateForm('convertedAmount', 0.0)
+      this.updateForm('receiveMethod', null)
     } catch (error) {
       this.exchangeRateError[0] = true
       console.error('Error fetching exchange rate:', error)

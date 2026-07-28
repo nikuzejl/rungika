@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { HttpService } from 'src/app/services/http.service'
 import { environment } from 'src/environments/environment'
+import { PHONE_COUNTRY_CODES } from 'src/app/helpers/phone-country-codes'
 
 @Component({
   selector: 'app-transfer',
@@ -10,6 +11,7 @@ import { environment } from 'src/environments/environment'
 })
 export class TransferComponent {
   form!: FormGroup
+  countryCodes = PHONE_COUNTRY_CODES
   fromCurrency = "USD"
   toCurrency = "BIF"
   cadToBifRate = 0.0
@@ -49,6 +51,7 @@ export class TransferComponent {
       'firstName': new FormControl(null),
       'lastName': new FormControl(null),
       'email': new FormControl(null),
+      'phoneCountryCode': new FormControl('+1'),
       'phone': new FormControl(null)
     })
   }

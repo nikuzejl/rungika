@@ -17,6 +17,9 @@ public class PaymentConfirmation {
     private Double convertedAmount;
     private String toCurrency;
     private String receiveMethod;
+    private String recipientBankName;
+    private String recipientAccountNumber;
+    private String deliveryChannel;
 
     public String getSessionId() {
         return sessionId;
@@ -144,5 +147,29 @@ public class PaymentConfirmation {
 
     public void setReceiveMethod(String receiveMethod) {
         this.receiveMethod = receiveMethod;
+    }
+
+    public String getRecipientBankName() {
+        return recipientBankName;
+    }
+
+    public void setRecipientBankName(String recipientBankName) {
+        this.recipientBankName = recipientBankName;
+    }
+
+    public String getRecipientAccountNumber() {
+        return recipientAccountNumber;
+    }
+
+    public void setRecipientAccountNumber(String recipientAccountNumber) {
+        this.recipientAccountNumber = recipientAccountNumber;
+    }
+
+    public String getDeliveryChannel() {
+        return deliveryChannel;
+    }
+
+    public void setDeliveryChannel(String deliveryChannel) {
+        this.deliveryChannel = deliveryChannel;
     }
 }

@@ -28,13 +28,22 @@
           <mat-error *ngIf="senderForm.get('email')!.hasError('email')">Invalid email format</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Phone number</mat-label>
-          <mat-icon matPrefix>phone</mat-icon>
-          <input type="text" matInput formControlName="phone">
-          <mat-error *ngIf="senderForm.get('phone')!.hasError('required')">Phone number is required</mat-error>
-          <mat-error *ngIf="senderForm.get('phone')!.hasError('pattern')">Phone number is formed by digits only</mat-error>
-        </mat-form-field>
+        <div class="phone-fields">
+          <mat-form-field appearance="outline" class="country-code-field">
+            <mat-label>Code</mat-label>
+            <mat-select formControlName="senderPhoneCountryCode">
+              <mat-option *ngFor="let country of countryCodes" [value]="country.code">{{ country.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="phone-number-field">
+            <mat-label>Phone number</mat-label>
+            <mat-icon matPrefix>phone</mat-icon>
+            <input type="text" matInput formControlName="phone">
+            <mat-error *ngIf="senderForm.get('phone')!.hasError('required')">Phone number is required</mat-error>
+            <mat-error *ngIf="senderForm.get('phone')!.hasError('pattern')">Phone number is formed by digits only</mat-error>
+          </mat-form-field>
+        </div>
       </mat-card>
     </div>
     <div *ngIf="currentStep === 'receiver'" [formGroup]="receiverForm" class="receiver-form auth-page">
@@ -66,13 +75,39 @@
           <mat-error *ngIf="receiverForm.get('email')!.hasError('email')">Invalid email format</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Phone number</mat-label>
-          <mat-icon matPrefix>phone</mat-icon>
-          <input type="text" matInput formControlName="phone">
-          <mat-error *ngIf="receiverForm.get('phone')!.hasError('required')">Phone number is required</mat-error>
-          <mat-error *ngIf="receiverForm.get('phone')!.hasError('pattern')">Phone number is formed by digits only</mat-error>
-        </mat-form-field>
+        <div class="phone-fields">
+          <mat-form-field appearance="outline" class="country-code-field">
+            <mat-label>Code</mat-label>
+            <mat-select formControlName="receiverPhoneCountryCode" [disabled]="receiverCodeLocked">
+              <mat-option *ngFor="let country of countryCodes" [value]="country.code">{{ country.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="phone-number-field">
+            <mat-label>Phone number</mat-label>
+            <mat-icon matPrefix>phone</mat-icon>
+            <input type="text" matInput formControlName="phone">
+            <mat-error *ngIf="receiverForm.get('phone')!.hasError('required')">Phone number is required</mat-error>
+            <mat-error *ngIf="receiverForm.get('phone')!.hasError('pattern')">Phone number is formed by digits only</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="isBankTransfer()">
+          <mat-form-field appearance="outline">
+            <mat-label>Recipient bank name</mat-label>
+            <input type="text" matInput formControlName="recipientBankName">
+            <mat-error *ngIf="receiverForm.get('recipientBankName')?.hasError('required')">Bank name is required</mat-error>
+            <mat-error *ngIf="receiverForm.get('recipientBankName')?.hasError('minlength')">Bank name is too short</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Recipient account number</mat-label>
+            <input type="text" matInput formControlName="recipientAccountNumber">
+            <mat-error *ngIf="receiverForm.get('recipientAccountNumber')?.hasError('required')">Account number is required</mat-error>
+            <mat-error *ngIf="receiverForm.get('recipientAccountNumber')?.hasError('minlength')">Account number is too short</mat-error>
+            <mat-error *ngIf="receiverForm.get('recipientAccountNumber')?.hasError('pattern')">Use letters and numbers only</mat-error>
+          </mat-form-field>
+        </div>
       </mat-card>
     </div>
   </div>

@@ -19,10 +19,19 @@
             <input autofocus type="text" matInput placeholder="Email" formControlName="email">
           </mat-form-field>
 
-          <mat-form-field>
-            <mat-icon matPrefix>phone</mat-icon>
-            <input autofocus type="text" matInput placeholder="Phone" formControlName="phone">
-          </mat-form-field>
+          <div class="phone-fields">
+            <mat-form-field class="country-code-field">
+              <mat-label>Code</mat-label>
+              <mat-select formControlName="phoneCountryCode">
+                <mat-option *ngFor="let country of countryCodes" [value]="country.code">{{ country.label }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="phone-number-field">
+              <mat-icon matPrefix>phone</mat-icon>
+              <input autofocus type="text" matInput placeholder="Phone" formControlName="phone">
+            </mat-form-field>
+          </div>
           <br>
           <button type="submit" mat-raised-button color="primary">SEND</button>
         </form>

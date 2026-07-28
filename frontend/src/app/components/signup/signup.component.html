@@ -25,12 +25,21 @@
           <mat-error *ngIf="getFieldError('email') as error">{{ error }}</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Phone number</mat-label>
-          <mat-icon matPrefix>phone</mat-icon>
-          <input type="text" matInput formControlName="phone">
-          <mat-error *ngIf="getFieldError('phone') as error">{{ error }}</mat-error>
-        </mat-form-field>
+        <div class="phone-fields">
+          <mat-form-field appearance="outline" class="country-code-field">
+            <mat-label>Code</mat-label>
+            <mat-select formControlName="phoneCountryCode">
+              <mat-option *ngFor="let country of countryCodes" [value]="country.code">{{ country.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="phone-number-field">
+            <mat-label>Phone number</mat-label>
+            <mat-icon matPrefix>phone</mat-icon>
+            <input type="text" matInput formControlName="phone">
+            <mat-error *ngIf="getFieldError('phone') as error">{{ error }}</mat-error>
+          </mat-form-field>
+        </div>
 
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>

@@ -25,6 +25,17 @@
     width: 100%;
     display: block;
   }
+
+  .phone-fields {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0.75rem;
+  }
+
+  .country-code-field,
+  .phone-number-field {
+    width: 100%;
+  }
   
   .mat-raised-button {
     width: 100%;

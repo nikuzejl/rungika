@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends MongoRepository<Order, String> {
     Order findByOrderId(long orderId);
+    Order findTopByOrderByOrderIdDesc();
+    boolean existsByOrderId(long orderId);
 
     List<Order> findByStatus(String status);
 

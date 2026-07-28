@@ -6,7 +6,6 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.rungika.entity.Order;
 import com.rungika.service.OrderService;
-import com.rungika.service.OrderNumberService;
 import com.rungika.service.EmailService;
 import com.rungika.Utils.EmailUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +35,6 @@ public class StripeController {
 
     @Autowired
     private OrderService orderService;
-
-    @Autowired
-    private OrderNumberService orderNumberService;
 
     @Autowired
     private EmailService emailService;
@@ -114,12 +110,8 @@ public class StripeController {
         }
 
         try {
-            // Generate order number
-            long orderId = orderNumberService.getNextOrderNumber("TRANSFER");
-
             // Create order
             Order order = new Order();
-            order.setOrderId(orderId);
             order.setEmail(confirmation.getSenderEmail());
             order.setStatus("COMPLETED");
             order.setSessionId(confirmation.getSessionId());
@@ -140,7 +132,15 @@ public class StripeController {
             order.setConvertedAmount(confirmation.getConvertedAmount());
             order.setToCurrency(confirmation.getToCurrency());
             order.setReceiveMethod(confirmation.getReceiveMethod());
-            orderService.createOrder(order);
+                order.setRecipientBankName(confirmation.getRecipientBankName());
+                order.setRecipientAccountNumber(confirmation.getRecipientAccountNumber());
+                order.setDeliveryChannel(
+                    confirmation.getDeliveryChannel() != null && !confirmation.getDeliveryChannel().isBlank()
+                        ? confirmation.getDeliveryChannel()
+                        : ("Bank Transfer".equals(confirmation.getReceiveMethod()) ? "BANK_TRANSFER" : "MOBILE_MONEY")
+                );
+                    Order savedOrder = orderService.createOrder(order);
+                    long orderId = savedOrder.getOrderId();
 
             // Send confirmation emails
             var senderEmail = EmailUtility.createTransferConfirmationEmail(

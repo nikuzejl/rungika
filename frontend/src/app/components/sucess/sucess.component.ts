@@ -96,7 +96,10 @@ export class SucessComponent {
         fromCurrency: this.transferData.fromCurrency,
         convertedAmount: this.transferData.convertedAmount,
         toCurrency: this.transferData.toCurrency,
-        receiveMethod: this.transferData.receiveMethod
+        receiveMethod: this.transferData.receiveMethod,
+        recipientBankName: this.transferData.recipientBankName,
+        recipientAccountNumber: this.transferData.recipientAccountNumber,
+        deliveryChannel: this.transferData.deliveryChannel
       }
 
       const response = await this.http

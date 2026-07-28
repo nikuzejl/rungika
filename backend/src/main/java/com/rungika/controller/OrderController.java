@@ -1,7 +1,6 @@
 package com.rungika.controller;
 
 import com.rungika.entity.Order;
-import com.rungika.service.OrderNumberService;
 import com.rungika.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +13,8 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @Autowired
-    OrderNumberService orderNumberService;
-
     @PostMapping("/submit")
     public long submitOrder(@RequestBody Order order) throws Exception {
-        var orderId = orderNumberService.getNextOrderNumber("client_order");
-        order.setOrderId(orderId);
         var submittedOrder = orderService.createOrder(order);
         return submittedOrder.getOrderId();
     }

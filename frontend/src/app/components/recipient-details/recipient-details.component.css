@@ -48,6 +48,17 @@
   width: 100%;
 }
 
+.phone-fields {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.75rem;
+}
+
+.country-code-field,
+.phone-number-field {
+  width: 100%;
+}
+
 .account-info {
   display: flex;
   flex-direction: column;

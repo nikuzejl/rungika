@@ -3,6 +3,7 @@ package com.rungika.service;
 import com.rungika.entity.Order;
 import com.rungika.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,33 @@ public class OrderService {
     private MongoTemplate mongoTemplate;
 
     public Order createOrder(Order order) throws Exception {
-        return orderRepository.save(order);
+        boolean autoAssignOrderId = order.getOrderId() <= 0;
+        int maxRetries = autoAssignOrderId ? 6 : 1;
+
+        for (int attempt = 0; attempt < maxRetries; attempt++) {
+            if (autoAssignOrderId) {
+                order.setOrderId(getNextIncrementalOrderId());
+            }
+
+            try {
+                return orderRepository.save(order);
+            } catch (DuplicateKeyException e) {
+                if (!autoAssignOrderId || attempt == maxRetries - 1) {
+                    throw e;
+                }
+            }
+        }
+
+        throw new IllegalStateException("Failed to generate a unique incremental order number.");
+    }
+
+    private long getNextIncrementalOrderId() {
+        Order latestOrder = orderRepository.findTopByOrderByOrderIdDesc();
+        if (latestOrder == null) {
+            return 1L;
+        }
+
+        return latestOrder.getOrderId() + 1;
     }
 
     public void updateOrderStatus(Long orderId, String newStatus) {

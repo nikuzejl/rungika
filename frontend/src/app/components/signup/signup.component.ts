@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth.service'
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms'
 import { TimeoutError, timeout } from 'rxjs'
+import { PHONE_COUNTRY_CODES } from 'src/app/helpers/phone-country-codes'
 
 @Component({
   selector: 'app-signup',
@@ -14,6 +15,7 @@ export class SignupComponent {
   signupSuccessfull = false
   errorMessage = ''
   isSubmitting = false
+  countryCodes = PHONE_COUNTRY_CODES
 
   constructor(private router: Router, private authService: AuthService) { }
 
@@ -44,6 +46,7 @@ export class SignupComponent {
         firstName: new FormControl('', Validators.required),
         lastName: new FormControl('', Validators.required),
         email: new FormControl('', [Validators.required, Validators.email]),
+        phoneCountryCode: new FormControl('+1', Validators.required),
         phone: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
         password: new FormControl('', [
           Validators.required,
@@ -124,11 +127,13 @@ export class SignupComponent {
     this.isSubmitting = true
 
     if (this.signupForm.valid) {
+      const fullPhoneNumber = `${this.signupForm.value.phoneCountryCode}${this.signupForm.value.phone}`
+
       this.authService.signup(
         this.signupForm.value.firstName,
         this.signupForm.value.lastName,
         this.signupForm.value.email,
-        this.signupForm.value.phone,
+        fullPhoneNumber,
         this.signupForm.value.password)
         .pipe(timeout(5000))
         .subscribe({
