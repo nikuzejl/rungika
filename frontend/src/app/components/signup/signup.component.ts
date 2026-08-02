@@ -13,6 +13,7 @@ import { PHONE_COUNTRY_CODES } from 'src/app/helpers/phone-country-codes'
 export class SignupComponent {
   signupForm!: FormGroup;
   signupSuccessfull = false
+  signupMessage = ''
   errorMessage = ''
   isSubmitting = false
   countryCodes = PHONE_COUNTRY_CODES
@@ -135,17 +136,19 @@ export class SignupComponent {
         this.signupForm.value.email,
         fullPhoneNumber,
         this.signupForm.value.password)
-        .pipe(timeout(5000))
+        .pipe(timeout(10000))
         .subscribe({
           next: data => {
             this.isSubmitting = false
             this.signupSuccessfull = true
+            this.signupMessage = data?.message || 'Check your email to complete your account registration.'
           },
           error: err => {
             this.isSubmitting = false
             this.signupSuccessfull = false
+            this.signupMessage = ''
             if (err instanceof TimeoutError) {
-              this.errorMessage = 'Sign up failed after 5 seconds. Please try again.'
+              this.errorMessage = 'Sign up failed. Please try again.'
             } else {
               this.errorMessage = err?.error?.message || 'Sign up failed. Please try again.'
             }

@@ -7,11 +7,15 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OrderService {
+    private static final Set<String> ADMIN_FINAL_STATUSES = Set.of("COMPLETED", "FAILED");
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -19,6 +23,10 @@ public class OrderService {
     private MongoTemplate mongoTemplate;
 
     public Order createOrder(Order order) throws Exception {
+        if (order.getStatus() == null || order.getStatus().isBlank()) {
+            order.setStatus("PENDING");
+        }
+
         boolean autoAssignOrderId = order.getOrderId() <= 0;
         int maxRetries = autoAssignOrderId ? 6 : 1;
 
@@ -56,8 +64,45 @@ public class OrderService {
         }
     }
 
+    public Order getOrderByOrderId(long orderId) {
+        return orderRepository.findByOrderId(orderId);
+    }
+
+    public List<Order> getPendingOrdersForAdmin() {
+        return orderRepository.findByStatusOrderByOrderIdDesc("PENDING");
+    }
+
+    public Order updateOrderStatusByAdmin(long orderId, String requestedStatus, String adminEmail, String note, String photo) {
+        Order order = orderRepository.findByOrderId(orderId);
+        if (order == null) {
+            throw new IllegalArgumentException("Order not found.");
+        }
+
+        String newStatus = requestedStatus == null ? "" : requestedStatus.trim().toUpperCase();
+        if (!ADMIN_FINAL_STATUSES.contains(newStatus)) {
+            throw new IllegalArgumentException("Status must be COMPLETED or FAILED.");
+        }
+
+        if (!"PENDING".equalsIgnoreCase(order.getStatus())) {
+            throw new IllegalStateException("Only PENDING orders can be manually updated.");
+        }
+
+        order.setStatus(newStatus);
+        order.setLastUpdatedByAdminEmail(adminEmail);
+        order.setStatusUpdatedAt(Instant.now());
+
+        if (note != null && !note.isBlank()) {
+            order.setAdminStatusNote(note.trim());
+        }
+        if (photo != null && !photo.isBlank()) {
+            order.setAdminStatusPhoto(photo.trim());
+        }
+
+        return orderRepository.save(order);
+    }
+
     public List<Order> getOrdersByStatus(String status) {
-        return orderRepository.findByStatus(status);
+        return orderRepository.findByStatusOrderByOrderIdDesc(status);
     }
 
     public List<Order> getOrdersByEmail(String email) {

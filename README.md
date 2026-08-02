@@ -8,38 +8,34 @@ This project consists of a frontend and backend application for a remittance pla
 
 ### Frontend
 
+- Run the following commands:  
+
 ```bash
-cd frontend
-ng serve
+cd frontend  
+ng build --configuration production  
 ```
+
+- Upload `/docs`  to https://app.netlify.com/projects/rungika/overview
 
 ### Backend
 
+- Run the following commands:  
+
 ```bash
 cd backend
-mvn spring-boot:run or .\gradlew.bat bootRun
+gradle bootRun
+.\gradlew.bat bootRun
 ```
 
 - Push the `main` branch to the remote Git repository  
-- The application will be automatically deployed a few minutes later. Check status on https://dashboard.render.com/
+- The application will be automatically deployed a few minutes later. Check status on [https://dashboard.render.com/](https://dashboard.render.com/)
 
-## Build and Deployment
+## TO-DO
 
-### Frontend
-
-- `cd frontend`  
-- `ng build --configuration production`  
-- Upload `fronted/dist` files to https://app.netlify.com/projects/rungika/overview
-
-TO-DO: 
-
-- update render env variable names
-- order history
-- test emails
-- still need orderTrackingBaseUrl?
-- create flag for hardcoded rates
-- modular stragegy to manage currencies/countries and transfer methods
-- restrict unnecessary "permitAll()" endpoints
-- remove unnecessary space above "Sender details"
-- create an admin page with a special route where admins can update manually orders. a newly created order in "PENDING" state, then after that it can be marked as COMPLETED OR FAILED. In each the admin can optioanlly add text to explain and a photo. When an order is upded, the send and recipeints should be receive emails
-- Unit test
+- Fix 401 on Stripe checkout
+- Expiration of account creation and login tokens
+- More details in "Your orders"  
+- Manual handling of orders, updating status and send notifications
+- Modular stragegy to manage currencies/countries and transfer methods
+- Manage recipients of a logged in user
+- Unit tests  

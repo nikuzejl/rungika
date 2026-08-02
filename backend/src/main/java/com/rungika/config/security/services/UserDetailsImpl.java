@@ -24,19 +24,22 @@ public class UserDetailsImpl implements UserDetails {
 
     private String phone;
 
+    private Boolean emailVerified;
+
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(String id, String firstName, String lastName, String email, String phone, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
+                           Boolean emailVerified, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.password = password;
+        this.emailVerified = emailVerified;
         this.authorities = authorities;
     }
 
@@ -52,6 +55,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getEmail(),
                 user.getPhone(),
                 user.getPassword(),
+                user.getEmailVerified(),
                 authorities);
     }
 
@@ -87,7 +91,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !Boolean.FALSE.equals(emailVerified);
     }
 
     @Override

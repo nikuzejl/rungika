@@ -22,6 +22,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
+        logger.info("Request {}", request.getRequestURI());
         logger.error("Unauthorized error: {}", authException.getMessage());
 
         response.setContentType("application/json;charset=UTF-8");
@@ -30,10 +31,16 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         final Map<String, Object> body = new HashMap<>();
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
         body.put("error", "Unauthorized");
-        body.put("message", "Invalid email or password");
+        String message = authException.getMessage();
+        if (message == null || message.isBlank()) {
+            message = "Authentication is required.";
+        }
+        body.put("message", message);
+        body.put("detail", "The request to " + request.getRequestURI() + " requires a valid login session.");
         body.put("path", request.getServletPath());
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);
     }
 }
+

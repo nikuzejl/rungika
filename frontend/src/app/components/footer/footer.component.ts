@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core'
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-footer',
@@ -7,16 +7,4 @@ import { Component, HostListener } from '@angular/core'
 })
 export class FooterComponent {
   showBottomDiv = true
-
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: Event) {
-    this.showBottomDiv = this.isBottom()
-  }
-
-  private isBottom(): boolean {
-    const scrollPosition = window.scrollY
-    const windowHeight = window.innerHeight
-    const documentHeight = document.body.scrollHeight
-    return scrollPosition + windowHeight >= documentHeight
-  }
 }

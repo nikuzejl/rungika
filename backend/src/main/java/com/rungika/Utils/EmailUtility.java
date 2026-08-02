@@ -17,28 +17,11 @@ public class EmailUtility {
         return message;
     }
 
-    public static SimpleMailMessage createdOrderSentEmail(String to, long orderId, String trackingLink) {
-        var subject = "Order #" + orderId;
-        var content = String.format("Dear customer,\n\n" +
-                "Thanks for placing your order %s. We are on it and we will let you know when it is completed.\n" +
-                "Meanwhile, you can track your order here ", orderId, trackingLink);
-
-        return createEmail(to, subject, content);
-    }
-
-    public static SimpleMailMessage createdOrderCancelledEmail(String to, long orderId) {
-        var subject = "Order #" + orderId;
-        var content = String.format("Dear customer,\n\n" +
-                "Your order %s has been cancelled ", orderId);
-
-        return createEmail(to, subject, content);
-    }
-
     public static SimpleMailMessage createTransferConfirmationEmail(String to, long orderId, String senderName,
                                                                      String recipientName, Double amount,
                                                                      String fromCurrency, Double convertedAmount,
                                                                      String toCurrency) {
-        var subject = "Transfer Confirmation #" + orderId;
+        var subject = "Rungika Transfer Confirmation";
         var content = String.format("Dear %s,\n\n" +
                 "Your transfer has been successfully completed!\n\n" +
                 "Transfer Details:\n" +
@@ -55,7 +38,7 @@ public class EmailUtility {
 
     public static SimpleMailMessage createTransferNotificationEmail(String to, long orderId, String senderName,
                                                                      Double amount, String toCurrency) {
-        var subject = "Money Transfer Received #" + orderId;
+        var subject = "Rungika Money Transfer Received";
         var content = String.format("Dear Recipient,\n\n" +
                 "Good news! You have received a transfer from %s.\n\n" +
                 "Transfer Details:\n" +
@@ -67,5 +50,49 @@ public class EmailUtility {
                 senderName, orderId, amount, toCurrency);
 
         return createEmail(to, subject, content);
+    }
+
+    public static SimpleMailMessage createPasswordResetEmail(String to, String resetLink) {
+        var subject = "Reset your Rungika password";
+        var content = "We received a request to reset your password.\n\n"
+                + "Use this secure link to set a new password:\n"
+                + resetLink
+                + "\n\n"
+                + "This link will expire in 30 minutes. If you did not request this, you can ignore this email.";
+
+        return createEmail(to, subject, content);
+    }
+
+    public static SimpleMailMessage createOrderStatusUpdateEmail(
+        String to,
+        long orderId,
+        String status,
+        String senderName,
+        String recipientName,
+        String adminNote,
+        String adminPhoto
+    ) {
+    var subject = "Order Update #" + orderId + " - " + status;
+    String noteLine = (adminNote != null && !adminNote.isBlank())
+        ? "\nAdmin note: " + adminNote.trim()
+        : "";
+    String photoLine = (adminPhoto != null && !adminPhoto.isBlank())
+        ? "\nPhoto reference: " + adminPhoto.trim()
+        : "";
+
+    var content = String.format("Hello,\n\n" +
+            "Order %d has been updated to status: %s.\n" +
+            "Sender: %s\n" +
+            "Recipient: %s%s%s\n\n" +
+            "Thank you,\n" +
+            "Rungika Team",
+        orderId,
+        status,
+        senderName == null ? "" : senderName,
+        recipientName == null ? "" : recipientName,
+        noteLine,
+        photoLine);
+
+    return createEmail(to, subject, content);
     }
 }

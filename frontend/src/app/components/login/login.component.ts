@@ -12,7 +12,9 @@ import { TimeoutError, timeout } from 'rxjs';
 
 export class LoginComponent implements OnInit {
   errorMessage = ''
+  infoMessage = ''
   isLoggingIn = false
+  isSendingReset = false
   form!: FormGroup
 
   constructor(private authService: AuthService, private router: Router) { }
@@ -36,6 +38,7 @@ export class LoginComponent implements OnInit {
     const email = formData.value.email;
     const password = formData.value.password;
     this.errorMessage = ''
+    this.infoMessage = ''
     this.isLoggingIn = true
 
     this.authService.login(email, password)
@@ -83,6 +86,35 @@ export class LoginComponent implements OnInit {
             // Fallback for any other error
             this.errorMessage = 'Login failed. Please try again.'
           }
+        }
+      })
+  }
+
+  requestPasswordReset() {
+    if (this.isSendingReset) {
+      return
+    }
+
+    const emailFromForm = this.form?.value?.email || ''
+    const email = window.prompt('Enter your account email to receive a reset link:', emailFromForm)?.trim()
+    if (!email) {
+      return
+    }
+
+    this.errorMessage = ''
+    this.infoMessage = ''
+    this.isSendingReset = true
+
+    this.authService.forgotPassword(email)
+      .pipe(timeout(7000))
+      .subscribe({
+        next: data => {
+          this.isSendingReset = false
+          this.infoMessage = data?.message || 'A password reset link has been sent.'
+        },
+        error: () => {
+          this.isSendingReset = false
+          this.errorMessage = 'Could not send reset link right now. Please try again.'
         }
       })
   }

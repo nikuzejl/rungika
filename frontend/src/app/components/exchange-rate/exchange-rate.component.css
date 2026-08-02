@@ -126,15 +126,26 @@
 @media (max-width: 900px) {
   .hero-layout {
     grid-template-columns: 1fr;
-    padding-top: 2rem;
+    padding: 0 1rem 1rem;
+    gap: 0.5rem;
+    min-height: auto;
   }
 
   .hero-copy {
     text-align: center;
+    order: 1;
+    padding: 0.25rem 0 0.5rem;
+    background: rgba(8, 26, 41, 0.5);
+    backdrop-filter: blur(2px);
   }
 
-  .hero-description {
-    margin: 0 auto;
+  .transfer-card {
+    order: 2;
+    margin: 0;
+  }
+
+  .hero-copy .hero-description {
+    display: none;
   }
 }
 

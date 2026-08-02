@@ -29,7 +29,7 @@ public class OrderController {
 
     @GetMapping("active")
     public List<Order> getActiveOrders() {
-        return orderService.getOrdersByStatus("CREATED");
+        return orderService.getOrdersByStatus("PENDING");
     }
 
     @GetMapping("completed")
@@ -39,6 +39,6 @@ public class OrderController {
 
     @GetMapping("cancelled")
     public List<Order> getCancelledOrders() {
-        return orderService.getOrdersByStatus("CANCELLED");
+        return orderService.getOrdersByStatus("FAILED");
     }
 }

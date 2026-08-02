@@ -27,7 +27,6 @@ public class CurrencyService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyService.class);
 
     @Value("${exchange.rate.cache.ttl.minutes}") int cacheTtlMinutes;
-    @Value("${exchange.rate.api.key}") String exchangeRateApiKey;
     @Value("${exchange.rate.api.url}") String exchangeRateApiUrl;
     @Value("${exchange.rate.api.timeout}") int timeout;
     private final ConcurrentMap<String, CachedRates> ratesCache = new ConcurrentHashMap<>();
@@ -86,7 +85,7 @@ public class CurrencyService {
 
     private Map<String, Double> fetchRatesFromApi(String sourceCurrency) {
         try {
-            String apiUrl = exchangeRateApiUrl + sourceCurrency + "?apikey=" + exchangeRateApiKey;
+            String apiUrl = exchangeRateApiUrl + sourceCurrency;
             URL url = URI.create(apiUrl).toURL();
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");

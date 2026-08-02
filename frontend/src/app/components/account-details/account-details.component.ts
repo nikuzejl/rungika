@@ -12,6 +12,7 @@ import { ChangePasswordDialogComponent } from './change-password-dialog/change-p
 })
 export class AccountDetailsComponent {
     signedIn = false
+  isAdminUser = false
     user: any
     isDeleting = false
     isChangingPassword = false
@@ -31,8 +32,13 @@ export class AccountDetailsComponent {
       this.signedIn = this.authService.credentials.loggedIn
       if (this.signedIn) {
         this.user = this.authService.credentials
+        this.isAdminUser = this.authService.isAdmin()
         this.loadOrders()
       }
+    }
+
+    openAdminOrders() {
+      this.router.navigate(['/admin/orders-special'])
     }
 
     private loadOrders() {

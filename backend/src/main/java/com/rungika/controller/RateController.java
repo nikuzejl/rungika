@@ -14,14 +14,14 @@ import org.springframework.http.HttpStatus;
 public class RateController {
     @Autowired CurrencyService currencyService;
 
-    @GetMapping("/rate")
+    @GetMapping({"/rate/latest"})
     public double getRate(@RequestParam String fromCurrency, @RequestParam String toCurrency){
         try {
             return currencyService.convert(fromCurrency, toCurrency);
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         } catch (IllegalStateException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Failed to fetch exchange rate", e);
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Failed to fetch exchange rate", e);
         }
     }
 }

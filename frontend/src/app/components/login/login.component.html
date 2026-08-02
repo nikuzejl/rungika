@@ -8,6 +8,11 @@
       <span>{{ errorMessage }}</span>
     </div>
 
+    <div *ngIf="infoMessage" class="info-banner">
+      <mat-icon>mark_email_read</mat-icon>
+      <span>{{ infoMessage }}</span>
+    </div>
+
     <mat-card class="form-card">
       <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit(form)">
         <mat-form-field appearance="outline">
@@ -24,6 +29,10 @@
 
         <button type="submit" class="btn-primary btn-block" [disabled]="isLoggingIn">
           {{ isLoggingIn ? 'Logging in...' : 'Log in' }}
+        </button>
+
+        <button type="button" class="link-button" [disabled]="isSendingReset" (click)="requestPasswordReset()">
+          {{ isSendingReset ? 'Sending reset link...' : 'Forgot password?' }}
         </button>
       </form>
     </mat-card>

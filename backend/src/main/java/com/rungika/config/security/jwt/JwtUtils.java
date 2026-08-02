@@ -29,6 +29,12 @@ public class JwtUtils {
     @Value("${jwt.cookieName}")
     private String jwtCookie;
 
+    @Value("${jwt.cookieSameSite:Lax}")
+    private String cookieSameSite;
+
+    @Value("${jwt.cookieSecure:false}")
+    private boolean cookieSecure;
+
     public String getJwtFromCookies(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
         if (cookie != null) {
@@ -40,12 +46,22 @@ public class JwtUtils {
 
     public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
         String jwt = generateTokenFromUsername(userPrincipal.getUsername());
-        ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
+        ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt)
+                .path("/api")
+                .maxAge(24 * 60 * 60)
+                .httpOnly(true)
+                .sameSite(cookieSameSite)
+                .secure(cookieSecure)
+                .build();
         return cookie;
     }
 
     public ResponseCookie getCleanJwtCookie() {
-        ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
+        ResponseCookie cookie = ResponseCookie.from(jwtCookie, null)
+                .path("/api")
+                .sameSite(cookieSameSite)
+                .secure(cookieSecure)
+                .build();
         return cookie;
     }
 

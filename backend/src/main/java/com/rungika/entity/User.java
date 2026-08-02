@@ -45,6 +45,14 @@ public class User {
     @Size(max = 120)
     private String password;
 
+    private Boolean emailVerified;
+
+    private String emailVerificationToken;
+
+    private String passwordResetToken;
+
+    private Long passwordResetTokenExpiresAt;
+
     @DBRef
     private Set<Role> roles = new HashSet<>();
 
@@ -54,5 +62,6 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.password = password;
+        this.emailVerified = false;
     }
 }

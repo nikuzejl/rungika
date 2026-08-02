@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { loadStripe } from '@stripe/stripe-js'
 import { AuthService } from 'src/app/services/auth.service'
 import { TransactionService } from 'src/app/services/transaction.service'
-import { environment } from 'src/environments/environment'
+import { environment } from 'src/environments/environment.prod'
 import { Router } from '@angular/router'
 import { CURRENCY_PHONE_CODE_MAP, PHONE_COUNTRY_CODES, SUPPORTED_PHONE_CODES } from 'src/app/helpers/phone-country-codes'
 

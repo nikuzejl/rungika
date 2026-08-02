@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { environment } from 'src/environments/environment'
+import { environment } from 'src/environments/environment.prod'
 import { StorageService } from './storage.service'
 
-const AUTH_API = environment.serverUrl + '/api/auth/'
-const ACCOUNT_API = environment.serverUrl + '/api/account/'
+const AUTH_API = environment.serverUrl + '/api/v1/auth/'
+const ACCOUNT_API = environment.serverUrl + '/api/v1/account/'
 const httpOptions = {
+  withCredentials: true,
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 }
 
@@ -84,6 +85,16 @@ export class AuthService {
         "phone":phone,
         "roles": ["ROLE_USER"],
         "password":password
+      },
+      httpOptions
+    )
+  }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(
+      AUTH_API + 'forgot-password',
+      {
+        "email": email
       },
       httpOptions
     )

@@ -10,6 +10,18 @@
       <div class="info-row"><span>Last name</span><strong>{{ user.lastName }}</strong></div>
       <div class="info-row"><span>Email</span><strong>{{ user.email }}</strong></div>
       <div class="info-row"><span>Phone number</span><strong>{{ user.phone }}</strong></div>
+      <div class="info-row" *ngIf="isAdminUser"><span>Role</span><strong>Admin</strong></div>
+    </div>
+
+    <div class="admin-section" *ngIf="isAdminUser">
+      <h3>Admin features</h3>
+      <p class="admin-message">You can review and update the admin order queue from your account page.</p>
+
+      <div class="admin-actions">
+        <button type="button" class="btn-secondary admin-btn" (click)="openAdminOrders()">
+          Open admin order queue
+        </button>
+      </div>
     </div>
 
     <div class="orders-section">

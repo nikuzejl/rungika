@@ -39,4 +39,9 @@ public class Order {
     private String recipientBankName;
     private String recipientAccountNumber;
     private String deliveryChannel;
+
+    private String adminStatusNote;
+    private String adminStatusPhoto;
+    private String lastUpdatedByAdminEmail;
+    private Instant statusUpdatedAt;
 }

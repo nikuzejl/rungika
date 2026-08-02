@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { environment } from 'src/environments/environment'
+import { environment } from 'src/environments/environment.prod'
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ export class HttpService {
     })
   }
   httpOptions = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
@@ -26,14 +27,7 @@ export class HttpService {
   }
 
   getRequest(url: any): Observable<any> {
-    return this.http.get<any>(url)
-  }
-
-  sendSuccessEmail(query: any) {
-    return this.http.post<any>(environment.serverUrl + '/send-success-order-email',
-      query,
-      this.httpOptions
-    )
+    return this.http.get<any>(url, this.REQUEST_OPTIONS)
   }
 
   async waitGet(url: any){

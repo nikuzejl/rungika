@@ -2,7 +2,6 @@
   <div class="auth-page form-card status-card">
     <h2 class="status-title success" *ngIf="paymentSuccess">Payment successful</h2>
     <h2 class="status-title" *ngIf="!paymentSuccess">Payment status unknown</h2>
-    <p class="status-message" *ngIf="!orderId">{{ statusMessage }}</p>
     <div *ngIf="paymentSuccess && orderId" class="order-success-details">
       <p class="status-message">Transfer completed successfully!</p>
       <p><strong>Order ID: #{{ orderId }}</strong></p>

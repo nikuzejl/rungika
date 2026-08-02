@@ -113,7 +113,7 @@ public class StripeController {
             // Create order
             Order order = new Order();
             order.setEmail(confirmation.getSenderEmail());
-            order.setStatus("COMPLETED");
+            order.setStatus("PENDING");
             order.setSessionId(confirmation.getSessionId());
             order.setTransactionTime(Instant.now());
 
@@ -166,11 +166,10 @@ public class StripeController {
 
             responseData.put("success", true);
             responseData.put("orderId", orderId);
-            responseData.put("message", "Payment confirmed and emails sent.");
+            responseData.put("message", "Payment confirmed. Order is pending admin review.");
         } catch (Exception e) {
             responseData.put("success", false);
-            responseData.put("message", "Error processing payment: " + e.getMessage());
-            e.printStackTrace();
+            responseData.put("message", "Error processing payment...");
         }
 
         return responseData;

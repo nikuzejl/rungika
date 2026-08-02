@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { HttpService } from 'src/app/services/http.service'
-import { environment } from 'src/environments/environment'
+import { environment } from 'src/environments/environment.prod'
 import { PHONE_COUNTRY_CODES } from 'src/app/helpers/phone-country-codes'
 
 @Component({

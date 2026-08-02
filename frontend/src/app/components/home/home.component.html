@@ -4,16 +4,17 @@
     <span class="brand-name">Rungika</span>
   </div>
 
-  <nav class="header-nav">
-    <button type="button" class="nav-link" [class.active]="isSelected('/home')" (click)="routeTo('home')">Home</button>
-    <button type="button" class="nav-link" [class.active]="isSelected('/how-it-works')" (click)="routeTo('/how-it-works')">How it works</button>
-    <button type="button" class="nav-link" [class.active]="isSelected('/who-we-are')" (click)="routeTo('/who-we-are')">Who we are</button>
-    <button type="button" class="nav-link" *ngIf="isAdmin()" [class.active]="isSelected('/admin/orders-special')" (click)="routeTo('admin/orders-special')">Admin</button>
-  </nav>
-
   <div class="header-auth" *ngIf="!credentials.loggedIn">
-    <button type="button" class="btn-login" [class.active]="isSelected('/login')" (click)="routeTo('login')">Log in</button>
-    <button type="button" class="btn-signup" (click)="routeTo('signup')">Sign up</button>
+    <div class="auth-group">
+      <button type="button" class="btn-login auth-link" [class.active]="isSelected('/login')" (click)="routeTo('login')">
+        <mat-icon class="auth-icon">login</mat-icon>
+        <span>Log in</span>
+      </button>
+      <button type="button" class="btn-signup auth-cta" (click)="routeTo('signup')">
+        <mat-icon class="auth-icon">person_add</mat-icon>
+        <span>Sign up</span>
+      </button>
+    </div>
   </div>
 
   <div class="header-auth" *ngIf="credentials.loggedIn">

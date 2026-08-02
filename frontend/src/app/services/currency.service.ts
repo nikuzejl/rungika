@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class CurrencyService {
   fromCurrencies = ["USD", "CAD"];
   toCurrencies = ["BIF", "RWF"];
   failedToFindExchangeRate = false;
-  private readonly exchangeRateUrl = `${environment.serverUrl}/api/v1/rate`;
+  private readonly exchangeRateUrl = `${environment.serverUrl}/api/v1/rate/latest`;
 
   constructor() {}
 

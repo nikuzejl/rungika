@@ -12,6 +12,7 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     Order findTopByOrderByOrderIdDesc();
     boolean existsByOrderId(long orderId);
 
+    List<Order> findByStatusOrderByOrderIdDesc(String status);
     List<Order> findByStatus(String status);
 
     List<Order> findByEmail(String email);

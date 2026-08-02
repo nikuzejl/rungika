@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, Input } from '@angular/core'
 import { loadStripe } from '@stripe/stripe-js'
-import { environment } from 'src/environments/environment'
+import { environment } from 'src/environments/environment.prod'
 import { Router } from '@angular/router'
 
 @Component({

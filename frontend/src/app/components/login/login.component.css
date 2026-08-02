@@ -41,6 +41,41 @@
   color: var(--color-error);
 }
 
+.info-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  background-color: #e8f5e9;
+  border-left: 4px solid var(--color-success);
+  color: #256029;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.info-banner mat-icon {
+  color: var(--color-success);
+}
+
+.link-button {
+  margin-top: 0.75rem;
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  align-self: flex-start;
+}
+
+.link-button[disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 .login-toast {
   position: fixed;
   top: 1.5rem;
