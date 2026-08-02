@@ -47,7 +47,8 @@ export class LoginComponent implements OnInit {
             data.firstName,
             data.lastName,
             data.email,
-            data.phone
+            data.phone,
+            data.roles || []
           )
           this.router.navigate(['/home'], {
             queryParams: {

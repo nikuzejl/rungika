@@ -8,6 +8,7 @@
     <button type="button" class="nav-link" [class.active]="isSelected('/home')" (click)="routeTo('home')">Home</button>
     <button type="button" class="nav-link" [class.active]="isSelected('/how-it-works')" (click)="routeTo('/how-it-works')">How it works</button>
     <button type="button" class="nav-link" [class.active]="isSelected('/who-we-are')" (click)="routeTo('/who-we-are')">Who we are</button>
+    <button type="button" class="nav-link" *ngIf="isAdmin()" [class.active]="isSelected('/admin/orders-special')" (click)="routeTo('admin/orders-special')">Admin</button>
   </nav>
 
   <div class="header-auth" *ngIf="!credentials.loggedIn">

@@ -48,6 +48,10 @@ export class HomeComponent {
     this.router.navigate(['/' + route])
   }
 
+  isAdmin(): boolean {
+    return this.credentials.loggedIn && this.authService.isAdmin()
+  }
+
   private triggerToast(message: string) {
     this.toastMessage = message
     this.showToast = true

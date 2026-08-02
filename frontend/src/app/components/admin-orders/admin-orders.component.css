@@ -1,0 +1,75 @@
+.admin-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.page-subtitle {
+  margin: 0.25rem 0 1rem;
+  color: #4b5563;
+}
+
+.category-section {
+  margin-top: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.section-toggle {
+  width: 100%;
+  border: none;
+  background: #f9fafb;
+  padding: 0.9rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #111827;
+}
+
+.section-body {
+  padding: 1rem;
+}
+
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.order-card {
+  padding: 1rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.file-upload-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.helper {
+  margin: 0.5rem 0;
+}
+
+.helper.success {
+  color: #065f46;
+}
+
+.helper.error {
+  color: #b91c1c;
+}
+
+.empty-state,
+.loading {
+  margin-top: 1rem;
+  color: #374151;
+}

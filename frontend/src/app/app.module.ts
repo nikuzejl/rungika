@@ -37,6 +37,7 @@ import { RecipientDetailsComponent } from './components/recipient-details/recipi
 import { TransactionSummaryComponent } from './components/transaction-summary/transaction-summary.component'
 import { AccountDeleteDialogComponent } from './components/account-details/account-delete-dialog/account-delete-dialog.component'
 import { ChangePasswordDialogComponent } from './components/account-details/change-password-dialog/change-password-dialog.component'
+import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component'
 
 @NgModule({
 	declarations: [
@@ -57,7 +58,8 @@ import { ChangePasswordDialogComponent } from './components/account-details/chan
         RecipientDetailsComponent,
         TransactionSummaryComponent,
 		AccountDeleteDialogComponent,
-		ChangePasswordDialogComponent
+		ChangePasswordDialogComponent,
+		AdminOrdersComponent
 	],
 	imports: [
 		BrowserModule,

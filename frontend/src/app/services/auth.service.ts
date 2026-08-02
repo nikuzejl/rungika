@@ -19,7 +19,8 @@ export class AuthService {
     firstName: '',
     lastName: '',
     email: '',
-    phone: ''
+    phone: '',
+    roles: [] as string[]
   }
 
   constructor(private http: HttpClient, private storageService: StorageService) {
@@ -37,13 +38,14 @@ export class AuthService {
     )
   }
 
-  updateCredentials(firstName:string, lastName:string, email:string, phone:string){
+  updateCredentials(firstName:string, lastName:string, email:string, phone:string, roles: string[] = []){
     this.credentials.loggedIn = true
     this.credentials.firstName = firstName
     this.credentials.lastName = lastName
     this.credentials.email = email
     this.credentials.phone = phone
-    this.storageService.saveUser({ firstName, lastName, email, phone })
+    this.credentials.roles = roles
+    this.storageService.saveUser({ firstName, lastName, email, phone, roles })
   }
 
   restoreCredentials() {
@@ -54,6 +56,7 @@ export class AuthService {
       this.credentials.lastName = user.lastName || ''
       this.credentials.email = user.email || ''
       this.credentials.phone = user.phone || ''
+      this.credentials.roles = user.roles || []
     }
   }
 
@@ -63,7 +66,12 @@ export class AuthService {
     this.credentials.lastName = ''
     this.credentials.email = ''
     this.credentials.phone = ''
+    this.credentials.roles = []
     this.storageService.clean()
+  }
+
+  isAdmin(): boolean {
+    return this.credentials.roles.includes('ROLE_ADMIN')
   }
 
   signup(firstName: string, lastName: string, email: string, phone:string, password: string): Observable<any> {

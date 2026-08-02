@@ -11,6 +11,8 @@ import { WhoWeAreComponent } from './components/who-we-are/who-we-are.component'
 import { HowItWorksComponent } from './components/how-it-works/how-it-works.component'
 import { CancelComponent } from './components/cancel/cancel.component'
 import { RecipientDetailsComponent } from './components/recipient-details/recipient-details.component'
+import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component'
+import { AdminGuard } from './guards/admin.guard'
 
 const routes: Routes = [
   { path: '', component: ExchangeRateComponent },
@@ -26,6 +28,7 @@ const routes: Routes = [
   { path: 'success', component: SucessComponent},
   { path: 'account-details', component: AccountDetailsComponent},
   { path: 'success/:orderId', component: SucessComponent },
+  { path: 'admin/orders-special', component: AdminOrdersComponent, canActivate: [AdminGuard] },
   { path: 'who-we-are', component: WhoWeAreComponent},
   { path: 'how-it-works', component: HowItWorksComponent}
 ]
