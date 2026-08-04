@@ -3,6 +3,8 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { TimeoutError, timeout } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ForgotPasswordDialogComponent } from './forgot-password-dialog/forgot-password-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,11 @@ export class LoginComponent implements OnInit {
   isSendingReset = false
   form!: FormGroup
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     this.createForm();
@@ -96,26 +102,38 @@ export class LoginComponent implements OnInit {
     }
 
     const emailFromForm = this.form?.value?.email || ''
-    const email = window.prompt('Enter your account email to receive a reset link:', emailFromForm)?.trim()
-    if (!email) {
-      return
-    }
+    const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
+      width: '480px',
+      maxWidth: '92vw',
+      disableClose: false,
+      panelClass: 'custom-dialog',
+      data: {
+        email: emailFromForm
+      }
+    })
 
-    this.errorMessage = ''
-    this.infoMessage = ''
-    this.isSendingReset = true
+    dialogRef.afterClosed().subscribe((email: string | undefined) => {
+      const trimmedEmail = email?.trim()
+      if (!trimmedEmail) {
+        return
+      }
 
-    this.authService.forgotPassword(email)
-      .pipe(timeout(7000))
-      .subscribe({
-        next: data => {
-          this.isSendingReset = false
-          this.infoMessage = data?.message || 'A password reset link has been sent.'
-        },
-        error: () => {
-          this.isSendingReset = false
-          this.errorMessage = 'Could not send reset link right now. Please try again.'
-        }
-      })
+      this.errorMessage = ''
+      this.infoMessage = ''
+      this.isSendingReset = true
+
+      this.authService.forgotPassword(trimmedEmail)
+        .pipe(timeout(7000))
+        .subscribe({
+          next: data => {
+            this.isSendingReset = false
+            this.infoMessage = data?.message || 'A password reset link has been sent.'
+          },
+          error: () => {
+            this.isSendingReset = false
+            this.errorMessage = 'Could not send reset link right now. Please try again.'
+          }
+        })
+    })
   }
 }

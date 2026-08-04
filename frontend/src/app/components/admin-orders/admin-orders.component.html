@@ -35,14 +35,12 @@
             <textarea matInput rows="3" [(ngModel)]="updateDrafts[order.orderId].note"></textarea>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Photo URL (optional)</mat-label>
-            <input matInput type="text" [(ngModel)]="updateDrafts[order.orderId].photo">
-          </mat-form-field>
-
           <div class="file-upload-row">
-            <label>Or upload photo (optional):</label>
-            <input type="file" accept="image/*" (change)="onPhotoSelected($event, order.orderId)">
+            <span class="upload-label">Upload photo (optional)</span>
+            <input #photoInput type="file" accept="image/*" hidden (change)="onPhotoSelected($event, order.orderId)">
+            <button type="button" class="upload-photo-btn" (click)="photoInput.click()">
+              Choose photo
+            </button>
           </div>
 
           <button class="btn-primary" (click)="submitUpdate(order.orderId)">Update Order</button>

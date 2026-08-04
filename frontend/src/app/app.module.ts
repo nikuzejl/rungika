@@ -38,6 +38,8 @@ import { TransactionSummaryComponent } from './components/transaction-summary/tr
 import { AccountDeleteDialogComponent } from './components/account-details/account-delete-dialog/account-delete-dialog.component'
 import { ChangePasswordDialogComponent } from './components/account-details/change-password-dialog/change-password-dialog.component'
 import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component'
+import { httpInterceptorProviders } from './helpers/http.interceptor'
+import { ForgotPasswordDialogComponent } from './components/login/forgot-password-dialog/forgot-password-dialog.component'
 
 @NgModule({
 	declarations: [
@@ -59,7 +61,8 @@ import { AdminOrdersComponent } from './components/admin-orders/admin-orders.com
         TransactionSummaryComponent,
 		AccountDeleteDialogComponent,
 		ChangePasswordDialogComponent,
-		AdminOrdersComponent
+		AdminOrdersComponent,
+		ForgotPasswordDialogComponent
 	],
 	imports: [
 		BrowserModule,
@@ -84,7 +87,7 @@ import { AdminOrdersComponent } from './components/admin-orders/admin-orders.com
 		AppMaterialModule,
 		NgxStripeModule.forRoot(environment.STRIPE_PUBLIC_KEY)
 	],
-	providers: [CurrencyService],
+	providers: [CurrencyService, ...httpInterceptorProviders],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

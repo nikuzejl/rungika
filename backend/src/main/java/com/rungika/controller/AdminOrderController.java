@@ -118,30 +118,54 @@ public class AdminOrderController {
     private void notifyStatusUpdate(Order order) {
         String senderEmail = order.getSenderEmail();
         if (senderEmail != null && !senderEmail.isBlank()) {
-            var senderMail = EmailUtility.createOrderStatusUpdateEmail(
-                    senderEmail,
-                    order.getOrderId(),
-                    order.getStatus(),
-                    order.getSenderFirstName(),
-                    order.getRecipientFirstName(),
-                    order.getAdminStatusNote(),
-                    order.getAdminStatusPhoto()
-            );
-            emailService.sendEmail(senderMail);
+            if (order.getAdminStatusPhoto() != null && !order.getAdminStatusPhoto().isBlank()) {
+                emailService.sendEmail(EmailUtility.createOrderStatusUpdateEmailWithPhoto(
+                        senderEmail,
+                        order.getOrderId(),
+                        order.getStatus(),
+                        order.getSenderFirstName(),
+                        order.getRecipientFirstName(),
+                        order.getAdminStatusNote(),
+                        order.getAdminStatusPhoto()
+                ));
+            } else {
+                var senderMail = EmailUtility.createOrderStatusUpdateEmail(
+                        senderEmail,
+                        order.getOrderId(),
+                        order.getStatus(),
+                        order.getSenderFirstName(),
+                        order.getRecipientFirstName(),
+                        order.getAdminStatusNote(),
+                        order.getAdminStatusPhoto()
+                );
+                emailService.sendEmail(senderMail);
+            }
         }
 
         String recipientEmail = order.getRecipientEmail();
         if (recipientEmail != null && !recipientEmail.isBlank()) {
-            var recipientMail = EmailUtility.createOrderStatusUpdateEmail(
-                    recipientEmail,
-                    order.getOrderId(),
-                    order.getStatus(),
-                    order.getSenderFirstName(),
-                    order.getRecipientFirstName(),
-                    order.getAdminStatusNote(),
-                    order.getAdminStatusPhoto()
-            );
-            emailService.sendEmail(recipientMail);
+            if (order.getAdminStatusPhoto() != null && !order.getAdminStatusPhoto().isBlank()) {
+                emailService.sendEmail(EmailUtility.createOrderStatusUpdateEmailWithPhoto(
+                        recipientEmail,
+                        order.getOrderId(),
+                        order.getStatus(),
+                        order.getSenderFirstName(),
+                        order.getRecipientFirstName(),
+                        order.getAdminStatusNote(),
+                        order.getAdminStatusPhoto()
+                ));
+            } else {
+                var recipientMail = EmailUtility.createOrderStatusUpdateEmail(
+                        recipientEmail,
+                        order.getOrderId(),
+                        order.getStatus(),
+                        order.getSenderFirstName(),
+                        order.getRecipientFirstName(),
+                        order.getAdminStatusNote(),
+                        order.getAdminStatusPhoto()
+                );
+                emailService.sendEmail(recipientMail);
+            }
         }
     }
 }

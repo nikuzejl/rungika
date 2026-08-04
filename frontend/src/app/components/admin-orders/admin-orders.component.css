@@ -52,8 +52,47 @@
 .file-upload-row {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.5rem;
   margin-bottom: 1rem;
+}
+
+.upload-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.upload-photo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  min-height: 42px;
+  padding: 0.65rem 1rem;
+  border: 1px solid #0f5bd7;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f8fbff, #eaf2ff);
+  color: #0f5bd7;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.upload-photo-btn:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #eef5ff, #dbeafe);
+  box-shadow: 0 8px 18px rgba(15, 91, 215, 0.18);
+}
+
+.upload-photo-btn:active {
+  transform: translateY(0);
+}
+
+.upload-photo-btn:focus-visible {
+  outline: 3px solid rgba(15, 91, 215, 0.28);
+  outline-offset: 2px;
 }
 
 .helper {
