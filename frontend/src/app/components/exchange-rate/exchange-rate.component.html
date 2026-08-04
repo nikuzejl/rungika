@@ -1,24 +1,35 @@
 <section class="hero-section">
+  <div class="hero-overlay"></div>
   <div class="hero-layout">
     <div class="hero-copy">
-      <h1>Send money with confidence</h1>
+      <span class="hero-eyebrow">Fast and trusted transfers</span>
+      <h1>Simple, safe, and transparent way to send money to your loved ones.</h1>
       <p class="hero-description">
-        Competitive rates, real-time conversion, and delivery to mobile wallets or bank accounts across Africa.
+        Check the latest rate, estimate what they receive, and send in just a few steps.
       </p>
+      <div class="hero-points">
+        <span>Live exchange rates</span>
+        <span>Mobile wallet or bank payout</span>
+        <span>Simple and secure flow</span>
+      </div>
     </div>
 
     <mat-card class="transfer-card">
+      <div class="card-intro">
+        <h2>Start your transfer</h2>
+      </div>
+
       <div *ngIf="isLoadingRates" class="loading-spinner">
-        <p class="loading-text">Loading exchange rates...</p>
+        <p class="loading-text">Loading the latest exchange rates...</p>
       </div>
 
       <div *ngIf="!isLoadingRates && exchangeRateError[0]" class="error-banner">
-        We are not able to find the latest exchange rates. Please try again later.
+        We could not fetch fresh exchange rates right now. Please try again in a moment.
       </div>
 
       <div *ngIf="!isLoadingRates && !exchangeRateError[0]">
         <div class="rate-header">
-          <span class="rate-label">Exchange rate</span>
+          <span class="rate-label">Current exchange rate</span>
           <div class="rate-value">
             1 {{ form.value.fromCurrency }} = {{ rate | number : '1.2-2' }} {{ form.value.toCurrency }}
           </div>
@@ -86,9 +97,9 @@
             </div>
 
             <div class="field-group">
-              <label class="field-label">Receive method</label>
+              <label class="field-label">Payout method</label>
               <mat-form-field appearance="outline" class="full-width-field">
-                <mat-label>Select receive method</mat-label>
+                <mat-label>Choose how recipient receives money</mat-label>
                 <mat-select [(ngModel)]="receiveMethod" formControlName="receiveMethod">
                   <mat-option *ngFor="let method of receiveMethodOptions.get(form.value.toCurrency)" [value]="method">{{ method }}</mat-option>
                 </mat-select>
@@ -102,7 +113,7 @@
               [class.invalid]="!form.valid"
               [disabled]="!form.valid"
               type="submit">
-              Continue
+              Continue to recipient details
             </button>
           </form>
         </mat-card-content>

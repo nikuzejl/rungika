@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -31,7 +32,7 @@ import java.util.List;
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-    @org.springframework.beans.factory.annotation.Value("${cors.allowed-origins:http://localhost:4200}")
+    @org.springframework.beans.factory.annotation.Value("${app.cors.allowed-origins:${app.frontend-url}}")
     private String allowedOrigins;
 
     @Autowired
@@ -69,15 +70,15 @@ public class WebSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/api/v1/rate/latest",
-                                "/api/v1/auth/signin",
-                                "/api/v1/auth/signup",
-                                "/api/v1/auth/forgot-password",
-                                "/error"
+                                // "/api/v1/auth/signin",
+                                // "/api/v1/auth/signup",
+                                // "/api/v1/auth/forgot-password",
+                                "/api/v1/**" // remove later
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -17,7 +17,6 @@ spring:
   data.mongodb:
     uri: placeholder
     database: placeholder
-
   mail:
     host: smtp.gmail.com
     port: 587
@@ -35,9 +34,6 @@ email:
   notification:
     enabled: true
 
-app:
-  frontend-url: http://localhost:4200
-
 jwt:
   cookieName: placeholder
   cookieSameSite: ${JWT_COOKIE_SAME_SITE:Lax}
@@ -45,11 +41,14 @@ jwt:
   secret: placeholder
   expirationMs: 86400000
 
-cors:
-  allowed-origins: http://localhost:4200
+app:
+  frontend-url: ${APP_FRONTEND_URL:http://localhost:4200}
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:${app.frontend-url}}
+  cancel-url: ${APP_FRONTEND_URL}/#/payment-failed
+  success-url: ${APP_FRONTEND_URL}/#/success
 
-cancelUrl: 'http://localhost:4200/#/payment-failed'
-successUrl: 'http://localhost:4200/#/success'
-
-admin.seed.emails: email1, email2
-admin.seed.sync-user-roles: true
+admin:
+  seed:
+    emails: email1, email2
+    sync-user-roles: true

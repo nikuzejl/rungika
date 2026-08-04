@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -9,28 +8,17 @@ export class CurrencyService {
   fromCurrencies = ["USD", "CAD"];
   toCurrencies = ["BIF", "RWF"];
   failedToFindExchangeRate = false;
-  private readonly exchangeRateUrl = `${environment.serverUrl}/api/v1/rate/latest`;
-
-  constructor() {}
+  private readonly exchangeRateUrl = 'https://open.er-api.com/v6/latest/';
 
   async initializeRates() {
     try {
       const exchangeRates = await this.getExchangeRates(this.fromCurrencies, this.toCurrencies);
       console.log('Exchange rates fetched successfully:', exchangeRates);
 
-      for (const fromCurrency of this.fromCurrencies) {
-        for (const toCurrency of this.toCurrencies) {
-          const conversionString = this.getCurrencyConversionString(fromCurrency, toCurrency);
-          const rate = exchangeRates.get(conversionString);
-
-          if (rate !== undefined) {
-            this.currencies.set(conversionString, rate);
-          } else {
-            const errorMessage = `Exchange rate from ${fromCurrency} to ${toCurrency} not available.`;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-          }
-        }
+      this.currencies.clear();
+      for (const [currencyPair, rate] of exchangeRates.entries()) {
+        console.log(`Exchange rate for ${currencyPair}:`, rate);
+        this.currencies.set(currencyPair, rate);
       }
     } catch (error) {
       this.failedToFindExchangeRate = true;
@@ -40,45 +28,41 @@ export class CurrencyService {
   }
 
   async getExchangeRates(fromCurrencies: string[], toCurrencies: string[]): Promise<Map<string, number>> {
-    const result: Map<string, number> = new Map();
-    const requests: Promise<void>[] = [];
+    const requests = fromCurrencies.flatMap((fromCurrency) =>
+      toCurrencies.map(async (toCurrency) => {
+        const currencyPair = this.getCurrencyPairKey(fromCurrency, toCurrency);
+        const exchangeRate = await this.getExchangeRate(fromCurrency, toCurrency);
 
-    for (const fromCurrency of fromCurrencies) {
-      for (const toCurrency of toCurrencies) {
-        const conversionString = this.getCurrencyConversionString(fromCurrency, toCurrency);
+        if (exchangeRate === undefined) {
+          const errorMessage = `Exchange rate from ${fromCurrency} to ${toCurrency} not available in API response.`;
+          console.error(errorMessage);
+          throw new Error(errorMessage);
+        }
 
-        requests.push(
-          this.getExchangeRate(fromCurrency, toCurrency)
-            .then((exchangeRate) => {
-              if (exchangeRate !== undefined) {
-                result.set(conversionString, exchangeRate);
-                return;
-              }
+        return [currencyPair, exchangeRate] as const;
+      })
+    );
 
-              const errorMessage = `Exchange rate from ${fromCurrency} to ${toCurrency} not available in API response.`;
-              console.error(errorMessage);
-              throw new Error(errorMessage);
-            })
-            .catch((error) => {
-              console.error('Error fetching data:', error);
-              throw error;
-            })
-        );
-      }
-    }
-
-    await Promise.all(requests);
-    return result;
+    return new Map(await Promise.all(requests));
   }
 
   async getExchangeRate(fromCurrency: string, toCurrency: string): Promise<number | undefined> {
     try {
-      const params = new URLSearchParams({ fromCurrency, toCurrency });
-      const response = await fetch(`${this.exchangeRateUrl}?${params.toString()}`, {
+      const requestUrl = `${this.exchangeRateUrl}${fromCurrency}`;
+      console.log('Fetching exchange rate', { fromCurrency, toCurrency, requestUrl });
+
+      const response = await fetch(requestUrl, {
         method: 'GET',
         headers: {
           accept: '*/*'
         }
+      });
+
+      console.log('Exchange rate response received', {
+        fromCurrency,
+        toCurrency,
+        status: response.status,
+        ok: response.ok
       });
 
       if (!response.ok) {
@@ -89,15 +73,20 @@ export class CurrencyService {
       }
 
       const data = await response.json();
+      console.log('Exchange rate payload', { fromCurrency, toCurrency, data });
+
       const exchangeRate = this.extractExchangeRate(data, toCurrency);
+      console.log('Extracted exchange rate', { fromCurrency, toCurrency, exchangeRate });
+
       if (exchangeRate === undefined) {
         this.failedToFindExchangeRate = true;
+        console.warn('Exchange rate missing from payload', { fromCurrency, toCurrency, data });
       }
 
       return exchangeRate;
     } catch (error) {
       this.failedToFindExchangeRate = true;
-      console.error('Error fetching data:', error);
+      console.error('Error fetching exchange rate data', { fromCurrency, toCurrency, error });
       throw error;
     }
   }
@@ -107,27 +96,20 @@ export class CurrencyService {
       return data;
     }
 
-    if (data?.rate !== undefined && typeof data.rate === 'number') {
-      return data.rate;
-    }
-
-    if (data?.conversionRate !== undefined && typeof data.conversionRate === 'number') {
-      return data.conversionRate;
-    }
-
-    if (data?.conversion_rates && data.conversion_rates[toCurrency] !== undefined) {
-      return data.conversion_rates[toCurrency];
-    }
-
-    return undefined;
+    return [
+      data?.rate,
+      data?.conversionRate,
+      data?.rates?.[toCurrency],
+      data?.conversion_rates?.[toCurrency]
+    ].find((rate): rate is number => typeof rate === 'number');
   }
 
-  getCurrencyConversionString(from: string, to: string) {
-    return from + '_TO_' + to;
+  private getCurrencyPairKey(from: string, to: string) {
+    return `${from}:${to}`;
   }
 
   getRate(from: string, to: string) {
-    const rate = this.currencies.get(this.getCurrencyConversionString(from, to));
+    const rate = this.currencies.get(this.getCurrencyPairKey(from, to));
     return rate;
   }
 }

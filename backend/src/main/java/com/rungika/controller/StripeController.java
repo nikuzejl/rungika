@@ -27,10 +27,10 @@ public class StripeController {
     @Value("${stripe.secret.key}")
     String exchangeRateApiKey;
 
-    @Value("${cancelUrl}")
+    @Value("${app.cancel-url}")
     String cancelUrl;
 
-    @Value("${successUrl}")
+    @Value("${app.success-url}")
     String successUrl;
 
     @Autowired

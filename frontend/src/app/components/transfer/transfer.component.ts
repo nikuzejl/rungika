@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { HttpService } from 'src/app/services/http.service'
-import { environment } from 'src/environments/environment.prod'
 import { PHONE_COUNTRY_CODES } from 'src/app/helpers/phone-country-codes'
 
 @Component({
@@ -10,6 +9,7 @@ import { PHONE_COUNTRY_CODES } from 'src/app/helpers/phone-country-codes'
   styleUrls: ['./transfer.component.css']
 })
 export class TransferComponent {
+  private readonly exchangeRateUrl = 'https://open.er-api.com/v6/latest/'
   form!: FormGroup
   countryCodes = PHONE_COUNTRY_CODES
   fromCurrency = "USD"
@@ -23,14 +23,12 @@ export class TransferComponent {
   ngOnInit() {
     this.createForm()
 
-    this.httpService.getRequest(environment.serverUrl + '/api/v1/rate/latest?fromCurrency=' + 'USD' +
-      '&toCurrency=' + 'BIF').subscribe(data => {
-        this.usdToBifRate = data
+    this.httpService.getRequest(this.exchangeRateUrl + 'USD').subscribe(data => {
+        this.usdToBifRate = data?.rates?.BIF ?? 0.0
         this.rate = this.usdToBifRate
 
-        this.httpService.getRequest(environment.serverUrl + '/api/v1/rate/latest?fromCurrency=' + 'CAD' +
-          '&toCurrency=' + 'BIF').subscribe(data => {
-            this.cadToBifRate = data
+        this.httpService.getRequest(this.exchangeRateUrl + 'CAD').subscribe(data => {
+            this.cadToBifRate = data?.rates?.BIF ?? 0.0
           })
       })
   }
@@ -55,9 +53,5 @@ export class TransferComponent {
       'phone': new FormControl(null)
     })
   }
-  onSubmit(formData: FormGroup) {
-    const email = formData.value.email
-    const password = formData.value.password
-    //this.authService.signinUser(email, password)
-  }
+  onSubmit(formData: FormGroup) { }
 }
