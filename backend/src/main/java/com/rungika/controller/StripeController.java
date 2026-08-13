@@ -153,7 +153,7 @@ public class StripeController {
                     confirmation.getConvertedAmount(),
                     confirmation.getToCurrency()
             );
-            emailService.sendEmail(senderEmail);
+            boolean senderEmailSent = emailService.sendEmail(senderEmail).get(10, java.util.concurrent.TimeUnit.SECONDS);
 
             var recipientEmail = EmailUtility.createTransferNotificationEmail(
                     confirmation.getRecipientEmail(),
@@ -162,7 +162,14 @@ public class StripeController {
                     confirmation.getConvertedAmount(),
                     confirmation.getToCurrency()
             );
-            emailService.sendEmail(recipientEmail);
+            boolean recipientEmailSent = emailService.sendEmail(recipientEmail).get(10, java.util.concurrent.TimeUnit.SECONDS);
+
+            if (!senderEmailSent || !recipientEmailSent) {
+                orderService.deleteOrder(orderId);
+                responseData.put("success", false);
+                responseData.put("message", "Payment confirmed, but we could not send the confirmation emails. The order was not kept.");
+                return responseData;
+            }
 
             responseData.put("success", true);
             responseData.put("orderId", orderId);

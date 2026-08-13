@@ -87,7 +87,12 @@ public class AdminOrderController {
                     request.getPhoto()
             );
 
-            notifyStatusUpdate(updatedOrder);
+            boolean notificationsSent = notifyStatusUpdate(updatedOrder);
+            if (!notificationsSent) {
+                return ResponseEntity.status(503).body(Map.of(
+                        "message", "Order updated, but one or more notification emails could not be sent."
+                ));
+            }
 
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Order updated successfully.");
@@ -115,57 +120,73 @@ public class AdminOrderController {
         return authentication.getName() == null ? "" : authentication.getName();
     }
 
-    private void notifyStatusUpdate(Order order) {
+    private boolean notifyStatusUpdate(Order order) {
+        boolean allNotificationsSent = true;
+
         String senderEmail = order.getSenderEmail();
         if (senderEmail != null && !senderEmail.isBlank()) {
-            if (order.getAdminStatusPhoto() != null && !order.getAdminStatusPhoto().isBlank()) {
-                emailService.sendEmail(EmailUtility.createOrderStatusUpdateEmailWithPhoto(
-                        senderEmail,
-                        order.getOrderId(),
-                        order.getStatus(),
-                        order.getSenderFirstName(),
-                        order.getRecipientFirstName(),
-                        order.getAdminStatusNote(),
-                        order.getAdminStatusPhoto()
-                ));
-            } else {
-                var senderMail = EmailUtility.createOrderStatusUpdateEmail(
-                        senderEmail,
-                        order.getOrderId(),
-                        order.getStatus(),
-                        order.getSenderFirstName(),
-                        order.getRecipientFirstName(),
-                        order.getAdminStatusNote(),
-                        order.getAdminStatusPhoto()
-                );
-                emailService.sendEmail(senderMail);
+            try {
+                boolean sent;
+                if (order.getAdminStatusPhoto() != null && !order.getAdminStatusPhoto().isBlank()) {
+                    sent = emailService.sendEmail(EmailUtility.createOrderStatusUpdateEmailWithPhoto(
+                            senderEmail,
+                            order.getOrderId(),
+                            order.getStatus(),
+                            order.getSenderFirstName(),
+                            order.getRecipientFirstName(),
+                            order.getAdminStatusNote(),
+                            order.getAdminStatusPhoto()
+                    )).get(10, java.util.concurrent.TimeUnit.SECONDS);
+                } else {
+                    var senderMail = EmailUtility.createOrderStatusUpdateEmail(
+                            senderEmail,
+                            order.getOrderId(),
+                            order.getStatus(),
+                            order.getSenderFirstName(),
+                            order.getRecipientFirstName(),
+                            order.getAdminStatusNote(),
+                            order.getAdminStatusPhoto()
+                    );
+                    sent = emailService.sendEmail(senderMail).get(10, java.util.concurrent.TimeUnit.SECONDS);
+                }
+                allNotificationsSent = allNotificationsSent && sent;
+            } catch (Exception ex) {
+                allNotificationsSent = false;
             }
         }
 
         String recipientEmail = order.getRecipientEmail();
         if (recipientEmail != null && !recipientEmail.isBlank()) {
-            if (order.getAdminStatusPhoto() != null && !order.getAdminStatusPhoto().isBlank()) {
-                emailService.sendEmail(EmailUtility.createOrderStatusUpdateEmailWithPhoto(
-                        recipientEmail,
-                        order.getOrderId(),
-                        order.getStatus(),
-                        order.getSenderFirstName(),
-                        order.getRecipientFirstName(),
-                        order.getAdminStatusNote(),
-                        order.getAdminStatusPhoto()
-                ));
-            } else {
-                var recipientMail = EmailUtility.createOrderStatusUpdateEmail(
-                        recipientEmail,
-                        order.getOrderId(),
-                        order.getStatus(),
-                        order.getSenderFirstName(),
-                        order.getRecipientFirstName(),
-                        order.getAdminStatusNote(),
-                        order.getAdminStatusPhoto()
-                );
-                emailService.sendEmail(recipientMail);
+            try {
+                boolean sent;
+                if (order.getAdminStatusPhoto() != null && !order.getAdminStatusPhoto().isBlank()) {
+                    sent = emailService.sendEmail(EmailUtility.createOrderStatusUpdateEmailWithPhoto(
+                            recipientEmail,
+                            order.getOrderId(),
+                            order.getStatus(),
+                            order.getSenderFirstName(),
+                            order.getRecipientFirstName(),
+                            order.getAdminStatusNote(),
+                            order.getAdminStatusPhoto()
+                    )).get(10, java.util.concurrent.TimeUnit.SECONDS);
+                } else {
+                    var recipientMail = EmailUtility.createOrderStatusUpdateEmail(
+                            recipientEmail,
+                            order.getOrderId(),
+                            order.getStatus(),
+                            order.getSenderFirstName(),
+                            order.getRecipientFirstName(),
+                            order.getAdminStatusNote(),
+                            order.getAdminStatusPhoto()
+                    );
+                    sent = emailService.sendEmail(recipientMail).get(10, java.util.concurrent.TimeUnit.SECONDS);
+                }
+                allNotificationsSent = allNotificationsSent && sent;
+            } catch (Exception ex) {
+                allNotificationsSent = false;
             }
         }
+
+        return allNotificationsSent;
     }
 }

@@ -64,6 +64,13 @@ public class OrderService {
         }
     }
 
+    public void deleteOrder(long orderId) {
+        Order orderToDelete = orderRepository.findByOrderId(orderId);
+        if (orderToDelete != null) {
+            orderRepository.delete(orderToDelete);
+        }
+    }
+
     public Order getOrderByOrderId(long orderId) {
         return orderRepository.findByOrderId(orderId);
     }

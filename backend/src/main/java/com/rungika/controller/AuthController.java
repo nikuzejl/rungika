@@ -222,13 +222,25 @@ public class AuthController {
             .queryParam("token", verificationToken)
             .toUriString();
 
-        emailService.sendEmail(EmailUtility.createEmail(
-            user.getEmail(),
-            "Confirm your Rungika account",
-            "Thanks for signing up for Rungika. Please confirm your email to activate your account:\n\n" + confirmationLink
-        ));
+        try {
+            boolean emailSent = emailService.sendEmail(EmailUtility.createEmail(
+                user.getEmail(),
+                "Confirm your Rungika account",
+                "Thanks for signing up for Rungika. Please confirm your email to activate your account:\n\n" + confirmationLink
+            )).get(10, java.util.concurrent.TimeUnit.SECONDS);
 
-        return ResponseEntity.ok(new MessageResponse("Check your email to complete your account registration."));
+            if (!emailSent) {
+                userRepository.delete(user);
+                return ResponseEntity.status(503)
+                    .body(new MessageResponse("We could not send the confirmation email. Your account was not created."));
+            }
+
+            return ResponseEntity.ok(new MessageResponse("Check your email to complete your account registration."));
+        } catch (Exception ex) {
+            userRepository.delete(user);
+            return ResponseEntity.status(503)
+                .body(new MessageResponse("We could not send the confirmation email. Your account was not created."));
+        }
     }
 
     @GetMapping("/confirm-email")
@@ -292,7 +304,11 @@ public class AuthController {
 
         @PostMapping("/forgot-password")
         public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        final boolean[] emailAttempted = {false};
+        final boolean[] emailSent = {true};
+
         userRepository.findByEmailIgnoreCase(request.getEmail()).ifPresent(user -> {
+            emailAttempted[0] = true;
             String resetToken = UUID.randomUUID().toString();
             user.setPasswordResetToken(resetToken);
             user.setPasswordResetTokenExpiresAt(System.currentTimeMillis() + (30 * 60 * 1000));
@@ -303,8 +319,25 @@ public class AuthController {
                 .queryParam("token", resetToken)
                 .toUriString();
 
-            emailService.sendEmail(EmailUtility.createPasswordResetEmail(user.getEmail(), resetLink));
+            try {
+                emailSent[0] = emailService.sendEmail(EmailUtility.createPasswordResetEmail(user.getEmail(), resetLink)).get(10, java.util.concurrent.TimeUnit.SECONDS);
+                if (!emailSent[0]) {
+                    user.setPasswordResetToken(null);
+                    user.setPasswordResetTokenExpiresAt(null);
+                    userRepository.save(user);
+                }
+            } catch (Exception ex) {
+                emailSent[0] = false;
+                user.setPasswordResetToken(null);
+                user.setPasswordResetTokenExpiresAt(null);
+                userRepository.save(user);
+            }
         });
+
+        if (emailAttempted[0] && !emailSent[0]) {
+            return ResponseEntity.status(503)
+                .body(new MessageResponse("We could not send the password reset email. Please try again later."));
+        }
 
         return ResponseEntity.ok(new MessageResponse("A password reset link has been sent."));
         }

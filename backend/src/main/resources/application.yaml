@@ -1,4 +1,4 @@
-server.port: 10000
+server.port: 9000
 
 stripe:
   public.key: placeholder
@@ -17,22 +17,14 @@ spring:
   data.mongodb:
     uri: placeholder
     database: placeholder
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: placeholder
-    password: placeholder
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
 
 email:
   notification:
     enabled: true
+
+resend:
+  api-key: ${RESEND_API_KEY:}
+  from-email: ${RESEND_FROM_EMAIL:onboarding@resend.dev}
 
 jwt:
   cookieName: placeholder
