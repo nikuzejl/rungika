@@ -23,7 +23,9 @@
             <mat-form-field class="country-code-field">
               <mat-label>Code</mat-label>
               <mat-select formControlName="phoneCountryCode">
-                <mat-option *ngFor="let country of countryCodes" [value]="country.code">{{ country.label }}</mat-option>
+                @for (country of countryCodes; track country) {
+                  <mat-option [value]="country.code">{{ country.label }}</mat-option>
+                }
               </mat-select>
             </mat-form-field>
 
@@ -33,8 +35,8 @@
             </mat-form-field>
           </div>
           <br>
-          <button type="submit" mat-raised-button color="primary">SEND</button>
-        </form>
-      </mat-card>
+            <button type="submit" mat-raised-button color="primary">SEND</button>
+          </form>
+        </mat-card>
+      </div>
     </div>
-  </div>

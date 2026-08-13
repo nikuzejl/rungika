@@ -5,9 +5,10 @@ import { AuthService } from '../../../services/auth.service';
 import { TimeoutError, timeout } from 'rxjs';
 
 @Component({
-  selector: 'app-change-password-dialog',
-  templateUrl: './change-password-dialog.component.html',
-  styleUrls: ['./change-password-dialog.component.css']
+    selector: 'app-change-password-dialog',
+    templateUrl: './change-password-dialog.component.html',
+    styleUrls: ['./change-password-dialog.component.css'],
+    standalone: false
 })
 export class ChangePasswordDialogComponent {
   passwordForm: FormGroup;

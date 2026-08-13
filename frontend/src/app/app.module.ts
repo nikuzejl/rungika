@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 import { AppComponent } from './app.component'
-import { HttpClientModule } from '@angular/common/http'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HomeComponent } from './components/home/home.component'
@@ -41,53 +41,46 @@ import { AdminOrdersComponent } from './components/admin-orders/admin-orders.com
 import { httpInterceptorProviders } from './helpers/http.interceptor'
 import { ForgotPasswordDialogComponent } from './components/login/forgot-password-dialog/forgot-password-dialog.component'
 
-@NgModule({
-	declarations: [
-		AppComponent,
-		HomeComponent,
-		SpinnerComponent,
-		SucessComponent,
-		FooterComponent,
-		SignupComponent,
-		ProfileComponent,
-		TransferComponent,
-		LoginComponent,
-		ExchangeRateComponent,
+@NgModule({ declarations: [
+        AppComponent,
+        HomeComponent,
+        SpinnerComponent,
+        SucessComponent,
+        FooterComponent,
+        SignupComponent,
+        ProfileComponent,
+        TransferComponent,
+        LoginComponent,
+        ExchangeRateComponent,
         AccountDetailsComponent,
         WhoWeAreComponent,
         HowItWorksComponent,
         CancelComponent,
         RecipientDetailsComponent,
         TransactionSummaryComponent,
-		AccountDeleteDialogComponent,
-		ChangePasswordDialogComponent,
-		AdminOrdersComponent,
-		ForgotPasswordDialogComponent
-	],
-	imports: [
-		BrowserModule,
-		AppRoutingModule,
-		HttpClientModule,
-		MatSlideToggleModule,
-		MatProgressSpinnerModule,
-		MatTooltipModule,
-		BrowserAnimationsModule,
-		MatCardModule,
-		MatButtonModule,
-		FontAwesomeModule,
-		ReactiveFormsModule,
-		MatIconModule,
-		MatInputModule,
-		NgIf,
-		MatDialogModule,
-		BrowserModule,
-		FormsModule,
-		MatSnackBarModule,
-		BrowserAnimationsModule,
-		AppMaterialModule,
-		NgxStripeModule.forRoot(environment.STRIPE_PUBLIC_KEY)
-	],
-	providers: [CurrencyService, ...httpInterceptorProviders],
-	bootstrap: [AppComponent]
-})
+        AccountDeleteDialogComponent,
+        ChangePasswordDialogComponent,
+        AdminOrdersComponent,
+        ForgotPasswordDialogComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        MatSlideToggleModule,
+        MatProgressSpinnerModule,
+        MatTooltipModule,
+        BrowserAnimationsModule,
+        MatCardModule,
+        MatButtonModule,
+        FontAwesomeModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatInputModule,
+        NgIf,
+        MatDialogModule,
+        BrowserModule,
+        FormsModule,
+        MatSnackBarModule,
+        BrowserAnimationsModule,
+        AppMaterialModule,
+        NgxStripeModule.forRoot(environment.STRIPE_PUBLIC_KEY)], providers: [CurrencyService, ...httpInterceptorProviders, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

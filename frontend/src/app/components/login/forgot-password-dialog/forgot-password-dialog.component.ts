@@ -3,9 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 
 @Component({
-  selector: 'app-forgot-password-dialog',
-  templateUrl: './forgot-password-dialog.component.html',
-  styleUrls: ['./forgot-password-dialog.component.css']
+    selector: 'app-forgot-password-dialog',
+    templateUrl: './forgot-password-dialog.component.html',
+    styleUrls: ['./forgot-password-dialog.component.css'],
+    standalone: false
 })
 export class ForgotPasswordDialogComponent {
   form: FormGroup

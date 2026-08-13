@@ -4,9 +4,10 @@ import { HttpService } from 'src/app/services/http.service'
 import { PHONE_COUNTRY_CODES } from 'src/app/helpers/phone-country-codes'
 
 @Component({
-  selector: 'app-transfer',
-  templateUrl: './transfer.component.html',
-  styleUrls: ['./transfer.component.css']
+    selector: 'app-transfer',
+    templateUrl: './transfer.component.html',
+    styleUrls: ['./transfer.component.css'],
+    standalone: false
 })
 export class TransferComponent {
   private readonly exchangeRateUrl = 'https://open.er-api.com/v6/latest/'

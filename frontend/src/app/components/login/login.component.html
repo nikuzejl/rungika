@@ -1,17 +1,23 @@
 <div class="page-center">
   <div class="auth-page">
     <p class="page-subtitle">Sign in to manage your transfers and account.</p>
-    <p class="helper-text login-status" *ngIf="isLoggingIn">Logging in...</p>
+    @if (isLoggingIn) {
+      <p class="helper-text login-status">Logging in...</p>
+    }
 
-    <div *ngIf="errorMessage" class="error-banner">
-      <mat-icon>error_outline</mat-icon>
-      <span>{{ errorMessage }}</span>
-    </div>
+    @if (errorMessage) {
+      <div class="error-banner">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+    }
 
-    <div *ngIf="infoMessage" class="info-banner">
-      <mat-icon>mark_email_read</mat-icon>
-      <span>{{ infoMessage }}</span>
-    </div>
+    @if (infoMessage) {
+      <div class="info-banner">
+        <mat-icon>mark_email_read</mat-icon>
+        <span>{{ infoMessage }}</span>
+      </div>
+    }
 
     <mat-card class="form-card">
       <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit(form)">

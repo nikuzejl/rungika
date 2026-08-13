@@ -8,9 +8,10 @@ import { Router } from '@angular/router'
 import { CURRENCY_PHONE_CODE_MAP, PHONE_COUNTRY_CODES, SUPPORTED_PHONE_CODES } from 'src/app/helpers/phone-country-codes'
 
 @Component({
-  selector: 'app-recipient-details',
-  templateUrl: './recipient-details.component.html',
-  styleUrls: ['./recipient-details.component.css']
+    selector: 'app-recipient-details',
+    templateUrl: './recipient-details.component.html',
+    styleUrls: ['./recipient-details.component.css'],
+    standalone: false
 })
 export class RecipientDetailsComponent implements OnInit {
   currentStep: 'sender' | 'receiver' = 'sender'

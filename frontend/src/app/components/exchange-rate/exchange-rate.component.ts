@@ -5,9 +5,10 @@ import { Router } from '@angular/router'
 import { TransactionService } from 'src/app/services/transaction.service'
 
 @Component({
-  selector: 'app-exchange-rate',
-  templateUrl: './exchange-rate.component.html',
-  styleUrls: ['./exchange-rate.component.css']
+    selector: 'app-exchange-rate',
+    templateUrl: './exchange-rate.component.html',
+    styleUrls: ['./exchange-rate.component.css'],
+    standalone: false
 })
 export class ExchangeRateComponent {
   receiveMethodOptions: Map<string, string[]> = new Map([

@@ -9,23 +9,25 @@
 
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Confirmation text</mat-label>
-    <input 
-      matInput 
-      [(ngModel)]="confirmationText" 
+    <input
+      matInput
+      [(ngModel)]="confirmationText"
       (input)="onTextChange()"
       placeholder="Type exactly: delete my account">
   </mat-form-field>
 
-  <p *ngIf="!isConfirmed && confirmationText" class="error-hint">
-    Text doesn't match. Please type exactly: "delete my account"
-  </p>
+  @if (!isConfirmed && confirmationText) {
+    <p class="error-hint">
+      Text doesn't match. Please type exactly: "delete my account"
+    </p>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Cancel</button>
-  <button 
-    mat-raised-button 
-    color="warn" 
+  <button
+    mat-raised-button
+    color="warn"
     (click)="onConfirmDelete()"
     [disabled]="!isConfirmed">
     Delete Account Permanently

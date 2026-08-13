@@ -3,9 +3,10 @@ import { NavigationEnd, Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth.service'
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
+    standalone: false
 })
 export class HomeComponent {
   currentRoute = ''

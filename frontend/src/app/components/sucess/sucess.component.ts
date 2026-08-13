@@ -5,9 +5,10 @@ import { Router } from '@angular/router'
 import { environment } from 'src/environments/environment.prod'
 
 @Component({
-  selector: 'app-sucess',
-  templateUrl: './sucess.component.html',
-  styleUrls: ['./sucess.component.css']
+    selector: 'app-sucess',
+    templateUrl: './sucess.component.html',
+    styleUrls: ['./sucess.component.css'],
+    standalone: false
 })
 export class SucessComponent {
   showSpinner = true

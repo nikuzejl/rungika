@@ -4,27 +4,33 @@
     <span class="brand-name">Rungika</span>
   </div>
 
-  <div class="header-auth" *ngIf="!credentials.loggedIn">
-    <div class="auth-group">
-      <button type="button" class="btn-login auth-link" [class.active]="isSelected('/login')" (click)="routeTo('login')">
-        <mat-icon class="auth-icon">login</mat-icon>
-        <span>Log in</span>
-      </button>
-      <button type="button" class="btn-signup auth-cta" (click)="routeTo('signup')">
-        <mat-icon class="auth-icon">person_add</mat-icon>
-        <span>Sign up</span>
-      </button>
+  @if (!credentials.loggedIn) {
+    <div class="header-auth">
+      <div class="auth-group">
+        <button type="button" class="btn-login auth-link" [class.active]="isSelected('/login')" (click)="routeTo('login')">
+          <mat-icon class="auth-icon">login</mat-icon>
+          <span>Log in</span>
+        </button>
+        <button type="button" class="btn-signup auth-cta" (click)="routeTo('signup')">
+          <mat-icon class="auth-icon">person_add</mat-icon>
+          <span>Sign up</span>
+        </button>
+      </div>
     </div>
-  </div>
+  }
 
-  <div class="header-auth" *ngIf="credentials.loggedIn">
-    <a class="account-link" routerLink="/account-details">{{ credentials.firstName }}</a>
-  </div>
+  @if (credentials.loggedIn) {
+    <div class="header-auth">
+      <a class="account-link" routerLink="/account-details">{{ credentials.firstName }}</a>
+    </div>
+  }
 </header>
 
-<div class="global-toast" *ngIf="showToast">
-  {{ toastMessage }}
-</div>
+@if (showToast) {
+  <div class="global-toast">
+    {{ toastMessage }}
+  </div>
+}
 
 <main class="app-main">
   <router-outlet></router-outlet>

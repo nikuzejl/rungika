@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-account-delete-dialog',
-  templateUrl: './account-delete-dialog.component.html',
-  styleUrls: ['./account-delete-dialog.component.css']
+    selector: 'app-account-delete-dialog',
+    templateUrl: './account-delete-dialog.component.html',
+    styleUrls: ['./account-delete-dialog.component.css'],
+    standalone: false
 })
 export class AccountDeleteDialogComponent {
   confirmationText = '';

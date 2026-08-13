@@ -19,105 +19,123 @@
         <h2>Start your transfer</h2>
       </div>
 
-      <div *ngIf="isLoadingRates" class="loading-spinner">
-        <p class="loading-text">Loading the latest exchange rates...</p>
-      </div>
-
-      <div *ngIf="!isLoadingRates && exchangeRateError[0]" class="error-banner">
-        We could not fetch fresh exchange rates right now. Please try again in a moment.
-      </div>
-
-      <div *ngIf="!isLoadingRates && !exchangeRateError[0]">
-        <div class="rate-header">
-          <span class="rate-label">Current exchange rate</span>
-          <div class="rate-value">
-            1 {{ form.value.fromCurrency }} = {{ rate | number : '1.2-2' }} {{ form.value.toCurrency }}
-          </div>
+      @if (isLoadingRates) {
+        <div class="loading-spinner">
+          <p class="loading-text">Loading the latest exchange rates...</p>
         </div>
+      }
 
-        <mat-card-content>
-          <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="goToRecipientDetails()">
-            <div class="field-group">
-              <label class="field-label">You send</label>
-              <div class="currency-row">
-                <mat-form-field appearance="outline" class="amount-field">
-                  <input type="number" matInput formControlName="amount" placeholder="0.00">
-                  <mat-error *ngIf="form.get('amount')?.hasError('max')">Enter a value less than {{ maxSendAmount }}</mat-error>
-                  <mat-error *ngIf="form.get('amount')?.hasError('min')">You cannot send less than 10.00</mat-error>
-                  <mat-error *ngIf="form.get('amount')?.hasError('pattern')">Only enter numerical values</mat-error>
-                </mat-form-field>
+      @if (!isLoadingRates && exchangeRateError[0]) {
+        <div class="error-banner">
+          We could not fetch fresh exchange rates right now. Please try again in a moment.
+        </div>
+      }
 
-                <mat-form-field appearance="outline" class="currency-field">
-                  <mat-select [(ngModel)]="fromCurrency" formControlName="fromCurrency" (selectionChange)="onCurrencyChange()">
-                    <mat-select-trigger>
-                      <span *ngIf="form.value.fromCurrency === 'USD'">
+      @if (!isLoadingRates && !exchangeRateError[0]) {
+        <div>
+          <div class="rate-header">
+            <span class="rate-label">Current exchange rate</span>
+            <div class="rate-value">
+              1 {{ form.value.fromCurrency }} = {{ rate | number : '1.2-2' }} {{ form.value.toCurrency }}
+            </div>
+          </div>
+          <mat-card-content>
+            <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="goToRecipientDetails()">
+              <div class="field-group">
+                <label class="field-label">You send</label>
+                <div class="currency-row">
+                  <mat-form-field appearance="outline" class="amount-field">
+                    <input type="number" matInput formControlName="amount" placeholder="0.00">
+                    @if (form.get('amount')?.hasError('max')) {
+                      <mat-error>Enter a value less than {{ maxSendAmount }}</mat-error>
+                    }
+                    @if (form.get('amount')?.hasError('min')) {
+                      <mat-error>You cannot send less than 10.00</mat-error>
+                    }
+                    @if (form.get('amount')?.hasError('pattern')) {
+                      <mat-error>Only enter numerical values</mat-error>
+                    }
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="currency-field">
+                    <mat-select [(ngModel)]="fromCurrency" formControlName="fromCurrency" (selectionChange)="onCurrencyChange()">
+                      <mat-select-trigger>
+                        @if (form.value.fromCurrency === 'USD') {
+                          <span>
+                            <img class="flag-icon" alt="United States" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg" /> USD
+                          </span>
+                        }
+                        @if (form.value.fromCurrency === 'CAD') {
+                          <span>
+                            <img class="flag-icon" alt="Canada" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/CA.svg" /> CAD
+                          </span>
+                        }
+                      </mat-select-trigger>
+                      <mat-option value="USD">
                         <img class="flag-icon" alt="United States" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg" /> USD
-                      </span>
-                      <span *ngIf="form.value.fromCurrency === 'CAD'">
+                      </mat-option>
+                      <mat-option value="CAD">
                         <img class="flag-icon" alt="Canada" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/CA.svg" /> CAD
-                      </span>
-                    </mat-select-trigger>
-                    <mat-option value="USD">
-                      <img class="flag-icon" alt="United States" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg" /> USD
-                    </mat-option>
-                    <mat-option value="CAD">
-                      <img class="flag-icon" alt="Canada" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/CA.svg" /> CAD
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </div>
-            </div>
-
-            <div class="field-group">
-              <label class="field-label">They receive</label>
-              <div class="currency-row">
-                <mat-form-field appearance="outline" class="amount-field">
-                  <input type="number" matInput formControlName="convertedAmount" placeholder="0.00">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="currency-field">
-                  <mat-select [(ngModel)]="toCurrency" formControlName="toCurrency" (selectionChange)="onCurrencyChange()">
-                    <mat-select-trigger>
-                      <span *ngIf="form.value.toCurrency === 'BIF'">
+              <div class="field-group">
+                <label class="field-label">They receive</label>
+                <div class="currency-row">
+                  <mat-form-field appearance="outline" class="amount-field">
+                    <input type="number" matInput formControlName="convertedAmount" placeholder="0.00">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="currency-field">
+                    <mat-select [(ngModel)]="toCurrency" formControlName="toCurrency" (selectionChange)="onCurrencyChange()">
+                      <mat-select-trigger>
+                        @if (form.value.toCurrency === 'BIF') {
+                          <span>
+                            <img class="flag-icon" alt="Burundi" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/BI.svg" /> BIF
+                          </span>
+                        }
+                        @if (form.value.toCurrency === 'RWF') {
+                          <span>
+                            <img class="flag-icon" alt="Rwanda" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/RW.svg" /> RWF
+                          </span>
+                        }
+                      </mat-select-trigger>
+                      <mat-option value="BIF">
                         <img class="flag-icon" alt="Burundi" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/BI.svg" /> BIF
-                      </span>
-                      <span *ngIf="form.value.toCurrency === 'RWF'">
+                      </mat-option>
+                      <mat-option value="RWF">
                         <img class="flag-icon" alt="Rwanda" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/RW.svg" /> RWF
-                      </span>
-                    </mat-select-trigger>
-                    <mat-option value="BIF">
-                      <img class="flag-icon" alt="Burundi" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/BI.svg" /> BIF
-                    </mat-option>
-                    <mat-option value="RWF">
-                      <img class="flag-icon" alt="Rwanda" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/RW.svg" /> RWF
-                    </mat-option>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Payout method</label>
+                <mat-form-field appearance="outline" class="full-width-field">
+                  <mat-label>Choose how recipient receives money</mat-label>
+                  <mat-select [(ngModel)]="receiveMethod" formControlName="receiveMethod">
+                    @for (method of receiveMethodOptions.get(form.value.toCurrency); track method) {
+                      <mat-option [value]="method">{{ method }}</mat-option>
+                    }
                   </mat-select>
+                  @if (form.get('receiveMethod')!.hasError('required')) {
+                    <mat-error>Receive method is required</mat-error>
+                  }
                 </mat-form-field>
               </div>
-            </div>
-
-            <div class="field-group">
-              <label class="field-label">Payout method</label>
-              <mat-form-field appearance="outline" class="full-width-field">
-                <mat-label>Choose how recipient receives money</mat-label>
-                <mat-select [(ngModel)]="receiveMethod" formControlName="receiveMethod">
-                  <mat-option *ngFor="let method of receiveMethodOptions.get(form.value.toCurrency)" [value]="method">{{ method }}</mat-option>
-                </mat-select>
-                <mat-error *ngIf="form.get('receiveMethod')!.hasError('required')">Receive method is required</mat-error>
-              </mat-form-field>
-            </div>
-
-            <button
-              class="btn-primary btn-block"
-              [class.valid]="form.valid"
-              [class.invalid]="!form.valid"
-              [disabled]="!form.valid"
-              type="submit">
-              Continue to recipient details
-            </button>
-          </form>
-        </mat-card-content>
-      </div>
+              <button
+                class="btn-primary btn-block"
+                [class.valid]="form.valid"
+                [class.invalid]="!form.valid"
+                [disabled]="!form.valid"
+                type="submit">
+                Continue to recipient details
+              </button>
+            </form>
+          </mat-card-content>
+        </div>
+      }
     </mat-card>
   </div>
 </section>

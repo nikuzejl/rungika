@@ -1,82 +1,93 @@
 <div class="page-center">
-  <mat-card *ngIf="signedIn" class="form-card account-card">
-    <div class="account-header">
-      <h2>Account information</h2>
-      <button type="button" class="btn-secondary logout-btn" (click)="logout()">Logout</button>
-    </div>
-
-    <div class="account-info">
-      <div class="info-row"><span>First name</span><strong>{{ user.firstName }}</strong></div>
-      <div class="info-row"><span>Last name</span><strong>{{ user.lastName }}</strong></div>
-      <div class="info-row"><span>Email</span><strong>{{ user.email }}</strong></div>
-      <div class="info-row"><span>Phone number</span><strong>{{ user.phone }}</strong></div>
-      <div class="info-row" *ngIf="isAdminUser"><span>Role</span><strong>Admin</strong></div>
-    </div>
-
-    <div class="admin-section" *ngIf="isAdminUser">
-      <h3>Admin features</h3>
-      <p class="admin-message">You can review and update the admin order queue from your account page.</p>
-
-      <div class="admin-actions">
-        <button type="button" class="btn-secondary admin-btn" (click)="openAdminOrders()">
-          Open admin order queue
-        </button>
+  @if (signedIn) {
+    <mat-card class="form-card account-card">
+      <div class="account-header">
+        <h2>Account information</h2>
+        <button type="button" class="btn-secondary logout-btn" (click)="logout()">Logout</button>
       </div>
-    </div>
-
-    <div class="orders-section">
-      <h3>Your orders</h3>
-
-      <p class="orders-message" *ngIf="ordersLoading">Loading orders...</p>
-      <p class="orders-message error" *ngIf="ordersErrorMessage">{{ ordersErrorMessage }}</p>
-      <p class="orders-message" *ngIf="!ordersLoading && !ordersErrorMessage && orders.length === 0">No orders yet.</p>
-
-      <div class="orders-list" *ngIf="!ordersLoading && !ordersErrorMessage && orders.length > 0">
-        <div class="order-row" *ngFor="let order of orders">
-          <div class="order-main">
-            <div class="order-headline">
-              <span class="order-label">Order #</span>
-              <strong>{{ order.orderId }}</strong>
-            </div>
-            <div class="order-detail"><span>Recipient:</span> {{ getRecipientDisplayName(order) }}</div>
-            <div class="order-detail"><span>Transfer:</span> {{ getTransferDisplay(order) }}</div>
-            <div class="order-detail"><span>Receive method:</span> {{ order.receiveMethod || 'N/A' }}</div>
-            <div class="order-detail" *ngIf="getTransactionTimeDisplay(order)">
-              <span>Time:</span> {{ order.transactionTime | date: 'medium' }}
-            </div>
+      <div class="account-info">
+        <div class="info-row"><span>First name</span><strong>{{ user.firstName }}</strong></div>
+        <div class="info-row"><span>Last name</span><strong>{{ user.lastName }}</strong></div>
+        <div class="info-row"><span>Email</span><strong>{{ user.email }}</strong></div>
+        <div class="info-row"><span>Phone number</span><strong>{{ user.phone }}</strong></div>
+        @if (isAdminUser) {
+          <div class="info-row"><span>Role</span><strong>Admin</strong></div>
+        }
+      </div>
+      @if (isAdminUser) {
+        <div class="admin-section">
+          <h3>Admin features</h3>
+          <p class="admin-message">You can review and update the admin order queue from your account page.</p>
+          <div class="admin-actions">
+            <button type="button" class="btn-secondary admin-btn" (click)="openAdminOrders()">
+              Open admin order queue
+            </button>
           </div>
-          <span class="order-status">{{ order.status }}</span>
         </div>
+      }
+      <div class="orders-section">
+        <h3>Your orders</h3>
+        @if (ordersLoading) {
+          <p class="orders-message">Loading orders...</p>
+        }
+        @if (ordersErrorMessage) {
+          <p class="orders-message error">{{ ordersErrorMessage }}</p>
+        }
+        @if (!ordersLoading && !ordersErrorMessage && orders.length === 0) {
+          <p class="orders-message">No orders yet.</p>
+        }
+        @if (!ordersLoading && !ordersErrorMessage && orders.length > 0) {
+          <div class="orders-list">
+            @for (order of orders; track order) {
+              <div class="order-row">
+                <div class="order-main">
+                  <div class="order-headline">
+                    <span class="order-label">Order #</span>
+                    <strong>{{ order.orderId }}</strong>
+                  </div>
+                  <div class="order-detail"><span>Recipient:</span> {{ getRecipientDisplayName(order) }}</div>
+                  <div class="order-detail"><span>Transfer:</span> {{ getTransferDisplay(order) }}</div>
+                  <div class="order-detail"><span>Receive method:</span> {{ order.receiveMethod || 'N/A' }}</div>
+                  @if (getTransactionTimeDisplay(order)) {
+                    <div class="order-detail">
+                      <span>Time:</span> {{ order.transactionTime | date: 'medium' }}
+                    </div>
+                  }
+                </div>
+                <span class="order-status">{{ order.status }}</span>
+              </div>
+            }
+          </div>
+        }
       </div>
-    </div>
-
-    <div class="management-section">
-      <h3>Account management</h3>
-      
-      <div class="management-actions">
-        <button 
-          type="button" 
-          class="btn-secondary logout-btn" 
-          (click)="openChangePasswordDialog()">
-          Change Password
-        </button>
-
-        <button 
-          type="button" 
-          class="btn-danger" 
-          (click)="openDeleteAccountDialog()"
-          [disabled]="isDeleting">
-          {{ isDeleting ? 'Deleting...' : 'Delete Account' }}
-        </button>
+      <div class="management-section">
+        <h3>Account management</h3>
+        <div class="management-actions">
+          <button
+            type="button"
+            class="btn-secondary logout-btn"
+            (click)="openChangePasswordDialog()">
+            Change Password
+          </button>
+          <button
+            type="button"
+            class="btn-danger"
+            (click)="openDeleteAccountDialog()"
+            [disabled]="isDeleting">
+            {{ isDeleting ? 'Deleting...' : 'Delete Account' }}
+          </button>
+        </div>
+        @if (deleteErrorMessage) {
+          <div class="error-message">
+            {{ deleteErrorMessage }}
+          </div>
+        }
+        @if (deleteSuccessMessage) {
+          <div class="success-message">
+            {{ deleteSuccessMessage }}
+          </div>
+        }
       </div>
-
-      <div *ngIf="deleteErrorMessage" class="error-message">
-        {{ deleteErrorMessage }}
-      </div>
-
-      <div *ngIf="deleteSuccessMessage" class="success-message">
-        {{ deleteSuccessMessage }}
-      </div>
-    </div>
-  </mat-card>
+    </mat-card>
+  }
 </div>

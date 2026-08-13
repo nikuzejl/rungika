@@ -2,90 +2,126 @@
   <h2>Admin Order Queue</h2>
   <p class="page-subtitle">Review orders by category. Update only PENDING orders.</p>
 
-  <p class="helper success" *ngIf="pageMessage">{{ pageMessage }}</p>
-  <p class="helper error" *ngIf="pageError">{{ pageError }}</p>
+  @if (pageMessage) {
+    <p class="helper success">{{ pageMessage }}</p>
+  }
+  @if (pageError) {
+    <p class="helper error">{{ pageError }}</p>
+  }
 
-  <div class="loading" *ngIf="isLoading">Loading orders...</div>
+  @if (isLoading) {
+    <div class="loading">Loading orders...</div>
+  }
 
-  <div class="category-section" *ngIf="!isLoading">
-    <button type="button" class="section-toggle" (click)="toggleSection('pending')">
-      <span>PENDING ({{ pendingOrders.length }})</span>
-      <span>{{ sectionExpanded.pending ? 'Hide' : 'Show' }}</span>
-    </button>
-    <div *ngIf="sectionExpanded.pending" class="section-body">
-      <div *ngIf="pendingOrders.length === 0" class="empty-state">No pending orders.</div>
-      <div class="orders-grid" *ngIf="pendingOrders.length > 0">
-        <mat-card class="order-card" *ngFor="let order of pendingOrders">
-          <h3>Order #{{ order.orderId }}</h3>
-          <p><strong>Status:</strong> {{ order.status }}</p>
-          <p><strong>Sender:</strong> {{ order.senderFirstName }} {{ order.senderLastName }} ({{ order.senderEmail }})</p>
-          <p><strong>Recipient:</strong> {{ order.recipientFirstName }} {{ order.recipientLastName }} ({{ order.recipientEmail }})</p>
-          <p><strong>Amount:</strong> {{ order.amount }} {{ order.fromCurrency }} -> {{ order.convertedAmount }} {{ order.toCurrency }}</p>
-
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>New status</mat-label>
-            <mat-select [(ngModel)]="updateDrafts[order.orderId].status">
-              <mat-option value="COMPLETED">COMPLETED</mat-option>
-              <mat-option value="FAILED">FAILED</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Admin note (optional)</mat-label>
-            <textarea matInput rows="3" [(ngModel)]="updateDrafts[order.orderId].note"></textarea>
-          </mat-form-field>
-
-          <div class="file-upload-row">
-            <span class="upload-label">Upload photo (optional)</span>
-            <input #photoInput type="file" accept="image/*" hidden (change)="onPhotoSelected($event, order.orderId)">
-            <button type="button" class="upload-photo-btn" (click)="photoInput.click()">
-              Choose photo
-            </button>
-          </div>
-
-          <button class="btn-primary" (click)="submitUpdate(order.orderId)">Update Order</button>
-        </mat-card>
-      </div>
+  @if (!isLoading) {
+    <div class="category-section">
+      <button type="button" class="section-toggle" (click)="toggleSection('pending')">
+        <span>PENDING ({{ pendingOrders.length }})</span>
+        <span>{{ sectionExpanded.pending ? 'Hide' : 'Show' }}</span>
+      </button>
+      @if (sectionExpanded.pending) {
+        <div class="section-body">
+          @if (pendingOrders.length === 0) {
+            <div class="empty-state">No pending orders.</div>
+          }
+          @if (pendingOrders.length > 0) {
+            <div class="orders-grid">
+              @for (order of pendingOrders; track order) {
+                <mat-card class="order-card">
+                  <h3>Order #{{ order.orderId }}</h3>
+                  <p><strong>Status:</strong> {{ order.status }}</p>
+                  <p><strong>Sender:</strong> {{ order.senderFirstName }} {{ order.senderLastName }} ({{ order.senderEmail }})</p>
+                  <p><strong>Recipient:</strong> {{ order.recipientFirstName }} {{ order.recipientLastName }} ({{ order.recipientEmail }})</p>
+                  <p><strong>Amount:</strong> {{ order.amount }} {{ order.fromCurrency }} -> {{ order.convertedAmount }} {{ order.toCurrency }}</p>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>New status</mat-label>
+                    <mat-select [(ngModel)]="updateDrafts[order.orderId].status">
+                      <mat-option value="COMPLETED">COMPLETED</mat-option>
+                      <mat-option value="FAILED">FAILED</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Admin note (optional)</mat-label>
+                    <textarea matInput rows="3" [(ngModel)]="updateDrafts[order.orderId].note"></textarea>
+                  </mat-form-field>
+                  <div class="file-upload-row">
+                    <span class="upload-label">Upload photo (optional)</span>
+                    <input #photoInput type="file" accept="image/*" hidden (change)="onPhotoSelected($event, order.orderId)">
+                    <button type="button" class="upload-photo-btn" (click)="photoInput.click()">
+                      Choose photo
+                    </button>
+                  </div>
+                  <button class="btn-primary" (click)="submitUpdate(order.orderId)">Update Order</button>
+                </mat-card>
+              }
+            </div>
+          }
+        </div>
+      }
     </div>
-  </div>
+  }
 
-  <div class="category-section" *ngIf="!isLoading">
-    <button type="button" class="section-toggle" (click)="toggleSection('failed')">
-      <span>FAILED ({{ failedOrders.length }})</span>
-      <span>{{ sectionExpanded.failed ? 'Hide' : 'Show' }}</span>
-    </button>
-    <div *ngIf="sectionExpanded.failed" class="section-body">
-      <div *ngIf="failedOrders.length === 0" class="empty-state">No failed orders.</div>
-      <div class="orders-grid" *ngIf="failedOrders.length > 0">
-        <mat-card class="order-card" *ngFor="let order of failedOrders">
-          <h3>Order #{{ order.orderId }}</h3>
-          <p><strong>Status:</strong> {{ order.status }}</p>
-          <p><strong>Sender:</strong> {{ order.senderFirstName }} {{ order.senderLastName }} ({{ order.senderEmail }})</p>
-          <p><strong>Recipient:</strong> {{ order.recipientFirstName }} {{ order.recipientLastName }} ({{ order.recipientEmail }})</p>
-          <p><strong>Amount:</strong> {{ order.amount }} {{ order.fromCurrency }} -> {{ order.convertedAmount }} {{ order.toCurrency }}</p>
-          <p *ngIf="order.adminStatusNote"><strong>Admin note:</strong> {{ order.adminStatusNote }}</p>
-        </mat-card>
-      </div>
+  @if (!isLoading) {
+    <div class="category-section">
+      <button type="button" class="section-toggle" (click)="toggleSection('failed')">
+        <span>FAILED ({{ failedOrders.length }})</span>
+        <span>{{ sectionExpanded.failed ? 'Hide' : 'Show' }}</span>
+      </button>
+      @if (sectionExpanded.failed) {
+        <div class="section-body">
+          @if (failedOrders.length === 0) {
+            <div class="empty-state">No failed orders.</div>
+          }
+          @if (failedOrders.length > 0) {
+            <div class="orders-grid">
+              @for (order of failedOrders; track order) {
+                <mat-card class="order-card">
+                  <h3>Order #{{ order.orderId }}</h3>
+                  <p><strong>Status:</strong> {{ order.status }}</p>
+                  <p><strong>Sender:</strong> {{ order.senderFirstName }} {{ order.senderLastName }} ({{ order.senderEmail }})</p>
+                  <p><strong>Recipient:</strong> {{ order.recipientFirstName }} {{ order.recipientLastName }} ({{ order.recipientEmail }})</p>
+                  <p><strong>Amount:</strong> {{ order.amount }} {{ order.fromCurrency }} -> {{ order.convertedAmount }} {{ order.toCurrency }}</p>
+                  @if (order.adminStatusNote) {
+                    <p><strong>Admin note:</strong> {{ order.adminStatusNote }}</p>
+                  }
+                </mat-card>
+              }
+            </div>
+          }
+        </div>
+      }
     </div>
-  </div>
+  }
 
-  <div class="category-section" *ngIf="!isLoading">
-    <button type="button" class="section-toggle" (click)="toggleSection('completed')">
-      <span>COMPLETED ({{ completedOrders.length }})</span>
-      <span>{{ sectionExpanded.completed ? 'Hide' : 'Show' }}</span>
-    </button>
-    <div *ngIf="sectionExpanded.completed" class="section-body">
-      <div *ngIf="completedOrders.length === 0" class="empty-state">No completed orders.</div>
-      <div class="orders-grid" *ngIf="completedOrders.length > 0">
-        <mat-card class="order-card" *ngFor="let order of completedOrders">
-          <h3>Order #{{ order.orderId }}</h3>
-          <p><strong>Status:</strong> {{ order.status }}</p>
-          <p><strong>Sender:</strong> {{ order.senderFirstName }} {{ order.senderLastName }} ({{ order.senderEmail }})</p>
-          <p><strong>Recipient:</strong> {{ order.recipientFirstName }} {{ order.recipientLastName }} ({{ order.recipientEmail }})</p>
-          <p><strong>Amount:</strong> {{ order.amount }} {{ order.fromCurrency }} -> {{ order.convertedAmount }} {{ order.toCurrency }}</p>
-          <p *ngIf="order.adminStatusNote"><strong>Admin note:</strong> {{ order.adminStatusNote }}</p>
-        </mat-card>
-      </div>
+  @if (!isLoading) {
+    <div class="category-section">
+      <button type="button" class="section-toggle" (click)="toggleSection('completed')">
+        <span>COMPLETED ({{ completedOrders.length }})</span>
+        <span>{{ sectionExpanded.completed ? 'Hide' : 'Show' }}</span>
+      </button>
+      @if (sectionExpanded.completed) {
+        <div class="section-body">
+          @if (completedOrders.length === 0) {
+            <div class="empty-state">No completed orders.</div>
+          }
+          @if (completedOrders.length > 0) {
+            <div class="orders-grid">
+              @for (order of completedOrders; track order) {
+                <mat-card class="order-card">
+                  <h3>Order #{{ order.orderId }}</h3>
+                  <p><strong>Status:</strong> {{ order.status }}</p>
+                  <p><strong>Sender:</strong> {{ order.senderFirstName }} {{ order.senderLastName }} ({{ order.senderEmail }})</p>
+                  <p><strong>Recipient:</strong> {{ order.recipientFirstName }} {{ order.recipientLastName }} ({{ order.recipientEmail }})</p>
+                  <p><strong>Amount:</strong> {{ order.amount }} {{ order.fromCurrency }} -> {{ order.convertedAmount }} {{ order.toCurrency }}</p>
+                  @if (order.adminStatusNote) {
+                    <p><strong>Admin note:</strong> {{ order.adminStatusNote }}</p>
+                  }
+                </mat-card>
+              }
+            </div>
+          }
+        </div>
+      }
     </div>
-  </div>
+  }
 </div>

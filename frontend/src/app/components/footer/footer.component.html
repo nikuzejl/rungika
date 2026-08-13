@@ -1,31 +1,29 @@
-<footer class="footer" *ngIf="showBottomDiv">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <strong>Rungika</strong>
-      <span>Connecting families across borders.</span>
+@if (showBottomDiv) {
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>Rungika</strong>
+        <span>Connecting families across borders.</span>
+      </div>
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4>Explore</h4>
+          <a routerLink="/how-it-works">How it works</a>
+          <a routerLink="/who-we-are">Who we are</a>
+        </div>
+        <div class="footer-column">
+          <h4>Support</h4>
+          <a routerLink="/">Track a Transfer</a>
+          <a routerLink="/">Contact Us</a>
+        </div>
+        <div class="footer-column">
+          <h4>Legal</h4>
+          <a routerLink="/">Terms &amp; Conditions</a>
+          <a routerLink="/">Privacy Policy</a>
+          <a routerLink="/">Security</a>
+        </div>
+      </div>
+      <p class="footer-copy">&copy; 2026 Rungika. All rights reserved.</p>
     </div>
-
-    <div class="footer-grid">
-      <div class="footer-column">
-        <h4>Explore</h4>
-        <a routerLink="/how-it-works">How it works</a>
-        <a routerLink="/who-we-are">Who we are</a>
-      </div>
-
-      <div class="footer-column">
-        <h4>Support</h4>
-        <a routerLink="/">Track a Transfer</a>
-        <a routerLink="/">Contact Us</a>
-      </div>
-
-      <div class="footer-column">
-        <h4>Legal</h4>
-        <a routerLink="/">Terms &amp; Conditions</a>
-        <a routerLink="/">Privacy Policy</a>
-        <a routerLink="/">Security</a>
-      </div>
-    </div>
-
-    <p class="footer-copy">&copy; 2026 Rungika. All rights reserved.</p>
-  </div>
-</footer>
+  </footer>
+}
