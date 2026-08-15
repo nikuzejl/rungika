@@ -54,6 +54,33 @@ public class EmailUtility {
         return createEmail(to, subject, content);
     }
 
+    public static SimpleMailMessage createAdminTransactionNotificationEmail(String[] to, long orderId,
+                                                                              String senderName,
+                                                                              String recipientName,
+                                                                              Double amount,
+                                                                              String fromCurrency,
+                                                                              Double convertedAmount,
+                                                                              String toCurrency) {
+        var subject = "Rungika New Transaction #" + orderId;
+        var content = String.format("Hello Admin,\n\n" +
+                "Somebody just made a transaction on Rungika.\n\n" +
+                "Transaction Details:\n" +
+                "Order ID: %d\n" +
+                "Sender: %s\n" +
+                "Recipient: %s\n" +
+                "Amount sent: %s %s\n" +
+                "Amount received: %s %s\n\n" +
+                "The order is pending admin review.\n\n" +
+                "Rungika Team",
+                orderId, senderName, recipientName, amount, fromCurrency, convertedAmount, toCurrency);
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(content);
+        return message;
+    }
+
     public static SimpleMailMessage createPasswordResetEmail(String to, String resetLink) {
         var subject = "Reset your Rungika password";
         var content = "We received a request to reset your password.\n\n"

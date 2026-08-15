@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,9 @@ public class StripeController {
 
     @Value("${app.success-url}")
     String successUrl;
+
+    @Value("${admin.seed.emails:}")
+    String adminSeedEmails;
 
     @Autowired
     private OrderService orderService;
@@ -164,7 +168,28 @@ public class StripeController {
             );
             boolean recipientEmailSent = emailService.sendEmail(recipientEmail).get(10, java.util.concurrent.TimeUnit.SECONDS);
 
-            if (!senderEmailSent || !recipientEmailSent) {
+                boolean adminEmailsSent = true;
+                String[] configuredAdminEmails = adminSeedEmails == null ? new String[0] : adminSeedEmails.split(",");
+                String[] adminRecipients = Arrays.stream(configuredAdminEmails)
+                    .map(String::trim)
+                    .filter(email -> !email.isBlank())
+                    .distinct()
+                    .toArray(String[]::new);
+                if (adminRecipients.length > 0) {
+                var adminEmail = EmailUtility.createAdminTransactionNotificationEmail(
+                    adminRecipients,
+                    orderId,
+                    confirmation.getSenderName(),
+                    confirmation.getRecipientName(),
+                    confirmation.getAmount(),
+                    confirmation.getFromCurrency(),
+                    confirmation.getConvertedAmount(),
+                    confirmation.getToCurrency()
+                );
+                adminEmailsSent = emailService.sendEmail(adminEmail).get(10, java.util.concurrent.TimeUnit.SECONDS);
+                }
+
+                if (!senderEmailSent || !recipientEmailSent || !adminEmailsSent) {
                 orderService.deleteOrder(orderId);
                 responseData.put("success", false);
                 responseData.put("message", "Payment confirmed, but we could not send the confirmation emails. The order was not kept.");
