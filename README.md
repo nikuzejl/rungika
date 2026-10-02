@@ -30,8 +30,6 @@ npm start
 
 ### Backend
 
-- Run the following commands:  
-
 ```bash
 cd backend
 gradle bootRun
